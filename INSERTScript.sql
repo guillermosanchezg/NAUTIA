@@ -265,6 +265,6 @@ INSERT INTO `InterviewedCenter`(CenterType,Community_idCommunity) VALUE ("Centro
                                                                         ("Centro 2",2),
                                                                         ("Centro 2",2);
 
---------------------                                                                                                 
+---------------------                                                                                                 
 
 SET SQL_SAFE_UPDATES = 1;
