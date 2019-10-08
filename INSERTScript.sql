@@ -63,7 +63,7 @@ INSERT INTO `SE_ConflictArea` VALUES (1,"1º2'3''","3º2'1''",40,1),(2,"2º2'3''
 INSERT INTO `SE_GenderData` VALUES (1,"YES",1),(2,"NO",2);
 INSERT INTO `SE_PersonalHygiene` VALUES (1,5,1),(2,3,2);
 INSERT INTO `SE_SafetyPlace` (Place_Time) VALUES ("CalleDia"),("CalleNoche");
-INSERT INTO `SE_SafetyPlace_has_Community` (SE_SafetyPlace_idSE_ComunitySafety,Community_idCommunity,Answer) VALUES (1,1,"YES"),(2,1,"NO"),(1,1,"YES"),(2,1,"NO"),(1,2,"YES");
+INSERT INTO `SE_SafetyPlace_has_Community` (SE_SafetyPlace_idSE_SafetyPlace,Community_idCommunity,Answer) VALUES (1,1,"YES"),(2,1,"NO"),(1,1,"YES"),(2,1,"NO"),(1,2,"YES");
 INSERT INTO `SE_SafetyCommittee` VALUES (1,"YES","YES",2),(2,"YES","NO",2);
 INSERT INTO `SE_SafetyLatrines` VALUES (1,"YES","NO",1),(2,"YES","YES",1),(3,"YES","NO",2);
 INSERT INTO `SE_Economy` (BasicBasketCost,Community_idCommunity) VALUES ("1.5",1),("N/A",2);

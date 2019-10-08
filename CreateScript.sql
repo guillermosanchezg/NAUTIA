@@ -2115,12 +2115,12 @@ CREATE INDEX `fk_SE_Economy_Community1_idx` ON `nautiatoolkit`.`SE_Economy` (`Co
 DROP TABLE IF EXISTS `nautiatoolkit`.`SE_IncomeType_has_Community` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`SE_IncomeType_has_Community` (
-  `idSE_IncomeType_has_Communitycol` INT NOT NULL AUTO_INCREMENT,
+  `idSE_IncomeType_has_Community` INT NOT NULL AUTO_INCREMENT,
   `SE_IncomeType_idSE_IncomeType` INT NOT NULL,
   `Community_idCommunity` INT NOT NULL,
   `Sex` VARCHAR(45) NULL,
   `IncomeValue` FLOAT NULL,
-  PRIMARY KEY (`idSE_IncomeType_has_Communitycol`, `SE_IncomeType_idSE_IncomeType`, `Community_idCommunity`),
+  PRIMARY KEY (`idSE_IncomeType_has_Community`, `SE_IncomeType_idSE_IncomeType`, `Community_idCommunity`),
   CONSTRAINT `fk_SE_IncomeType_has_Community_SE_IncomeType1`
     FOREIGN KEY (`SE_IncomeType_idSE_IncomeType`)
     REFERENCES `nautiatoolkit`.`SE_IncomeType` (`idSE_IncomeType`)

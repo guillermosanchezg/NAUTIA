@@ -17,7 +17,7 @@ GROUP BY se_householdcomposition.Community_idCommunity;
 
 -- Sensación de seguridad en el asentamiento
 
-SELECT se1.Place_Time as "Lugar", COUNT(se2.idSE_SafetyPlace_has_Community) as "Nº Respustas afirmativas", se2.Community_idCommunity
+SELECT se1.Place_Time as "Lugar", COUNT(se2.idSE_SafetyPlace_has_Community) as "Respustas afirmativas", se2.Community_idCommunity AS Community
 FROM se_safetyplace se1, se_safetyplace_has_community se2
 WHERE se1.idSE_SafetyPlace  = se2.SE_SafetyPlace_idSE_SafetyPlace AND se2.Answer = 'YES'
 GROUP BY se2.Community_idCommunity, se1.idSE_SafetyPlace;
@@ -58,6 +58,19 @@ SELECT sl1.Community_idCommunity AS Community, COUNT(sl1.idSE_SafetyLatrines) AS
 					WHERE sl2.Light = "YES" AND sl2.Community_idCommunity = sl1.Community_idCommunity) AS Porcentaje
 FROM se_safetylatrines sl1
 GROUP BY sl1.Community_idCommunity;
+
+-- --Fuentes de ingresos
+
+SELECT it1.Type AS "Tipo de Ingreso",
+	(SELECT COUNT(it2.Sex)
+			FROM  SE_IncomeType_has_Community it2
+            WHERE it2.Sex = "Mujer" AND it2.SE_IncomeType_idSE_IncomeType = it1.idSE_IncomeType
+            ORDER BY  it2.Community_idCommunity)
+FROM SE_IncomeType it1, SE_IncomeType_has_Community 
+GROUP BY SE_IncomeType_has_Community.idSE_IncomeType, it1.idSE_IncomeType;
+
+
+
 
 
 
