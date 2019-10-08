@@ -1590,9 +1590,9 @@ CREATE INDEX `fk_SC_PersonalHygiene_Community1_idx` ON `nautiatoolkit`.`SE_Perso
 DROP TABLE IF EXISTS `nautiatoolkit`.`SE_SafetyPlace` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`SE_SafetyPlace` (
-  `idSE_ComunitySafety` INT NOT NULL AUTO_INCREMENT,
+  `idSE_SafetyPlace` INT NOT NULL AUTO_INCREMENT,
   `Place_Time` VARCHAR(45) NULL,
-  PRIMARY KEY (`idSE_ComunitySafety`))
+  PRIMARY KEY (`idSE_SafetyPlace`))
 ENGINE = InnoDB;
 
 
@@ -1623,19 +1623,19 @@ CREATE INDEX `fk_SC_SafetyCommittee_Community1_idx` ON `nautiatoolkit`.`SE_Safet
 DROP TABLE IF EXISTS `nautiatoolkit`.`SE_SafetyLatrines` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`SE_SafetyLatrines` (
-  `idSE_LatrinesBySex` INT NOT NULL AUTO_INCREMENT,
+  `idSE_SafetyLatrines` INT NOT NULL AUTO_INCREMENT,
   `SeparatedBySex` VARCHAR(45) NULL,
   `Light` VARCHAR(45) NULL,
   `Community_idCommunity` INT NOT NULL,
-  PRIMARY KEY (`idSE_LatrinesBySex`, `Community_idCommunity`),
-  CONSTRAINT `fk_SC_LatrinesBySex_Community1`
+  PRIMARY KEY (`idSE_SafetyLatrines`, `Community_idCommunity`),
+  CONSTRAINT `fk_SE_SafetyLatrines_Community1`
     FOREIGN KEY (`Community_idCommunity`)
     REFERENCES `nautiatoolkit`.`Community` (`idCommunity`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-CREATE INDEX `fk_SC_LatrinesBySex_Community1_idx` ON `nautiatoolkit`.`SE_SafetyLatrines` (`Community_idCommunity` ASC);
+CREATE INDEX `fk_SE_SafetyLatrines_Community1_idx` ON `nautiatoolkit`.`SE_SafetyLatrines` (`Community_idCommunity` ASC);
 
 
 -- -----------------------------------------------------
@@ -3014,34 +3014,6 @@ CREATE INDEX `fk_Comun_Laguage_has_Camp_Comun_Laguage1_idx` ON `nautiatoolkit`.`
 
 
 -- -----------------------------------------------------
--- Table `nautiatoolkit`.`SE_SafetyPlace_has_Community`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `nautiatoolkit`.`SE_SafetyPlace_has_Community` ;
-
-CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`SE_SafetyPlace_has_Community` (
-  `idSE_SafetyPlace_has_Community` INT NOT NULL AUTO_INCREMENT,
-  `SE_SafetyPlace_idSE_ComunitySafety` INT NOT NULL,
-  `Community_idCommunity` INT NOT NULL,
-  `Answer` VARCHAR(45) NULL,
-  PRIMARY KEY (`idSE_SafetyPlace_has_Community`, `SE_SafetyPlace_idSE_ComunitySafety`, `Community_idCommunity`),
-  CONSTRAINT `fk_SE_SafetyPlace_has_Community_SE_SafetyPlace1`
-    FOREIGN KEY (`SE_SafetyPlace_idSE_ComunitySafety`)
-    REFERENCES `nautiatoolkit`.`SE_SafetyPlace` (`idSE_ComunitySafety`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_SE_SafetyPlace_has_Community_Community1`
-    FOREIGN KEY (`Community_idCommunity`)
-    REFERENCES `nautiatoolkit`.`Community` (`idCommunity`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-CREATE INDEX `fk_SE_SafetyPlace_has_Community_Community1_idx` ON `nautiatoolkit`.`SE_SafetyPlace_has_Community` (`Community_idCommunity` ASC);
-
-CREATE INDEX `fk_SE_SafetyPlace_has_Community_SE_SafetyPlace1_idx` ON `nautiatoolkit`.`SE_SafetyPlace_has_Community` (`SE_SafetyPlace_idSE_ComunitySafety` ASC);
-
-
--- -----------------------------------------------------
 -- Table `nautiatoolkit`.`FS_CropUbication`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `nautiatoolkit`.`FS_CropUbication` ;
@@ -3089,6 +3061,34 @@ ENGINE = InnoDB;
 CREATE INDEX `fk_Comun_Religion_has_Camp_Camp1_idx` ON `nautiatoolkit`.`Comun_Religion_has_Camp` (`Camp_idCamp` ASC);
 
 CREATE INDEX `fk_Comun_Religion_has_Camp_Comun_Religion1_idx` ON `nautiatoolkit`.`Comun_Religion_has_Camp` (`Comun_Religion_idComun_Religion` ASC);
+
+
+-- -----------------------------------------------------
+-- Table `nautiatoolkit`.`SE_SafetyPlace_has_Community`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `nautiatoolkit`.`SE_SafetyPlace_has_Community` ;
+
+CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`SE_SafetyPlace_has_Community` (
+  `idSE_SafetyPlace_has_Community` INT NOT NULL AUTO_INCREMENT,
+  `SE_SafetyPlace_idSE_SafetyPlace` INT NOT NULL,
+  `Community_idCommunity` INT NOT NULL,
+  `Answer` VARCHAR(45) NULL,
+  PRIMARY KEY (`idSE_SafetyPlace_has_Community`, `SE_SafetyPlace_idSE_SafetyPlace`, `Community_idCommunity`),
+  CONSTRAINT `fk_SE_SafetyPlace_has_Community_SE_SafetyPlace1`
+    FOREIGN KEY (`SE_SafetyPlace_idSE_SafetyPlace`)
+    REFERENCES `nautiatoolkit`.`SE_SafetyPlace` (`idSE_SafetyPlace`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_SE_SafetyPlace_has_Community_Community1`
+    FOREIGN KEY (`Community_idCommunity`)
+    REFERENCES `nautiatoolkit`.`Community` (`idCommunity`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+CREATE INDEX `fk_SE_SafetyPlace_has_Community_Community1_idx` ON `nautiatoolkit`.`SE_SafetyPlace_has_Community` (`Community_idCommunity` ASC);
+
+CREATE INDEX `fk_SE_SafetyPlace_has_Community_SE_SafetyPlace1_idx` ON `nautiatoolkit`.`SE_SafetyPlace_has_Community` (`SE_SafetyPlace_idSE_SafetyPlace` ASC);
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
