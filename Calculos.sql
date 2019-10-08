@@ -27,3 +27,39 @@ SELECT se1.Place_Time as "Lugar", COUNT(se2.idSE_SafetyPlace_has_Community) as "
 FROM se_safetyplace se1, se_safetyplace_has_community se2
 WHERE se1.idSE_ComunitySafety  = se2.SE_SafetyPlace_idSE_ComunitySafety AND se2.Community_idCommunity = 1 AND se2.Answer = 'YES'
 ORDER BY se1.idSE_ComunitySafety;
+
+SELECT se1.Place_Time, COUNT(se2.idSE_SafetyPlace_has_Community)
+FROM se_safetyplace se1, se_safetyplace_has_community se2
+WHERE se1.idSE_ComunitySafety  = se2.SE_SafetyPlace_idSE_ComunitySafety 
+ORDER BY se1.idSE_ComunitySafety;
+
+-- Seguridad en letrinas
+SELECT * FROM se_safetylatrines;
+
+SELECT COUNT(*)
+FROM se_safetylatrines
+WHERE SeparatedBySex = "YES";
+
+SELECT COUNT(*)
+FROM se_safetylatrines;
+
+
+SELECT COUNT(*)
+FROM se_safetylatrines
+WHERE Light = "YES";
+
+SELECT (SELECT COUNT(sl.SeparatedBySex)*100/count(se_safetylatrines.idSE_LatrinesBySex)
+				FROM se_safetylatrines sl
+                WHERE sl.SeparatedBySex = "YES") 
+FROM se_safetylatrines
+GROUP BY se_safetylatrines.SeparatedBySex;
+
+SELECT (SELECT COUNT(sl.Light)*100/count(se_safetylatrines.idSE_LatrinesBySex)
+				FROM se_safetylatrines sl
+                WHERE sl.Light = "YES")
+FROM se_safetylatrines
+GROUP BY se_safetylatrines.Light;
+
+
+
+
