@@ -96,7 +96,13 @@ GROUP BY Community_idCommunity,idSE_IncomeType,sex;
 
 SELECT *
 FROM se_incometype it1 INNER JOIN se_incometype_has_community it2 
+						ON It1.idSE_IncomeType = it2.SE_IncomeType_idSE_IncomeType;
+                        
+SELECT Type as INGRESO, COUNT(SEX), Community_idCommunity 
+FROM se_incometype it1 INNER JOIN se_incometype_has_community it2 
 						ON It1.idSE_IncomeType = it2.SE_IncomeType_idSE_IncomeType
+WHERE sex = 'Mujer'
+GROUP BY Community_idCommunity,idSE_IncomeType;
 
 
 
