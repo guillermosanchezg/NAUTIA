@@ -114,6 +114,11 @@ GROUP BY Community_idCommunity,Sex;
 
 -- ---- Ingresos totales 
 
+SELECT AVG (IncomeValue) AS 'AVGIngresos Totales',sex, name AS Comunidad, idCommunity 
+FROM SE_IncomeType it1 INNER JOIN se_incometype_has_community it2 ON It1.idSE_IncomeType = it2.SE_IncomeType_idSE_IncomeType
+						INNER JOIN community c ON it2.Community_idCommunity = c.idCommunity
+GROUP BY Community_idCommunity,sex;
+
 SELECT AVG (IncomeValue) AS 'AVGIngresos Totales' , name AS Comunidad, idCommunity 
 FROM SE_IncomeType it1 INNER JOIN se_incometype_has_community it2 ON It1.idSE_IncomeType = it2.SE_IncomeType_idSE_IncomeType
 						INNER JOIN community c ON it2.Community_idCommunity = c.idCommunity
@@ -136,14 +141,23 @@ FROM SE_IncomeType it1 INNER JOIN se_incometype_has_community it2 ON It1.idSE_In
 WHERE Sex = 'Hombre'                        
 GROUP BY idCommunity,Sex,idSe_incometype;
 
+SELECT Type AS Ingreso, (AVG (IncomeValue)/30 + BasicBasketCost/30) AS 'Ingresos Per Capita',sex, name AS Comunidad, idCommunity 
+FROM SE_IncomeType it1 INNER JOIN se_incometype_has_community it2 ON It1.idSE_IncomeType = it2.SE_IncomeType_idSE_IncomeType
+						INNER JOIN se_economy eco ON it2.Community_idCommunity = eco.Community_idCommunity
+						INNER JOIN community c ON it2.Community_idCommunity = c.idCommunity                        
+GROUP BY idCommunity,idSe_incometype,sex;
+
+
 SELECT Type AS Ingreso, (AVG (IncomeValue)/30 + BasicBasketCost/30) AS 'Ingresos Per Capita' , name AS Comunidad, idCommunity 
 FROM SE_IncomeType it1 INNER JOIN se_incometype_has_community it2 ON It1.idSE_IncomeType = it2.SE_IncomeType_idSE_IncomeType
 						INNER JOIN se_economy eco ON it2.Community_idCommunity = eco.Community_idCommunity
 						INNER JOIN community c ON it2.Community_idCommunity = c.idCommunity                        
 GROUP BY idCommunity,idSe_incometype;
 
+
 -- ------------
 -- Ingresos per capita = a linea de pobreza
+-- TOTALMENTE INCOMPLETO
 -- ------------
 SELECT Type AS Ingreso, COUNT () AS 'Ingresos Per Capita Mujeres' , name AS Comunidad, idCommunity 
 FROM SE_IncomeType it1 INNER JOIN se_incometype_has_community it2 ON It1.idSE_IncomeType = it2.SE_IncomeType_idSE_IncomeType
@@ -168,11 +182,6 @@ FROM SE_IncomeType it1 INNER JOIN se_incometype_has_community it2 ON It1.idSE_In
 GROUP BY idCommunity,idSe_incometype;
 
 
-
-
-
-
-
 SELECT *
 FROM se_incometype it1 INNER JOIN se_incometype_has_community it2 ON It1.idSE_IncomeType = it2.SE_IncomeType_idSE_IncomeType
 						INNER JOIN se_economy eco ON it2.Community_idCommunity = eco.Community_idCommunity
@@ -184,6 +193,85 @@ FROM se_incometype it1 INNER JOIN se_incometype_has_community it2
 						ON It1.idSE_IncomeType = it2.SE_IncomeType_idSE_IncomeType
 WHERE sex = 'Mujer'
 GROUP BY Community_idCommunity,idSE_IncomeType;
+
+-- -------------------
+-- -------------------
+
+SELECT type Gasto, AVG (ExpenseValue) AS 'AVGGastos Mujeres', name AS Comunidad, idCommunity 
+FROM se_expensetype et1 INNER JOIN se_expensetype_has_community et2 ON et1.idSE_ExpenseType = et2.SE_ExpenseType_idSE_ExpenseType
+						INNER JOIN community c ON et2.Community_idCommunity = c.idCommunity
+WHERE Sex = 'Mujer'
+GROUP BY Community_idCommunity, idSE_ExpenseType,Sex;
+
+SELECT type Gasto, AVG (ExpenseValue) AS 'AVGGastos Hombres', name AS Comunidad, idCommunity 
+FROM se_expensetype et1 INNER JOIN se_expensetype_has_community et2 ON et1.idSE_ExpenseType = et2.SE_ExpenseType_idSE_ExpenseType
+						INNER JOIN community c ON et2.Community_idCommunity = c.idCommunity
+WHERE Sex = 'Hombre'
+GROUP BY Community_idCommunity, idSE_ExpenseType,Sex;
+
+SELECT type Gasto, AVG (ExpenseValue) AS 'AVGGastos', name AS Comunidad, idCommunity 
+FROM se_expensetype et1 INNER JOIN se_expensetype_has_community et2 ON et1.idSE_ExpenseType = et2.SE_ExpenseType_idSE_ExpenseType
+						INNER JOIN community c ON et2.Community_idCommunity = c.idCommunity
+GROUP BY Community_idCommunity, idSE_ExpenseType;
+
+SELECT type Gasto, AVG(ExpenseValue) AS 'AVGGastos',sex, name AS Comunidad, idCommunity 
+FROM se_expensetype et1 INNER JOIN se_expensetype_has_community et2 ON et1.idSE_ExpenseType = et2.SE_ExpenseType_idSE_ExpenseType
+						INNER JOIN community c ON et2.Community_idCommunity = c.idCommunity
+GROUP BY Community_idCommunity,sex;
+
+SELECT type Gasto, AVG (ExpenseValue) AS 'AVGGastos', name AS Comunidad, idCommunity 
+FROM se_expensetype et1 INNER JOIN se_expensetype_has_community et2 ON et1.idSE_ExpenseType = et2.SE_ExpenseType_idSE_ExpenseType
+						INNER JOIN community c ON et2.Community_idCommunity = c.idCommunity
+GROUP BY Community_idCommunity;
+
+
+
+SELECT  (
+			AVG(ExpenseValue)-(
+								SELECT AVG (IncomeValue) 
+								FROM SE_IncomeType it1 INNER JOIN se_incometype_has_community it2 ON It1.idSE_IncomeType = it2.SE_IncomeType_idSE_IncomeType
+														INNER JOIN community c ON it2.Community_idCommunity = c.idCommunity
+								WHERE Sex = 'Mujer'
+							   )
+		) AS 'Capacidad Ahorro Mujeres', name AS Comunidad, idCommunity 
+FROM se_expensetype et1 INNER JOIN se_expensetype_has_community et2 ON et1.idSE_ExpenseType = et2.SE_ExpenseType_idSE_ExpenseType
+						INNER JOIN community c ON et2.Community_idCommunity = c.idCommunity
+WHERE Sex = 'Mujer'
+GROUP BY Community_idCommunity;
+
+SELECT  (
+			AVG(ExpenseValue)-(
+								SELECT AVG (IncomeValue) 
+								FROM SE_IncomeType it1 INNER JOIN se_incometype_has_community it2 ON It1.idSE_IncomeType = it2.SE_IncomeType_idSE_IncomeType
+														INNER JOIN community c ON it2.Community_idCommunity = c.idCommunity
+								WHERE Sex = 'Hombre'
+							   )
+		) AS 'Capacidad Ahorro Hombre', name AS Comunidad, idCommunity 
+FROM se_expensetype et1 INNER JOIN se_expensetype_has_community et2 ON et1.idSE_ExpenseType = et2.SE_ExpenseType_idSE_ExpenseType
+						INNER JOIN community c ON et2.Community_idCommunity = c.idCommunity
+WHERE Sex = 'Hombre'
+GROUP BY Community_idCommunity;
+
+SELECT  (
+			AVG(ExpenseValue)-(
+								SELECT AVG (IncomeValue) 
+								FROM SE_IncomeType it1 INNER JOIN se_incometype_has_community it2 ON It1.idSE_IncomeType = it2.SE_IncomeType_idSE_IncomeType
+														INNER JOIN community c ON it2.Community_idCommunity = c.idCommunity
+							   )
+		) AS 'Capacidad Ahorro Mujeres', name AS Comunidad, idCommunity 
+FROM se_expensetype et1 INNER JOIN se_expensetype_has_community et2 ON et1.idSE_ExpenseType = et2.SE_ExpenseType_idSE_ExpenseType
+						INNER JOIN community c ON et2.Community_idCommunity = c.idCommunity
+GROUP BY Community_idCommunity;
+
+
+
+
+
+
+
+SELECT *
+FROM se_expensetype et1 INNER JOIN se_expensetype_has_community et2 ON et1.idSE_ExpenseType = et2.SE_ExpenseType_idSE_ExpenseType
+						INNER JOIN community c ON et2.Community_idCommunity = c.idCommunity;
 
 
 
