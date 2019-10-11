@@ -25,6 +25,7 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`Community` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`Community` (
   `idCommunity` INT NOT NULL AUTO_INCREMENT,
+  `Name` VARCHAR(45) NULL,
   PRIMARY KEY (`idCommunity`))
 ENGINE = InnoDB;
 
@@ -36,7 +37,6 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`Camp` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`Camp` (
   `idCamp` INT NOT NULL AUTO_INCREMENT,
-  `Name` VARCHAR(45) NULL,
   `StabilisationDate` VARCHAR(45) NULL,
   `MigrationRate` INT NULL,
   `EnviromentValeuArea` VARCHAR(45) NULL,
@@ -72,7 +72,6 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`HostCommunity` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`HostCommunity` (
   `idHostCommunity` INT NOT NULL AUTO_INCREMENT,
-  `Name` VARCHAR(45) NULL,
   `Community_idCommunity` INT NOT NULL,
   `Country_idCountry` INT NOT NULL,
   PRIMARY KEY (`idHostCommunity`, `Country_idCountry`),
@@ -2096,7 +2095,7 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`SE_Economy` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`SE_Economy` (
   `idSE_Economy` INT NOT NULL AUTO_INCREMENT,
-  `BasicBasketCost` VARCHAR(45) NULL,
+  `BasicBasketCost` FLOAT NULL,
   `Community_idCommunity` INT NOT NULL,
   PRIMARY KEY (`idSE_Economy`, `Community_idCommunity`),
   CONSTRAINT `fk_SE_Economy_Community1`

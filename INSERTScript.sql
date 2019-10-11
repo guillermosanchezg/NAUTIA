@@ -1,13 +1,13 @@
 SET SQL_SAFE_UPDATES = 0;
 
-INSERT INTO `community` VALUES (1),(2);
+INSERT INTO `community` VALUES (1,"Shimelba"),(2,"Comunidad1");
 
-INSERT INTO `camp` VALUES (1,"Shimelba","11/04/1996",1000, "YES","12",1);
+INSERT INTO `camp` VALUES (1,"11/04/1996",1000, "YES","12",1);
 
 INSERT INTO `country` (countryname) VALUES ("Etiopia"),("Eritrea"),("Argelia");
 INSERT INTO `Camp_has_Country` VALUES (1,1);
 
-INSERT INTO `HostCommunity` VALUES (1,"Comunidad 1",2,1);
+INSERT INTO `HostCommunity` VALUES (1,2,1);
 INSERT INTO `HostCommunity_has_Camp` VALUES (1,1);
 
 ------------------
@@ -66,7 +66,7 @@ INSERT INTO `SE_SafetyPlace` (Place_Time) VALUES ("CalleDia"),("CalleNoche");
 INSERT INTO `SE_SafetyPlace_has_Community` (SE_SafetyPlace_idSE_SafetyPlace,Community_idCommunity,Answer) VALUES (1,1,"YES"),(2,1,"NO"),(1,1,"YES"),(2,1,"NO"),(1,2,"YES");
 INSERT INTO `SE_SafetyCommittee` VALUES (1,"YES","YES",2),(2,"YES","NO",2);
 INSERT INTO `SE_SafetyLatrines` VALUES (1,"YES","NO",1),(2,"YES","YES",1),(3,"YES","NO",2);
-INSERT INTO `SE_Economy` (BasicBasketCost,Community_idCommunity) VALUES ("1.5",1),("N/A",2);
+INSERT INTO `SE_Economy` (BasicBasketCost,Community_idCommunity) VALUES (1.5,1),(0,2);
 INSERT INTO `SE_Priority` (Type) VALUES ("Empleo"),("Energia");
 INSERT INTO `SE_Priority_has_Community` (SE_Priority_idSE_Priority,Community_idCommunity,sex) 
                                         VALUES (1,1,"Mujer"),(1,1,"Mujer"),(2,1,"Mujer"),(2,1,"Mujer"),
