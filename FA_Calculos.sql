@@ -27,5 +27,3 @@ FROM fa_naturalresource n INNER JOIN fa_topography t ON n.Community_idCommunity 
 							LEFT JOIN camp ON c.idCommunity = camp.idCamp
 WHERE idCamp IS NOT NULL
 GROUP BY idCommunity,idFA_NaturalResource;
-
-

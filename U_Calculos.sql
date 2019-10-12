@@ -36,4 +36,3 @@ GROUP BY idCommunity;
 
 select *
 From u_recreationalarea ra INNER JOIN community c ON ra.Community_idCommunity = c.idCommunity;
-
