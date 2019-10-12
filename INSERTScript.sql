@@ -102,7 +102,7 @@ INSERT INTO `G_PoliticalActor_has_Community` VALUES (1,1),(1,2),(2,1),(2,2);
 
 ------------------------
 
-INSERT INTO `FA_Topography` VALUES (1,50,5,10,10,1),(2,50,5,10,7,2);
+INSERT INTO `FA_Topography` VALUES (1,50,5,1),(2,50,5,2);
 INSERT INTO `FA_NaturalResource` (type,Bound,Community_idCommunity) VALUES ("lago 1","700",1),("Rio 1","20",1),("Lago 2","N/A",2);
 INSERT INTO `FA_GeographicIdentification` VALUES (1,"1º2'3''","3º2'1''",40,20,1),(2,"2º2'3''","4º2'1''",40,30,2);
 

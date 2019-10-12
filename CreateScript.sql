@@ -538,8 +538,6 @@ CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`FA_Topography` (
   `idFA_Topography` INT NOT NULL AUTO_INCREMENT,
   `UpperBound` INT NULL,
   `LowerBound` INT NULL,
-  `Slope` INT NULL,
-  `PhreaticSlope` INT NULL,
   `Community_idCommunity` INT NOT NULL,
   PRIMARY KEY (`idFA_Topography`, `Community_idCommunity`),
   CONSTRAINT `fk_Topography_Community1`
