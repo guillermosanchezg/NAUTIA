@@ -38,6 +38,60 @@ SELECT COUNT(idIrrigatonSystem) AS "Total Operativos", name AS Comunidad, idComm
 FROM inf_irrigatonsystem irs INNER JOIN community c ON irs.Community_idCommunity = c.idCommunity
 GROUP BY idCommunity;
 
+-- SANEAMIENTO Y DRENAJE --
+
+-- Consultas parciales para el calculo de la calidad del sistema que se hace por aplicación
+SELECT COUNT(*) AS "Letrinas con Losa", name AS Comunidad, idCommunity
+FROM inf_sanitationsystemquality sq INNER JOIN community c ON sq.Community_idCommunity = c.idCommunity
+WHERE LatrineQuality = 'con losa'
+GROUP BY idCommunity;
+
+SELECT COUNT(*) AS "Letrinas sin Losa", name AS Comunidad, idCommunity
+FROM inf_sanitationsystemquality sq INNER JOIN community c ON sq.Community_idCommunity = c.idCommunity
+WHERE LatrineQuality = 'sin losa'
+GROUP BY idCommunity;
+
+SELECT COUNT(*) AS "Letrinas con Losa y ventiladas", name AS Comunidad, idCommunity
+FROM inf_sanitationsystemquality sq INNER JOIN community c ON sq.Community_idCommunity = c.idCommunity
+WHERE LatrineQuality = 'con losa y ventilada'
+GROUP BY idCommunity;
+
+SELECT COUNT(*) AS "Sin Estructura estable", name AS Comunidad, idCommunity
+FROM inf_sanitationsystemquality sq INNER JOIN community c ON sq.Community_idCommunity = c.idCommunity
+WHERE BuildingQuality = 'Sin seguridad estructural'
+GROUP BY idCommunity;
+
+SELECT COUNT(*) AS "Con techo y paredes estables", name AS Comunidad, idCommunity
+FROM inf_sanitationsystemquality sq INNER JOIN community c ON sq.Community_idCommunity = c.idCommunity
+WHERE BuildingQuality = 'techo y paredes estables'
+GROUP BY idCommunity;
+
+SELECT COUNT(*) AS "Techo Paredes y Puerta", name AS Comunidad, idCommunity
+FROM inf_sanitationsystemquality sq INNER JOIN community c ON sq.Community_idCommunity = c.idCommunity
+WHERE BuildingQuality = 'Con techo paredes y puerta'
+GROUP BY idCommunity;
+
+SELECT COUNT(*) AS "Techo paredes cierre e iluminacion", name AS Comunidad, idCommunity
+FROM inf_sanitationsystemquality sq INNER JOIN community c ON sq.Community_idCommunity = c.idCommunity
+WHERE BuildingQuality = 'con techo paredes cierre e iluminacion'
+GROUP BY idCommunity;
+
+SELECT * 
+FROM inf_sanitationsystemquality sq INNER JOIN community c ON sq.Community_idCommunity = c.idCommunity;
+
+-- GESTION DE RESIDUOS --
+
+SELECT COUNT(idINF_ColletionPoints) AS  "Puntos de Recogida", name AS comunidad, idCommunity
+FROM inf_colletionpoints cp INNER JOIN community c ON cp.Community_idCommunity = c.idCommunity
+GROUP BY idCommunity;
+
+SELECT CollectionServicePerMonth AS "Recogida al mes", name AS Comunidad, idCommunity
+FROM inf_wastemanagementginfrastructure wmi INNER JOIN community c ON wmi.Community_idCommunity = c.idCommunity;
+
+-- Localización del vertedor (de la consulta se obtiene unos valores para hacer puntuación por app)
+SELECT DistanceToHouses, DistanceToWaterResource, FertilEnviromentLocation, name AS Comunidad, idCommunity
+FROM inf_landfill lf INNER JOIN community c ON lf.Community_idCommunity = c.idCommunity;
 
 
-
+SELECT *
+FROM inf_landfill lf INNER JOIN community c ON lf.Community_idCommunity = c.idCommunity;

@@ -125,9 +125,11 @@ INSERT INTO `INF_PotabilizationSystem_has_Community` VALUES (1,1),(2,1),(2,2);
 INSERT INTO `INF_WaterPoint` VALUES (1,"1º2'3''","3º2'1''",40,"YES",1),(2,"2º2'3''","4º2'1''",40,"NO",2),(3,"1º2'3''","3º2'1''",40,"YES",1),(4,"2º2'3''","4º2'1''",40,"NO",1);
 INSERT INTO `INF_TimeSpent` VALUES (1,2.5,1,1),(2,3.25,2,2);
 INSERT INTO `INF_SanitationAccess` VALUES (1,true,true,true,1),(2,false,true,true,2);
-INSERT INTO `INF_SanitationSystemQuality` VALUES (1,"sin losa","sin seguridad estructural",1),(2,"sin losa","sin seguridad estructural",2);
+INSERT INTO `INF_SanitationSystemQuality` VALUES (1,"sin losa","sin seguridad estructural",1),(2,"sin losa","sin seguridad estructural",2),
+													(3,"sin losa","techo y paredes estables",1),(4,"con losa y ventilada","sin seguridad estructural",2),	
+                                                    (5,"Con losa","techo y paredes estables",1),(6,"con losa y ventilada","techo y paredes estables",2);
 INSERT INTO `INF_WasteManagementgInfrastructure` VALUES (1,4,1),(2,2,2);
-INSERT INTO `INF_Landfill` VALUES (1,5,5,25,1),(2,5,5,25,2);
+INSERT INTO `INF_Landfill` VALUES (1,5,5,"YES",1),(2,5,5,"NO",2);
 INSERT INTO `INF_ColletionPoints` VALUES(1,"1º2'3''","3º2'1''",40,1),(2,"1º2'3''","3º2'1''",40,1),(1,"1º2'3''","3º2'1''",40,2);
 INSERT INTO `INF_EnergyInfrastructure` VALUES (1,"YES",25,30,"YES",3,"LINK",14,1),(2,"YES",45,40,"YES",3,"LINK",24,2);
 INSERT INTO `INF_GenerationSource` (Source) VALUES ("Generador térmico"),("Fotovoltaica");
