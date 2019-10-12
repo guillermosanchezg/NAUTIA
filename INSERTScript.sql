@@ -76,21 +76,21 @@ INSERT INTO `SE_Priority_has_Community` (SE_Priority_idSE_Priority,Community_idC
 INSERT INTO `SE_IncomeType` (Type) VALUES ("Subvencion"),("Remesa"),("Agricultura");
 INSERT INTO `SE_IncomeType_has_Community` (SE_IncomeType_idSE_IncomeType,Community_idCommunity,Sex,IncomeValue)
                                         VALUES (1,1,"Mujer", 100),(1,1,"Mujer",250),(2,1,"Mujer",200),(2,1,"Mujer",200),
-                                                (1,1,"Hombre", 100),(1,1,"Hombre",250),(2,1,"Hombre",200),(3,1,"Mujer",200),(3,1,"HOmbre",550),
+                                                (1,1,"Hombre", 100),(1,1,"Hombre",250),(2,1,"Hombre",200),(3,1,"Mujer",200),(3,1,"Hombre",550),
                                                 (1,2,"Mujer", 100),(1,2,"Mujer",250),(2,2,"Mujer",200),(2,2,"Mujer",200),
-                                                (1,2,"Hombre", 100),(1,2,"Hombre",250),(2,2,"Hombre",200),(3,2,"Mujer",200),(3,2,"HOmbre",550);
+                                                (1,2,"Hombre", 100),(1,2,"Hombre",250),(2,2,"Hombre",200),(3,2,"Mujer",200),(3,2,"Hombre",550);
 INSERT INTO `SE_ExpenseType` (Type) VALUES ("Alimentación"),("Ropa"),("Agua");
 INSERT INTO `SE_ExpenseType_has_Community` (SE_ExpenseType_idSE_ExpenseType,Community_idCommunity,Sex,ExpenseValue)
                                         VALUES (1,1,"Mujer", 100),(1,1,"Mujer",250),(2,1,"Mujer",200),(2,1,"Mujer",200),
-                                                (1,1,"Hombre", 100),(1,1,"Hombre",250),(2,1,"Hombre",200),(3,1,"Mujer",200),(3,1,"HOmbre",550),
+                                                (1,1,"Hombre", 100),(1,1,"Hombre",250),(2,1,"Hombre",200),(3,1,"Mujer",200),(3,1,"Hombre",550),
                                                 (1,2,"Mujer", 100),(1,2,"Mujer",250),(2,2,"Mujer",200),(2,2,"Mujer",200),
-                                                (1,2,"Hombre", 100),(1,2,"Hombre",250),(2,2,"Hombre",200),(3,2,"Mujer",200),(3,2,"HOmbre",550);
+                                                (1,2,"Hombre", 100),(1,2,"Hombre",250),(2,2,"Hombre",200),(3,2,"Mujer",200),(3,2,"Hombre",550);
 INSERT INTO `SE_WorkType` (WorkType) VALUES ("Recoger Leña"),("Cocinar");
 INSERT INTO `SE_WorkType_has_Community` (SE_WorkType_idSE_WorkType,Community_idCommunity,Sex,Kid)
                                         VALUES  (1,1,"Mujer", false),(1,1,"Mujer",false),(2,1,"Mujer",true),(2,1,"Mujer",true),
-                                                (1,1,"Hombre", false),(1,1,"Hombre",true),(2,1,"Hombre",true),(2,1,"Mujer",false),(2,1,"HOmbre",false),
+                                                (1,1,"Hombre", false),(1,1,"Hombre",true),(2,1,"Hombre",true),(2,1,"Mujer",false),(2,1,"Hombre",false),
                                                 (1,2,"Mujer", true),(1,2,"Mujer",true),(2,2,"Mujer",false),(2,2,"Mujer",true),
-                                                (1,2,"Hombre", false),(1,2,"Hombre",false),(2,2,"Hombre",true),(2,2,"Mujer",true),(2,2,"HOmbre",false);
+                                                (1,2,"Hombre", false),(1,2,"Hombre",false),(2,2,"Hombre",true),(2,2,"Mujer",true),(2,2,"Hombre",false);
 
 
 
