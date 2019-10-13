@@ -2342,7 +2342,8 @@ CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`INF_GenerationSource_has_Community` 
   `INF_GenerationSource_idINF_GenerationSource` INT NOT NULL,
   `Community_idCommunity` INT NOT NULL,
   `Sector` VARCHAR(45) NULL,
-  `TimeAccess` FLOAT NULL,
+  `TimeAccessDay` FLOAT NULL,
+  `TimeAccessNight` FLOAT NULL,
   `Cost` INT NULL,
   PRIMARY KEY (`idINF_GenerationSource_has_Community`, `INF_GenerationSource_idINF_GenerationSource`, `Community_idCommunity`),
   CONSTRAINT `fk_INF_GenerationSource_has_Community_INF_GenerationSource1`
@@ -2373,6 +2374,7 @@ CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`INF_Appliance_has_Community` (
   `Community_idCommunity` INT NOT NULL,
   `Sector` VARCHAR(45) NULL,
   `Power` FLOAT NULL,
+  `TimeUse` FLOAT NULL,
   PRIMARY KEY (`idINF_Appliance_has_Community`, `INF_Appliance_idINF_Appliance`, `Community_idCommunity`),
   CONSTRAINT `fk_INF_Appliance_has_Community_INF_Appliance1`
     FOREIGN KEY (`INF_Appliance_idINF_Appliance`)

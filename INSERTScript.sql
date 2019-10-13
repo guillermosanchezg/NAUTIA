@@ -133,23 +133,22 @@ INSERT INTO `INF_Landfill` VALUES (1,5,5,"YES",1),(2,5,5,"NO",2);
 INSERT INTO `INF_ColletionPoints` VALUES(1,"1º2'3''","3º2'1''",40,1),(2,"1º2'3''","3º2'1''",40,1),(1,"1º2'3''","3º2'1''",40,2);
 INSERT INTO `INF_EnergyInfrastructure` VALUES (1,"YES",25,30,"YES",3,"LINK",14,1),(2,"YES",45,40,"YES",3,"LINK",24,2);
 INSERT INTO `INF_GenerationSource` (Source) VALUES ("Generador térmico"),("Fotovoltaica");
-INSERT INTO `INF_GenerationSource_has_Community` (INF_GenerationSource_idINF_GenerationSource,Community_idCommunity,Sector,TimeAccess,Cost)
-                                                VALUES (1,1,"Comercial",40,400),(1,2,"Comercial",30,250),(1,1,"Comercial",40,400),(1,2,"Comercial",30,250),
-                                                        (2,1,"Residencial",10,150),(2,2,"Comercial",20,200),(2,1,"Residencial",10,150),(2,2,"Comercial",20,200);
-INSERT INTO `INF_GenerationSource_has_Community` (INF_GenerationSource_idINF_GenerationSource,Community_idCommunity,Sector,TimeAccess,Cost) 
-                                                VALUES (1,1,"Residencial",5,100),(1,1,"Residencial",6,100),(1,1,"Residencial",5,300), 
-                                                        (2,2,"Comercial",5,100),(2,2,"Comercial",5,100),
-                                                        (2,2,"ServiciosComunitarios",5,100);
+INSERT INTO `INF_GenerationSource_has_Community` (INF_GenerationSource_idINF_GenerationSource,Community_idCommunity,Sector,TimeAccessDay,TimeAccessNight,Cost)
+                                                VALUES (1,1,"Comercial",5,3,400),(1,2,"Comercial",3,4,250),(1,1,"Comercial",4,4,400),(1,2,"Comercial",3,5,250),
+                                                        (2,1,"Residencial",10,0,150),(2,2,"Comercial",2,3,200),(2,1,"Residencial",10,5,150),(2,2,"Comercial",18,2,200),
+														(1,1,"Residencial",5,5,100),(1,1,"Residencial",6,5,100),(1,1,"Residencial",5,5,300), 
+                                                        (2,2,"Comercial",5,5,100),(2,2,"Comercial",5,5,100),
+                                                        (2,2,"ServiciosComunitarios",5,3,100);
 INSERT INTO `INF_GenerationSystem` VALUES (1,"Comercial","Generador térmico",15,1),(2,"Comercial","Generador térmico",15,1),(3,"Comercial","Generador térmico",15,2); 
 INSERT INTO `INF_ExpandPlanBeneficiaries` (Beneficiary) VALUES ("escuela"),("cocina comunal"),("hospital");
 INSERT INTO `INF_ExpandPlanBeneficiaries_has_INF_EnergyInfrastructure` (INF_ExpandPlanBeneficiaries_idINF_ExpandPlanBeneficiaries,INF_EnergyInfrastructure_idINF_EnergyInfrastructure,INF_EnergyInfrastructure_Community_idCommunity)
                                                                         VALUES (1,1,1),(2,1,1),(1,2,2),(2,2,2),(3,2,2),(3,1,1),(2,2,2),(2,2,2);
 INSERT INTO `INF_Appliance` (ApplianceType) VALUES ("Microondas"),("Celular"),("Cocina Electrica");
-INSERT INTO `INF_Appliance_has_Community` (INF_Appliance_idINF_Appliance,Community_idCommunity,Sector,Power)
-                                        VALUES (1,1,"Residencial",12),(2,1,"Residencial",15),
-                                                (1,1,"Comercial",12),(2,1,"Comercial",12),
-                                                (1,2,"Residencial",12),(2,2,"Residencial",12),
-                                                (1,2,"Comercial",12),(2,2,"Comercial",12);
+INSERT INTO `INF_Appliance_has_Community` (INF_Appliance_idINF_Appliance,Community_idCommunity,Sector,Power,TimeUSe)
+                                        VALUES (1,1,"Residencial",12,2),(2,1,"Residencial",15,4),
+                                                (1,1,"Comercial",12,0),(2,1,"Comercial",12,5),
+                                                (1,2,"Residencial",12,4),(2,2,"Residencial",12,12),
+                                                (1,2,"Comercial",12,1),(2,2,"Comercial",12,3);
 INSERT INTO `INF_Kitchen` VALUES (1,"Barro","Gas",5.5,1),(2,"Metal","Gas",5.5,1),(3,"Barro","Gas",5.5,2);
 INSERT INTO `INF_CookWoman` VALUES (1,"Indoor",2.5,4,6,true,1),(2,"outdoor",2.5,4,6,true,2),(3,"outdoor",2.5,4,6,false,2);
 INSERT INTO `INF_PublicLighting` VALUES (1,"YES",1,"YES",1),(2,"YES",2,"YES",2);
