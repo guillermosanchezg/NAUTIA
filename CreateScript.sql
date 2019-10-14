@@ -908,7 +908,7 @@ CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`INF_CookWoman` (
   `CookingPlace` VARCHAR(45) NULL,
   `CookingHours` FLOAT NULL,
   `WeeklyFirewood` INT NULL,
-  `FirewoodHours` INT NULL,
+  `FirewoodHours` FLOAT NULL,
   `HealthFirewood` TINYINT(1) NULL,
   `Community_idCommunity` INT NOT NULL,
   PRIMARY KEY (`idINF_CookWoman`, `Community_idCommunity`),
@@ -992,9 +992,9 @@ CREATE INDEX `fk_INF_MobilityInfrastructure_Community1_idx` ON `nautiatoolkit`.`
 DROP TABLE IF EXISTS `nautiatoolkit`.`INF_MobilityWay` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`INF_MobilityWay` (
-  `idINF_ExternalMobility` INT NOT NULL AUTO_INCREMENT,
+  `idINF_MobilityWay` INT NOT NULL AUTO_INCREMENT,
   `Way` VARCHAR(45) NULL,
-  PRIMARY KEY (`idINF_ExternalMobility`))
+  PRIMARY KEY (`idINF_MobilityWay`))
 ENGINE = InnoDB;
 
 
@@ -2817,34 +2817,6 @@ CREATE INDEX `fk_S_DataAccess_has_Community_S_DataAccess1_idx` ON `nautiatoolkit
 
 
 -- -----------------------------------------------------
--- Table `nautiatoolkit`.`INF_MobilityWay_has_Community`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `nautiatoolkit`.`INF_MobilityWay_has_Community` ;
-
-CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`INF_MobilityWay_has_Community` (
-  `idINF_MobilityWay_has_Community` INT NOT NULL AUTO_INCREMENT,
-  `INF_MobilityWay_idINF_ExternalMobility` INT NOT NULL,
-  `Community_idCommunity` INT NOT NULL,
-  `Internal_External` VARCHAR(45) NULL,
-  PRIMARY KEY (`idINF_MobilityWay_has_Community`, `INF_MobilityWay_idINF_ExternalMobility`, `Community_idCommunity`),
-  CONSTRAINT `fk_INF_MobilityWay_has_Community_INF_MobilityWay1`
-    FOREIGN KEY (`INF_MobilityWay_idINF_ExternalMobility`)
-    REFERENCES `nautiatoolkit`.`INF_MobilityWay` (`idINF_ExternalMobility`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_INF_MobilityWay_has_Community_Community1`
-    FOREIGN KEY (`Community_idCommunity`)
-    REFERENCES `nautiatoolkit`.`Community` (`idCommunity`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-CREATE INDEX `fk_INF_MobilityWay_has_Community_Community1_idx` ON `nautiatoolkit`.`INF_MobilityWay_has_Community` (`Community_idCommunity` ASC);
-
-CREATE INDEX `fk_INF_MobilityWay_has_Community_INF_MobilityWay1_idx` ON `nautiatoolkit`.`INF_MobilityWay_has_Community` (`INF_MobilityWay_idINF_ExternalMobility` ASC);
-
-
--- -----------------------------------------------------
 -- Table `nautiatoolkit`.`S_NoEducationCause_has_Community`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `nautiatoolkit`.`S_NoEducationCause_has_Community` ;
@@ -3088,6 +3060,34 @@ ENGINE = InnoDB;
 CREATE INDEX `fk_SE_SafetyPlace_has_Community_Community1_idx` ON `nautiatoolkit`.`SE_SafetyPlace_has_Community` (`Community_idCommunity` ASC);
 
 CREATE INDEX `fk_SE_SafetyPlace_has_Community_SE_SafetyPlace1_idx` ON `nautiatoolkit`.`SE_SafetyPlace_has_Community` (`SE_SafetyPlace_idSE_SafetyPlace` ASC);
+
+
+-- -----------------------------------------------------
+-- Table `nautiatoolkit`.`INF_MobilityWay_has_Community`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `nautiatoolkit`.`INF_MobilityWay_has_Community` ;
+
+CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`INF_MobilityWay_has_Community` (
+  `idINF_MobilityWay_has_Community` INT NOT NULL AUTO_INCREMENT,
+  `INF_MobilityWay_idINF_MobilityWay` INT NOT NULL,
+  `Community_idCommunity` INT NOT NULL,
+  `Internal_external` VARCHAR(45) NULL,
+  PRIMARY KEY (`idINF_MobilityWay_has_Community`, `INF_MobilityWay_idINF_MobilityWay`, `Community_idCommunity`),
+  CONSTRAINT `fk_INF_MobilityWay_has_Community_INF_MobilityWay1`
+    FOREIGN KEY (`INF_MobilityWay_idINF_MobilityWay`)
+    REFERENCES `nautiatoolkit`.`INF_MobilityWay` (`idINF_MobilityWay`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_INF_MobilityWay_has_Community_Community1`
+    FOREIGN KEY (`Community_idCommunity`)
+    REFERENCES `nautiatoolkit`.`Community` (`idCommunity`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+CREATE INDEX `fk_INF_MobilityWay_has_Community_Community1_idx` ON `nautiatoolkit`.`INF_MobilityWay_has_Community` (`Community_idCommunity` ASC);
+
+CREATE INDEX `fk_INF_MobilityWay_has_Community_INF_MobilityWay1_idx` ON `nautiatoolkit`.`INF_MobilityWay_has_Community` (`INF_MobilityWay_idINF_MobilityWay` ASC);
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

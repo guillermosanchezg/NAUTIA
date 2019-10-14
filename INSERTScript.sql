@@ -149,7 +149,8 @@ INSERT INTO `INF_Appliance_has_Community` (INF_Appliance_idINF_Appliance,Communi
                                                 (1,1,"Comercial",12,0),(2,1,"Comercial",12,5),
                                                 (1,2,"Residencial",12,4),(2,2,"Residencial",12,12),
                                                 (1,2,"Comercial",12,1),(2,2,"Comercial",12,3);
-INSERT INTO `INF_Kitchen` VALUES (1,"Barro","Gas",5.5,1),(2,"Metal","Gas",5.5,1),(3,"Barro","Gas",5.5,2);
+INSERT INTO `INF_Kitchen` VALUES (1,"Barro","Gas",5.5,1),(2,"Metal","Gas",5.5,1),(3,"Barro","Gas",5.5,2),
+								(4,"Barro","Gas",5.5,1),(5,"Barro","Gas",5.5,1),(6,"Barro","Gas",5.5,2);
 INSERT INTO `INF_CookWoman` VALUES (1,"Indoor",2.5,4,6,true,1),(2,"outdoor",2.5,4,6,true,2),(3,"outdoor",2.5,4,6,false,2);
 INSERT INTO `INF_PublicLighting` VALUES (1,"YES",1,"YES",1),(2,"YES",2,"YES",2);
 INSERT INTO `INF_LightingTech` VALUES (1,"Sodio",10,1,1),(2,"LED",15,2,2);
@@ -157,7 +158,7 @@ INSERT INTO `INF_WomenSafety` VALUES (1,"YES",1,1),(2,"YES",2,2);
 INSERT INTO `INF_MobilityInfrastructure` VALUES (1,5,1),(2,4,2);
 INSERT INTO `INF_MobillityPoint` VALUES (1,"1º2'3''","3º2'1''",40,1),(2,"2º2'3''","4º2'1''",40,2),(3,"1º2'3''","3º2'1''",40,1),(4,"2º2'3''","4º2'1''",40,1);
 INSERT INTO `INF_MobilityWay` (Way) VALUES ("Bici"),("Caminando"),("Coche");
-INSERT INTO `INF_MobilityWay_has_Community` (INF_MobilityWay_idINF_ExternalMobility,Community_idCommunity,Internal_External)
+INSERT INTO `INF_MobilityWay_has_Community` (INF_MobilityWay_idINF_MobilityWay,Community_idCommunity,Internal_External)
 											VALUES (1,1,"Internal"),(2,1,"Internal"),(3,1,"external"),
 													(1,2,"Internal"),(2,2,"Internal"),(3,2,"Internal"),                                          
 													(1,2,"external"),(2,2,"external");  

@@ -149,9 +149,86 @@ FROM inf_appliance ap INNER JOIN inf_appliance_has_community aphas ON ap.idINF_A
 						INNER JOIN community c ON aphas.Community_idCommunity = c.idCommunity
 GROUP BY Community_idCommunity, ApplianceType, sector;
 
+-- Numero con acceso a electrodomesticos, por electrodomestico, sector y comundiad
+SELECT ApplianceType AS Electrodomesticp, Sector, COUNT(idINF_Appliance_has_Community) AS total, name AS Comunidad,idCommunity
+FROM inf_appliance ap INNER JOIN inf_appliance_has_community aphas ON ap.idINF_Appliance = aphas.INF_Appliance_idINF_Appliance
+						INNER JOIN community c ON aphas.Community_idCommunity = c.idCommunity
+GROUP BY Community_idCommunity, sector;
+
+-- Porcentaje con acceso a electrodomesticos, por electrodomestico, sector y comundiad (Se calcula por app)
+-- -- Resultado de:
+-- ---- Electrodomesticos por sector
+-- ---- Numero con acceso a electrodomesticos, por electrodomestico, sector y comundiad
+
 SELECT *
 FROM inf_appliance ap INNER JOIN inf_appliance_has_community aphas ON ap.idINF_Appliance = aphas.INF_Appliance_idINF_Appliance
 						INNER JOIN community c ON aphas.Community_idCommunity = c.idCommunity
 ORDER BY Community_idCommunity, sector;
 
--- Porcentaje de negocios con acceso a electrodomesticos
+-- Cocina predominate (Se optiene por app el count más grande de la consulta)
+SELECT  MainKitchenType AS "Tipo de Cocina",COUNT(idINF_Kitchen) AS Cantidad, name AS Comunidad, idCommunity
+FROM inf_kitchen k INNER JOIN community c ON k.Community_idCommunity = c.idCommunity
+GROUP BY idCommunity,MainKitchenType;
+
+-- Consumo de leña medio por comunidad
+SELECT AVG(FirewoodConsumption) AS "AVG LEÑA", name AS Comunidad, idCommunity
+FROM inf_kitchen k INNER JOIN community c ON k.Community_idCommunity = c.idCommunity
+GROUP BY idCommunity;
+
+-- Combustible predominate (Se optiene por app el count más grande de la consulta)
+SELECT  MainFuel AS "Tipo de Cobustible",COUNT(idINF_Kitchen) AS Cantidad, name AS Comunidad, idCommunity
+FROM inf_kitchen k INNER JOIN community c ON k.Community_idCommunity = c.idCommunity
+GROUP BY idCommunity,MainFuel;
+
+
+-- Numer de mujeres que cocinan en interior
+SELECT COUNT(idinf_cookwoman) AS "Numero de mujeres",name AS Comunidad, idCommunity
+FROM inf_cookwoman cw INNER JOIN community c ON cw.Community_idCommunity = c.idCommunity
+WHERE CookingPlace = 'indoor'
+GROUP BY idCommunity;
+
+-- Numer de mujeres que cocinan en exterior
+SELECT COUNT(idinf_cookwoman) AS "Numero de mujeres",name AS Comunidad, idCommunity
+FROM inf_cookwoman cw INNER JOIN community c ON cw.Community_idCommunity = c.idCommunity
+WHERE CookingPlace = 'outdoor'
+GROUP BY idCommunity;
+
+-- Horas promedio en cocinar
+SELECT AVG(CookingHours) AS "AVG Cocinado",name AS Comunidad, idCommunity
+FROM inf_cookwoman cw INNER JOIN community c ON cw.Community_idCommunity = c.idCommunity
+GROUP BY idCommunity;
+
+-- Recogida promedio semanal
+SELECT AVG(WeeklyFirewood) AS "AVG Recogida leña",AVG(FirewoodHours) AS "AVG tiempo",name AS Comunidad, idCommunity
+FROM inf_cookwoman cw INNER JOIN community c ON cw.Community_idCommunity = c.idCommunity
+GROUP BY idCommunity;
+
+SELECT COUNT(idinf_cookwoman) AS "Numero de mujeres",name AS Comunidad, idCommunity
+FROM inf_cookwoman cw INNER JOIN community c ON cw.Community_idCommunity = c.idCommunity
+WHERE HealthFirewood = 1
+GROUP BY idCommunity;
+
+
+-- Alumbrado publico
+
+-- Influencia en la seguridad de las mujeres (El porcentaje se saca por app)
+SELECT COUNT(*) "Respuestas afirmativas", name AS comunidad, idCommunity
+FROM inf_womensafety ws INNER JOIN  inf_publiclighting pl ON ws.INF_PublicLighting_idINF_PublicLighting = pl.idINF_PublicLighting
+						INNER JOIN Community c ON pl.Community_idCommunity = c.idCommunity
+WHERE influence = 'YES'
+GROUP BY idCommunity;
+
+SELECT COUNT(*) "Respuestas afirmativas", name AS comunidad, idCommunity
+FROM inf_womensafety ws INNER JOIN  inf_publiclighting pl ON ws.INF_PublicLighting_idINF_PublicLighting = pl.idINF_PublicLighting
+						INNER JOIN Community c ON pl.Community_idCommunity = c.idCommunity
+GROUP BY idCommunity;
+
+-- MOVILIDAD Y TRANPORTE --
+
+SELECT Way AS "Medio de transporte", COUNT(idINF_MobilityWay) AS "Numero de personas", Name AS Comunidad, idCommunity
+FROM inf_mobilityway mw1 INNER JOIN inf_mobilityway_has_community mw2 ON mw1.idINF_MobilityWay = mw2.INF_MobilityWay_idINF_MobilityWay
+						INNER JOIN Community c ON mw2.Community_idCommunity = c.idCommunity
+GROUP BY idCommunity,Way;
+
+
+
