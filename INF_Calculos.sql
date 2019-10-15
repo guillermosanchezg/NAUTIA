@@ -1,3 +1,4 @@
+-- ---------------------------------------------
 -- CÁLCULOS DERIVADOS DE LOS DATOS DE CONTEXTO --
 -- ----------------------------------------------
 
@@ -229,6 +230,3 @@ SELECT Way AS "Medio de transporte", COUNT(idINF_MobilityWay) AS "Numero de pers
 FROM inf_mobilityway mw1 INNER JOIN inf_mobilityway_has_community mw2 ON mw1.idINF_MobilityWay = mw2.INF_MobilityWay_idINF_MobilityWay
 						INNER JOIN Community c ON mw2.Community_idCommunity = c.idCommunity
 GROUP BY idCommunity,Way;
-
-
-
