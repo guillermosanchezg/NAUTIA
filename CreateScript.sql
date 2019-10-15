@@ -1051,9 +1051,8 @@ CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`S_EducationalCenter` (
   `Workingpoints` INT NULL,
   `Teachers` INT NULL,
   `Material` VARCHAR(100) NULL,
-  `MorningHoursStudy` FLOAT NULL,
-  `EveningHoursStudy` FLOAT NULL,
-  `NightHoursStudy` FLOAT NULL,
+  `TimeStart` VARCHAR(45) NULL,
+  `TimeFinish` VARCHAR(45) NULL,
   `Community_idCommunity` INT NOT NULL,
   `S_BuildingQuality_idS_BuildingQuality` INT NOT NULL,
   PRIMARY KEY (`idS_EducationalCenter`, `Community_idCommunity`),
@@ -1193,7 +1192,7 @@ CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`S_Cementery` (
   `Longitude` VARCHAR(45) NULL,
   `Altitude` INT NULL,
   `NoAccessArea` FLOAT NULL,
-  `CorrectLocation` VARCHAR(45) NULL,
+  `Drainage` VARCHAR(45) NULL,
   `UpperBound` INT NULL,
   `Community_idCommunity` INT NOT NULL,
   PRIMARY KEY (`idS_Cementery`, `Community_idCommunity`),
@@ -2768,11 +2767,11 @@ CREATE INDEX `fk_INF_PotabilizationSystem_has_Community_INF_Potabilizatio_idx` O
 DROP TABLE IF EXISTS `nautiatoolkit`.`S_Subject_has_S_EducationaCenter` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`S_Subject_has_S_EducationaCenter` (
+  `IDS_Subject_has_S_EducationaCenter` INT NOT NULL AUTO_INCREMENT,
   `S_Subject_idS_Subject` INT NOT NULL,
-  `S_EducationaCenter_idSchool` INT NOT NULL,
   `S_EducationaCenter_Community_idCommunity` INT NOT NULL,
   `SubjectType` VARCHAR(45) NULL,
-  PRIMARY KEY (`S_Subject_idS_Subject`, `S_EducationaCenter_idSchool`, `S_EducationaCenter_Community_idCommunity`),
+  PRIMARY KEY (`IDS_Subject_has_S_EducationaCenter`, `S_Subject_idS_Subject`, `S_EducationaCenter_Community_idCommunity`),
   CONSTRAINT `fk_S_Subject_has_S_EducationaCenter_S_Subject1`
     FOREIGN KEY (`S_Subject_idS_Subject`)
     REFERENCES `nautiatoolkit`.`S_Subject` (`idS_Subject`)
@@ -2785,7 +2784,7 @@ CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`S_Subject_has_S_EducationaCenter` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-CREATE INDEX `fk_S_Subject_has_S_EducationaCenter_S_EducationaCenter1_idx` ON `nautiatoolkit`.`S_Subject_has_S_EducationaCenter` (`S_EducationaCenter_idSchool` ASC, `S_EducationaCenter_Community_idCommunity` ASC);
+CREATE INDEX `fk_S_Subject_has_S_EducationaCenter_S_EducationaCenter1_idx` ON `nautiatoolkit`.`S_Subject_has_S_EducationaCenter` (`S_EducationaCenter_Community_idCommunity` ASC);
 
 CREATE INDEX `fk_S_Subject_has_S_EducationaCenter_S_Subject1_idx` ON `nautiatoolkit`.`S_Subject_has_S_EducationaCenter` (`S_Subject_idS_Subject` ASC);
 

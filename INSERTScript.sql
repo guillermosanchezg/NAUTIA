@@ -10,7 +10,7 @@ INSERT INTO `Camp_has_Country` VALUES (1,1);
 INSERT INTO `HostCommunity` VALUES (1,2,1);
 INSERT INTO `HostCommunity_has_Camp` VALUES (1,1);
 
-------------------
+-- ----------------
 
 INSERT INTO `Comun_Religion` (Religion) VALUES ("Musulmana"),("Patolica");
 INSERT INTO `Comun_Religion_has_Camp` VALUES (1,1),(2,1);
@@ -19,7 +19,7 @@ INSERT INTO `Comun_Language` (Language) VALUES ("Inglés"),("Frances"),("Amarant
 INSERT INTO `Comun_Language_has_Camp` VALUES (1,1),(2,1);
 INSERT INTO `Comun_Language_has_Country` VALUES (1,2),(2,1),(2,2),(3,2);
 
-------------------
+-- ----------------
 
 INSERT INTO `GD_Demography` VALUES (1,3000,2900,5000,5100,10000,9900,5000,5250,25,10,5.5,60,1),
                                 (2,4000,3900,4000,5100,10500,1100,6000,6250,35,75,10.5,60,2);
@@ -53,7 +53,7 @@ INSERT INTO `Camp_ClimaticRegion` VALUES (1,"BSH",40,10,33.5,20,200,5,20.5,20,1)
 INSERT INTO `Camp_Mobility` VALUES (1,"YES",5,1);
 INSERT INTO `Camp_Shelter` VALUES (1,"YES",1);
 
-------------------
+-- ----------------
 
 INSERT INTO `SE_Population` VALUES (1,100,1000,5000,500,"YES",1),(2,200,2000,4000,400,"NO",2);
 INSERT INTO `SE_HouseHoldComposition` VALUES (1,1,1,2,1,1),(2,2,1,3,2,1),(1,1,1,2,1,2),(2,2,1,3,2,2);
@@ -94,19 +94,19 @@ INSERT INTO `SE_WorkType_has_Community` (SE_WorkType_idSE_WorkType,Community_idC
 
 
 
--------------------------
+-- -----------------------
 
 INSERT INTO `G_PublicPolitic` (DocumentTittle,Path,Community_idCommunity) VALUES ("Doc1",":C//UnCamino/Cualquiera.pdf",1),("Doc2",":C//Este/es/otr/Camino/Cualquiera/pero/Mas/Largo.pdf",2);
 INSERT INTO `G_PoliticalActor` VALUES (1,"Acnur","Privado"),(2,"CooperacionEspañola","Privado");
 INSERT INTO `G_PoliticalActor_has_Community` VALUES (1,1),(1,2),(2,1),(2,2);
 
-------------------------
+-- ----------------------
 
 INSERT INTO `FA_Topography` VALUES (1,50,5,1),(2,50,5,2);
 INSERT INTO `FA_NaturalResource` (type,Bound,Community_idCommunity) VALUES ("lago 1","700",1),("Rio 1","20",1),("Lago 2","N/A",2);
 INSERT INTO `FA_GeographicIdentification` VALUES (1,"1º2'3''","3º2'1''",40,20,1),(2,"2º2'3''","4º2'1''",40,30,2);
 
------------------------
+-- ---------------------
 
 INSERT INTO `U_Urbanism` VALUES (1,"YES",5,"abierto","comunal","YES",5,"YES","YES","YES","NO",5,"YES",1),(2,"YES",5,"abierto","comunal","YES",5,"YES","YES","YES","NO",5,"YES",2);
 INSERT INTO `U_PublicSpace` VALUES (1,40,1),(2,50,2);
@@ -115,7 +115,7 @@ INSERT INTO `U_RecreationalArea` VALUES (1,"Area 1","1º2'3''","3º2'1''",5,true
 INSERT INTO `U_Road` VALUES (1,20,"YES","NO",1),(2,15,"YES","YES",2);
 INSERT INTO `U_LandUse` VALUES (1,10,15,20,1),(2,5,10,25,2);
 
-------------------------
+-- ----------------------
 
 
 INSERT INTO `INF_WaterInfrastructure` VALUES (1,"No potable",5,"Camion",1),(2,"Contaminada",5.5,"No Mejorada",2);
@@ -163,16 +163,16 @@ INSERT INTO `INF_MobilityWay_has_Community` (INF_MobilityWay_idINF_MobilityWay,C
 													(1,2,"Internal"),(2,2,"Internal"),(3,2,"Internal"),                                          
 													(1,2,"external"),(2,2,"external");  
 
------------------------
+-- ---------------------
 
 INSERT INTO `S_BuildingQuality`  VALUES (1,true,true,false,false),(2,true,true,false,false),(3,true,true,false,false),
                                         (4,true,true,false,false),(5,true,true,false,false),(6,true,true,false,false),
                                         (7,true,true,false,false),(8,true,true,false,false),(9,true,true,false,false),
                                         (10,true,true,false,false);
-INSERT INTO `S_EducationalCenter` VALUES (1,"1º2'3''","3º2'1''",40,2,"Secundaria",40,45,5,"Libros, cuadernos, equipo y material de laboratorio, ordenador sin internet",2,2.5,0,1,1),
-                                        (2,"1º2'3''","3º2'1''",40,2,"Secundaria",40,45,5,"Libros, cuadernos",2,2.5,0,1,2),
-                                        (3,"1º2'3''","3º2'1''",40,2,"Secundaria",40,45,5,"Libros",2,2.5,0,2,3),
-                                        (4,"1º2'3''","3º2'1''",40,2,"Profesional",40,45,5,"Libros",2,2.5,0,2,4);
+INSERT INTO `S_EducationalCenter` VALUES (1,"1º2'3''","3º2'1''",40,2,"Secundaria",40,45,5,"Libros, cuadernos, equipo y material de laboratorio, ordenador sin internet","08:00","15:00",1,1),
+                                        (2,"1º2'3''","3º2'1''",40,2,"Secundaria",40,45,5,"Libros, cuadernos","8:30","15:30",1,2),
+                                        (3,"1º2'3''","3º2'1''",40,2,"Secundaria",40,45,5,"Libros","9:00","14:00",2,3),
+                                        (4,"1º2'3''","3º2'1''",40,2,"Profesional",40,45,5,"Libros","8:00","12:30",2,4);
 INSERT INTO `S_Subject` (Subject) VALUES ("Matematicas"),("Musica"),("Historia"),("Agronomia"),("Costura"),("Ingles");
 INSERT INTO `S_Subject_has_S_EducationaCenter` VALUES (1,1,1,"EducationalPayLoad"),
                                                         (2,1,1,"Demanded"),
@@ -198,9 +198,9 @@ INSERT INTO `S_ProgramingKnowlege_has_Community` (S_ProgramingKnowlege_idS_Progr
                                                 VALUES (1,2),(1,2);
 INSERT INTO `S_App` (App) VALUES ("Facebook"),("Whatsapp"),("Word"),("PowerPoint");
 INSERT INTO `S_App_has_Community`(S_App_idS_App,Community_idCommunity,Use_Necesity) 
-                                VALUES (1,1,"USE"),(1,2,"Necesity"),(1,1,"USE"),(1,2,"Necesity"),(4,1,"Nesesity"),(4,1,"Nesesity");
+                                VALUES (1,1,"USE"),(1,2,"Necesity"),(1,1,"USE"),(1,2,"Necesity"),(4,1,"Necesity"),(4,1,"Necesity");
 
---------------------
+-- ------------------
 
 INSERT INTO `SH_Shelter` VALUES (1,340,100.5,"Comunitaria",1),(2,540,105.5,"Comunitaria",2);
 INSERT INTO `SH_House` VALUES (1,3,True,False,True,True,False,True,False,True,1),
@@ -213,7 +213,7 @@ INSERT INTO `SH_House` VALUES (1,3,True,False,True,True,False,True,False,True,1)
                                 (8,3,True,False,True,True,False,False,False,True,2),
                                 (9,3,True,False,True,True,False,False,False,True,2);
 
-------------------------
+-- ----------------------
 
 INSERT INTO `FS_FoodSafety` VALUES (1,"No existe dpto de sanidad",true,true,false,true,70,1),
                                         (2,"Plagas",true,true,false,true,70,2);
@@ -248,7 +248,7 @@ INSERT INTO `FS_GrainConservation_has_Community` VALUES (1,2),(2,1);
 INSERT INTO `FS_GrainMill` VALUES (1,12.4,"YES","YES",1),(2,12.4,"YES","YES",1), 
                                          (3,12.6,"NO","NO",2),(4,11.4,"YES","YES",2);
 
----------------------
+-- -------------------
 
 INSERT INTO `People` (Sex,Workshop,Community_idCommunity) VALUES ("Mujer","Taller Mujeres",1),
                                                                 ("Mujer","Taller Mujeres",1),
@@ -267,6 +267,6 @@ INSERT INTO `InterviewedCenter`(CenterType,Community_idCommunity) VALUE ("Centro
                                                                         ("Centro 2",2),
                                                                         ("Centro 2",2);
 
----------------------                                                                                                 
+-- -------------------                                                                                                 
 
 SET SQL_SAFE_UPDATES = 1;
