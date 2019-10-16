@@ -62,7 +62,7 @@ FROM fs_corralubication cu INNER JOIN community c ON cu.Community_idCommunity = 
 GROUP BY idCommunity, DrainageSystem;
 
 -- Huertos por sistema de drenaje (Consulta parcial para obtener por app sistema predominante)
-SELECT IrrigationSystem, COUNT(idFS_CroplUbication), name as comunidad, idCommunity
+SELECT IrrigationSystem, COUNT(idFS_CropUbication), name as comunidad, idCommunity
 FROM fs_cropubication cu INNER JOIN community c ON cu.Community_idCommunity = c.idCommunity
 GROUP BY idCommunity,IrrigationSystem;
 

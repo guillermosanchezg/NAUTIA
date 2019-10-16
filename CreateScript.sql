@@ -2989,14 +2989,14 @@ CREATE INDEX `fk_Comun_Laguage_has_Camp_Comun_Laguage1_idx` ON `nautiatoolkit`.`
 DROP TABLE IF EXISTS `nautiatoolkit`.`FS_CropUbication` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`FS_CropUbication` (
-  `idFS_CroplUbication` INT NOT NULL AUTO_INCREMENT,
+  `idFS_CropUbication` INT NOT NULL AUTO_INCREMENT,
   `Latitude` VARCHAR(45) NULL,
   `Longitude` VARCHAR(45) NULL,
   `Altitude` INT NULL,
   `Type` VARCHAR(45) NULL,
   `IrrigationSystem` VARCHAR(45) NULL,
   `Community_idCommunity` INT NOT NULL,
-  PRIMARY KEY (`idFS_CroplUbication`, `Community_idCommunity`),
+  PRIMARY KEY (`idFS_CropUbication`, `Community_idCommunity`),
   CONSTRAINT `fk_FS_CropUbication_Community1`
     FOREIGN KEY (`Community_idCommunity`)
     REFERENCES `nautiatoolkit`.`Community` (`idCommunity`)
@@ -3087,6 +3087,46 @@ ENGINE = InnoDB;
 CREATE INDEX `fk_INF_MobilityWay_has_Community_Community1_idx` ON `nautiatoolkit`.`INF_MobilityWay_has_Community` (`Community_idCommunity` ASC);
 
 CREATE INDEX `fk_INF_MobilityWay_has_Community_INF_MobilityWay1_idx` ON `nautiatoolkit`.`INF_MobilityWay_has_Community` (`INF_MobilityWay_idINF_MobilityWay` ASC);
+
+
+-- -----------------------------------------------------
+-- Table `nautiatoolkit`.`SH_Upgrading`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `nautiatoolkit`.`SH_Upgrading` ;
+
+CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`SH_Upgrading` (
+  `idSH_Upgrading` INT NOT NULL,
+  `UpgradingType` VARCHAR(45) NULL,
+  PRIMARY KEY (`idSH_Upgrading`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `nautiatoolkit`.`SH_Upgrading_has_SH_House`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `nautiatoolkit`.`SH_Upgrading_has_SH_House` ;
+
+CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`SH_Upgrading_has_SH_House` (
+  `idSH_Upgrading_has_SH_House` INT NOT NULL AUTO_INCREMENT,
+  `SH_Upgrading_idSH_Upgrading` INT NOT NULL,
+  `SH_House_idSH_House` INT NOT NULL,
+  `SH_House_Community_idCommunity` INT NOT NULL,
+  PRIMARY KEY (`idSH_Upgrading_has_SH_House`, `SH_Upgrading_idSH_Upgrading`, `SH_House_idSH_House`, `SH_House_Community_idCommunity`),
+  CONSTRAINT `fk_SH_Upgrading_has_SH_House_SH_Upgrading1`
+    FOREIGN KEY (`SH_Upgrading_idSH_Upgrading`)
+    REFERENCES `nautiatoolkit`.`SH_Upgrading` (`idSH_Upgrading`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_SH_Upgrading_has_SH_House_SH_House1`
+    FOREIGN KEY (`SH_House_idSH_House` , `SH_House_Community_idCommunity`)
+    REFERENCES `nautiatoolkit`.`SH_House` (`idSH_House` , `Community_idCommunity`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+CREATE INDEX `fk_SH_Upgrading_has_SH_House_SH_House1_idx` ON `nautiatoolkit`.`SH_Upgrading_has_SH_House` (`SH_House_idSH_House` ASC, `SH_House_Community_idCommunity` ASC);
+
+CREATE INDEX `fk_SH_Upgrading_has_SH_House_SH_Upgrading1_idx` ON `nautiatoolkit`.`SH_Upgrading_has_SH_House` (`SH_Upgrading_idSH_Upgrading` ASC);
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
