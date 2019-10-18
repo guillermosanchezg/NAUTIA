@@ -88,12 +88,6 @@ FROM s_tecknowlege tk INNER JOIN s_tecknowlege_has_community thas ON tk.idS_Teck
 						INNER JOIN community c ON thas.Community_idCommunity = c.idCommunity
 GROUP BY idCommunity,knowlegeType;
 
--- Conocimientos en lenguajes de programación
-SELECT Language, COUNT(idS_ProgramingKnowlege) Personas, name AS comunidad, idCommunity
-FROM s_programingknowlege pg INNER JOIN s_programingknowlege_has_community pghas ON pg.idS_ProgramingKnowlege = pghas.S_ProgramingKnowlege_idS_ProgramingKnowlege
-								INNER JOIN community c ON pghas.Community_idCommunity = c.idCommunity
-GROUP BY idCommunity, language;
-
 --  Numero de personas por tipo de hardware
 SELECT HardWareType AS Dispositivo, COUNT(idS_HardwareAccesibility) AS Personas, name AS comunidad, idCommunity
 FROM s_hardwareaccesibility ha INNER JOIN s_hardwareaccesibility_has_community hahas ON ha.idS_HardwareAccesibility = hahas.S_HardwareAccesibility_idS_HardwareAccesibility

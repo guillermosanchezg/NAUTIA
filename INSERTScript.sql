@@ -2,7 +2,7 @@ SET SQL_SAFE_UPDATES = 0;
 
 INSERT INTO `community` VALUES (1,"Shimelba"),(2,"Comunidad1");
 
-INSERT INTO `camp` VALUES (1,"11/04/1996",1000, "YES","12",1);
+INSERT INTO `camp` VALUES (1,'1996-04-11',1000, "YES","12",1);
 
 INSERT INTO `country` (countryname) VALUES ("Etiopia"),("Eritrea"),("Argelia");
 INSERT INTO `Camp_has_Country` VALUES (1,1);
@@ -193,9 +193,6 @@ INSERT INTO `S_Tecknowlege_has_Community` (S_Tecknowlege_idS_Tecknowlege,Communi
 INSERT INTO `S_HardwareAccesibility` (HardWareType) VALUES ("PC"),("Movil");
 INSERT INTO `S_HardwareAccesibility_has_Community` (S_HardwareAccesibility_idS_HardwareAccesibility,Community_idCommunity,OperativeSystem)
                                                 VALUES (1,1,"Windows"),(1,2,"Linux"),(2,2,"Android One");
-INSERT INTO `S_ProgramingKnowlege` (Language) VALUES ("C");
-INSERT INTO `S_ProgramingKnowlege_has_Community` (S_ProgramingKnowlege_idS_ProgramingKnowlege,Community_idCommunity)
-                                                VALUES (1,2),(1,2);
 INSERT INTO `S_App` (App) VALUES ("Facebook"),("Whatsapp"),("Word"),("PowerPoint");
 INSERT INTO `S_App_has_Community`(S_App_idS_App,Community_idCommunity,Use_Necesity) 
                                 VALUES (1,1,"USE"),(1,2,"Necesity"),(1,1,"USE"),(1,2,"Necesity"),(4,1,"Necesity"),(4,1,"Necesity");
