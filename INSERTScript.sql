@@ -119,15 +119,19 @@ INSERT INTO `U_LandUse` VALUES (1,10,15,20,1),(2,5,10,25,2);
 
 
 INSERT INTO `INF_WaterInfrastructure` VALUES (1,"No potable",5,"Camion",1),(2,"Contaminada",5.5,"No Mejorada",2);
-INSERT INTO `INF_IrrigatonSystem` VALUES (1,"YES",15,"diesel",1),(2,"YES",15,"diesel",1),(3,"YES",15,"diesel",2);
+INSERT INTO `INF_IrrigatonSystem` VALUES (1,"YES",15,"diesel"),(2,"YES",15,"diesel"),(3,"YES",15,"diesel");
+INSERT INTO `INF_IrrigatonSystem_has_Community` (INF_IrrigatonSystem_idIrrigatonSystem,Community_idCommunity)
+									VALUES (1,1),(2,1),(3,2);
 INSERT INTO `INF_PotabilizationSystem` (Type) VALUES ("Sistema 1"),("Sistema 2");
 INSERT INTO `INF_PotabilizationSystem_has_Community` VALUES (1,1),(2,1),(2,2);
 INSERT INTO `INF_WaterPoint` VALUES (1,"1º2'3''","3º2'1''",40,"YES",1),(2,"2º2'3''","4º2'1''",40,"NO",2),(3,"1º2'3''","3º2'1''",40,"YES",1),(4,"2º2'3''","4º2'1''",40,"NO",1);
 INSERT INTO `INF_TimeSpent` VALUES (1,2.5,1,1),(2,3.25,2,2);
 INSERT INTO `INF_SanitationAccess` VALUES (1,true,true,true,1),(2,false,true,true,2);
-INSERT INTO `INF_SanitationSystemQuality` VALUES (1,"sin losa","sin seguridad estructural",1),(2,"sin losa","sin seguridad estructural",2),
-													(3,"sin losa","techo y paredes estables",1),(4,"con losa y ventilada","sin seguridad estructural",2),	
-                                                    (5,"Con losa","techo y paredes estables",1),(6,"con losa y ventilada","techo y paredes estables",2);
+INSERT INTO `INF_SanitationSystemQuality` VALUES (1,"sin losa","sin seguridad estructural"),(2,"sin losa","sin seguridad estructural"),
+													(3,"sin losa","techo y paredes estables"),(4,"con losa y ventilada","sin seguridad estructural"),	
+                                                    (5,"Con losa","techo y paredes estables"),(6,"con losa y ventilada","techo y paredes estables");
+INSERT INTO `INF_SanitationSystemQuality_has_Community` (INF_SanitationSystemQuality_idINF_SanitationSystemQuality,Community_idCommunity)
+											VALUES (1,1),(3,1),(5,1),(2,2),(4,2),(6,2);
 INSERT INTO `INF_WasteManagementgInfrastructure` VALUES (1,4,1),(2,2,2);
 INSERT INTO `INF_Landfill` VALUES (1,5,5,"YES",1),(2,5,5,"NO",2);
 INSERT INTO `INF_ColletionPoints` VALUES(1,"1º2'3''","3º2'1''",40,1),(2,"1º2'3''","3º2'1''",40,1),(1,"1º2'3''","3º2'1''",40,2);
@@ -169,20 +173,27 @@ INSERT INTO `S_BuildingQuality`  VALUES (1,true,true,false,false),(2,true,true,f
                                         (4,true,true,false,false),(5,true,true,false,false),(6,true,true,false,false),
                                         (7,true,true,false,false),(8,true,true,false,false),(9,true,true,false,false),
                                         (10,true,true,false,false);
-INSERT INTO `S_EducationalCenter` VALUES (1,"1º2'3''","3º2'1''",40,2,"Secundaria",40,45,5,"Libros, cuadernos, equipo y material de laboratorio, ordenador sin internet","08:00","15:00",1,1),
-                                        (2,"1º2'3''","3º2'1''",40,2,"Secundaria",40,45,5,"Libros, cuadernos","8:30","15:30",1,2),
-                                        (3,"1º2'3''","3º2'1''",40,2,"Secundaria",40,45,5,"Libros","9:00","14:00",2,3),
-                                        (4,"1º2'3''","3º2'1''",40,2,"Profesional",40,45,5,"Libros","8:00","12:30",2,4);
+INSERT INTO `S_EducationalCenter` VALUES (1,"1º2'3''","3º2'1''",40,2,"Secundaria",40,45,5,"Libros, cuadernos, equipo y material de laboratorio, ordenador sin internet","08:00","15:00",1),
+                                        (2,"1º2'3''","3º2'1''",40,2,"Secundaria",40,45,5,"Libros, cuadernos","8:30","15:30",2),
+                                        (3,"1º2'3''","3º2'1''",40,2,"Secundaria",40,45,5,"Libros","9:00","14:00",3),
+                                        (4,"1º2'3''","3º2'1''",40,2,"Profesional",40,45,5,"Libros","8:00","12:30",4);
+INSERT INTO `S_EducationalCenter_has_Community` (S_EducationalCenter_idS_EducationalCenter,Community_idCommunity)
+									VALUES(1,1),(2,1),(3,2),(4,2);
 INSERT INTO `S_Subject` (Subject) VALUES ("Matematicas"),("Musica"),("Historia"),("Agronomia"),("Costura"),("Ingles");
-INSERT INTO `S_Subject_has_S_EducationaCenter` VALUES (1,1,1,"EducationalPayLoad"),
+INSERT INTO `S_Subject_has_S_EducationalCenter` VALUES (1,1,1,"EducationalPayLoad"),
                                                         (2,1,1,"Demanded"),
                                                         (3,3,2,"Demanded");
 INSERT INTO `S_NoEducationCause` (Cause) VALUES ("Conciliación familiar"),("Dinero");
 INSERT INTO `S_NoEducationCause_has_Community` VALUES (1,1),(2,1),(1,2),(2,2);
-INSERT INTO `S_Hospital`  VALUES (1,"1º2'3''","3º2'1''",40,2,500,1,5),(2,"1º2'3''","3º2'1''",40,2,500,2,6);
-INSERT INTO `S_PrimaryAttention` VALUES (1,"1º2'3''","3º2'1''",40,2,1,7),(2,"1º2'3''","3º2'1''",40,2,2,8),(3,"1º2'3''","3º2'1''",40,2,1,9),(3,"1º2'3''","3º2'1''",40,2,2,10);
-INSERT INTO `S_Cementery` VALUES (1,"1º2'3''","3º2'1''",40,2,"YES",40,1),(2,"1º2'3''","3º2'1''",40,2,"NO",40,2);
-INSERT INTO `S_OtherCenter` VALUES (1,"1º2'3''","3º2'1''",40,2,"Deportivo","Nombre 1",1),(2,"1º2'3''","3º2'1''",40,2,"sociocultural","Nombre 2",1),(3,"1º2'3''","3º2'1''",40,2,"Deportivo","Nombre 3",2);
+INSERT INTO `S_Hospital`  VALUES (1,"1º2'3''","3º2'1''",40,2,500,5),(2,"1º2'3''","3º2'1''",40,2,500,6);
+INSERT INTO `S_Hospital_has_Community` (S_Hospital_idS_Hospital,Community_idCommunity) VALUES(1,2);
+INSERT INTO `S_PrimaryAttention` VALUES (1,"1º2'3''","3º2'1''",40,2,7),(2,"1º2'3''","3º2'1''",40,2,8),(3,"1º2'3''","3º2'1''",40,2,9),(4,"1º2'3''","3º2'1''",40,2,10);
+INSERT INTO `S_PrimaryAttention_has_Community` (S_PrimaryAttention_idS_PrimaryAttention,Community_idCommunity)
+												VALUES (1,1),(2,2),(3,1),(3,2);
+INSERT INTO `S_Cementery` VALUES (1,"1º2'3''","3º2'1''",40,2,"YES",40),(2,"1º2'3''","3º2'1''",40,2,"NO",40);
+INSERT INTO `S_Cementery_has_Community`(S_Cementery_idS_Cementery,Community_idCommunity) VALUES (1,1),(2,2);
+INSERT INTO `S_OtherCenter` VALUES (1,"1º2'3''","3º2'1''",40,2,"Deportivo","Nombre 1"),(2,"1º2'3''","3º2'1''",40,2,"sociocultural","Nombre 2"),(3,"1º2'3''","3º2'1''",40,2,"Deportivo","Nombre 3");
+INSERT INTO `S_OtherCenter_has_Community` (S_OtherCenter_idS_OtherCenter,Community_idCommunity) VALUES (1,1),(2,1),(3,2);
 INSERT INTO `S_HealthCenterService` VALUES (1,4,6,1),(2,6,8,2);
 INSERT INTO `S_MedicineAccess` (Access,Community_idCommunity) VALUES ("Yes",1),("No",1),("Yes",1),("No",1),("Yes",1),("No",1),("Yes",2),("No",2),("No",2),("Yes",2),("No",2),("No",2);
 INSERT INTO `S_DataAccess` (DataType) VALUES ("Telefonia fija"),("Telefonia fija por cobre");
@@ -232,10 +243,14 @@ INSERT INTO `FS_CultivationSeason` (Month) VALUES ("Marzo"),("Abril"),("Mayo"),(
 INSERT INTO `FS_CultivationSeason_has_Community` VALUES (1,1),(2,1),(3,1),(4,1),
                                                         (1,2),(2,2),(3,2),(4,2);            
 INSERT INTO `FS_CorralCropData` VALUES (1,"Continuo","YES",1),(2,"Rotacional","YES",2);
-INSERT INTO `FS_CorralUbication` VALUES (1,"1º2'3''","3º2'1''",40,"Privado","Tipo 1",1),(2,"1º2'3''","3º2'1''",40,"público","Tipo 1",1),
-                                        (3,"1º2'3''","3º2'1''",40,"Privado","Tipo 1",2),(4,"1º2'3''","3º2'1''",40,"público","Tipo 1",2);
-INSERT INTO `FS_CropUbication` VALUES (1,"1º2'3''","3º2'1''",40,"Privado","Tipo 1",1),(2,"1º2'3''","3º2'1''",40,"público","Tipo 1",1),
-                                      (3,"1º2'3''","3º2'1''",40,"Privado","Tipo 1",2),(4,"1º2'3''","3º2'1''",40,"público","Tipo 1",2);
+INSERT INTO `FS_CorralUbication` VALUES (1,"1º2'3''","3º2'1''",40,"Privado","Tipo 1"),(2,"1º2'3''","3º2'1''",40,"público","Tipo 1"),
+                                        (3,"1º2'3''","3º2'1''",40,"Privado","Tipo 1"),(4,"1º2'3''","3º2'1''",40,"público","Tipo 1");
+INSERT INTO `FS_CorralUbication_has_Community` (FS_CorralUbication_idFS_CorralUbication,Community_idCommunity)
+									VALUES (1,1),(2,1),(3,2),(4,2);
+INSERT INTO `FS_CropUbication` VALUES (1,"1º2'3''","3º2'1''",40,"Privado","Tipo 1"),(2,"1º2'3''","3º2'1''",40,"público","Tipo 1"),
+                                      (3,"1º2'3''","3º2'1''",40,"Privado","Tipo 1"),(4,"1º2'3''","3º2'1''",40,"público","Tipo 1");
+INSERT INTO `FS_CropUbication_has_Community` (FS_CropUbication_idFS_CropUbication,Community_idCommunity)
+									VALUES (1,1),(2,1),(3,2),(4,2);
 INSERT INTO `FS_FoodAccessContinuity` VALUES (1,"enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre",4,"Refrigerado",1),
                                               (2,"enero,febrero,marzo,abril",3,"No Refrigerado",2); 
 INSERT INTO `FS_OwnCultivationFoodType`  (Type) VALUES ("Tipo 1"),("Tipo 2");

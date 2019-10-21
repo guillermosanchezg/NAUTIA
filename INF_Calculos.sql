@@ -34,49 +34,58 @@ GROUP BY idCommunity;
 
 -- Numero de sistemas de riego operativos
 SELECT COUNT(idIrrigatonSystem) AS "Total Operativos", name AS Comunidad, idCommunity
-FROM inf_irrigatonsystem irs INNER JOIN community c ON irs.Community_idCommunity = c.idCommunity
+FROM inf_irrigatonsystem irs INNER JOIN inf_irrigatonsystem_has_community irshas ON irs.idIrrigatonSystem = irshas.INF_IrrigatonSystem_idIrrigatonSystem
+							INNER JOIN community c ON irshas.Community_idCommunity = c.idCommunity
 GROUP BY idCommunity;
 
 -- SANEAMIENTO Y DRENAJE --
 
 -- Consultas parciales para el calculo de la calidad del sistema que se hace por aplicación
 SELECT COUNT(*) AS "Letrinas con Losa", name AS Comunidad, idCommunity
-FROM inf_sanitationsystemquality sq INNER JOIN community c ON sq.Community_idCommunity = c.idCommunity
+FROM inf_sanitationsystemquality sq INNER JOIN inf_sanitationsystemquality_has_community sqhas ON sq.idINF_SanitationSystemQuality = sqhas.INF_SanitationSystemQuality_idINF_SanitationSystemQuality
+									INNER JOIN community c ON sqhas.Community_idCommunity = c.idCommunity
 WHERE LatrineQuality = 'con losa'
 GROUP BY idCommunity;
 
 SELECT COUNT(*) AS "Letrinas sin Losa", name AS Comunidad, idCommunity
-FROM inf_sanitationsystemquality sq INNER JOIN community c ON sq.Community_idCommunity = c.idCommunity
+FROM inf_sanitationsystemquality sq INNER JOIN inf_sanitationsystemquality_has_community sqhas ON sq.idINF_SanitationSystemQuality = sqhas.INF_SanitationSystemQuality_idINF_SanitationSystemQuality
+									INNER JOIN community c ON sqhas.Community_idCommunity = c.idCommunity
 WHERE LatrineQuality = 'sin losa'
 GROUP BY idCommunity;
 
 SELECT COUNT(*) AS "Letrinas con Losa y ventiladas", name AS Comunidad, idCommunity
-FROM inf_sanitationsystemquality sq INNER JOIN community c ON sq.Community_idCommunity = c.idCommunity
+FROM inf_sanitationsystemquality sq INNER JOIN inf_sanitationsystemquality_has_community sqhas ON sq.idINF_SanitationSystemQuality = sqhas.INF_SanitationSystemQuality_idINF_SanitationSystemQuality
+									INNER JOIN community c ON sqhas.Community_idCommunity = c.idCommunity
 WHERE LatrineQuality = 'con losa y ventilada'
 GROUP BY idCommunity;
 
 SELECT COUNT(*) AS "Sin Estructura estable", name AS Comunidad, idCommunity
-FROM inf_sanitationsystemquality sq INNER JOIN community c ON sq.Community_idCommunity = c.idCommunity
+FROM inf_sanitationsystemquality sq INNER JOIN inf_sanitationsystemquality_has_community sqhas ON sq.idINF_SanitationSystemQuality = sqhas.INF_SanitationSystemQuality_idINF_SanitationSystemQuality
+									INNER JOIN community c ON sqhas.Community_idCommunity = c.idCommunity
 WHERE BuildingQuality = 'Sin seguridad estructural'
 GROUP BY idCommunity;
 
 SELECT COUNT(*) AS "Con techo y paredes estables", name AS Comunidad, idCommunity
-FROM inf_sanitationsystemquality sq INNER JOIN community c ON sq.Community_idCommunity = c.idCommunity
+FROM inf_sanitationsystemquality sq INNER JOIN inf_sanitationsystemquality_has_community sqhas ON sq.idINF_SanitationSystemQuality = sqhas.INF_SanitationSystemQuality_idINF_SanitationSystemQuality
+									INNER JOIN community c ON sqhas.Community_idCommunity = c.idCommunity
 WHERE BuildingQuality = 'techo y paredes estables'
 GROUP BY idCommunity;
 
 SELECT COUNT(*) AS "Techo Paredes y Puerta", name AS Comunidad, idCommunity
-FROM inf_sanitationsystemquality sq INNER JOIN community c ON sq.Community_idCommunity = c.idCommunity
+FROM inf_sanitationsystemquality sq INNER JOIN inf_sanitationsystemquality_has_community sqhas ON sq.idINF_SanitationSystemQuality = sqhas.INF_SanitationSystemQuality_idINF_SanitationSystemQuality
+									INNER JOIN community c ON sqhas.Community_idCommunity = c.idCommunity
 WHERE BuildingQuality = 'Con techo paredes y puerta'
 GROUP BY idCommunity;
 
 SELECT COUNT(*) AS "Techo paredes cierre e iluminacion", name AS Comunidad, idCommunity
-FROM inf_sanitationsystemquality sq INNER JOIN community c ON sq.Community_idCommunity = c.idCommunity
+FROM inf_sanitationsystemquality sq INNER JOIN inf_sanitationsystemquality_has_community sqhas ON sq.idINF_SanitationSystemQuality = sqhas.INF_SanitationSystemQuality_idINF_SanitationSystemQuality
+									INNER JOIN community c ON sqhas.Community_idCommunity = c.idCommunity
 WHERE BuildingQuality = 'con techo paredes cierre e iluminacion'
 GROUP BY idCommunity;
 
 SELECT * 
-FROM inf_sanitationsystemquality sq INNER JOIN community c ON sq.Community_idCommunity = c.idCommunity;
+FROM inf_sanitationsystemquality sq INNER JOIN inf_sanitationsystemquality_has_community sqhas ON sq.idINF_SanitationSystemQuality = sqhas.INF_SanitationSystemQuality_idINF_SanitationSystemQuality
+									INNER JOIN community c ON sqhas.Community_idCommunity = c.idCommunity;
 
 -- GESTION DE RESIDUOS --
 
