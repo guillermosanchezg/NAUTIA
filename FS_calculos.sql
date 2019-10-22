@@ -58,13 +58,16 @@ FROM fs_foodsource FS INNER JOIN fs_foodsource_has_community fshas ON FS.idFS_Fo
 -- Corrales y huertos
 -- Corrales por sistema de drenaje (Consulta parcial para obtener por app sistema predominante)
 SELECT DrainageSystem, COUNT(idFS_CorralUbication), name as comunidad, idCommunity
-FROM fs_corralubication cu INNER JOIN community c ON cu.Community_idCommunity = c.idCommunity
+FROM fs_corralubication cu INNER JOIN fs_corralubication_has_community cuhas ON cu.idFS_CorralUbication = cuhas.FS_CorralUbication_idFS_CorralUbication
+							INNER JOIN community c ON cuhas.Community_idCommunity = c.idCommunity
 GROUP BY idCommunity, DrainageSystem;
 
 -- Huertos por sistema de drenaje (Consulta parcial para obtener por app sistema predominante)
 SELECT IrrigationSystem, COUNT(idFS_CropUbication), name as comunidad, idCommunity
-FROM fs_cropubication cu INNER JOIN community c ON cu.Community_idCommunity = c.idCommunity
+FROM fs_cropubication cu INNER JOIN fs_cropubication_has_community cuhas ON cu.idFS_CropUbication = cuhas.FS_CropUbication_idFS_CropUbication
+						INNER JOIN community c ON cuhas.Community_idCommunity = c.idCommunity
 GROUP BY idCommunity,IrrigationSystem;
 
 SELECT *
-FROM fs_cropubication cu INNER JOIN community c ON cu.Community_idCommunity = c.idCommunity;
+FROM fs_cropubication cu INNER JOIN fs_cropubication_has_community cuhas ON cu.idFS_CropUbication = cuhas.FS_CropUbication_idFS_CropUbication
+						INNER JOIN community c ON cuhas.Community_idCommunity = c.idCommunity;
