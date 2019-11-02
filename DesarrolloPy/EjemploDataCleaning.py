@@ -40,3 +40,15 @@ dfToAdd = dfFix(dfToAdd,"group_on1ls06:number_people","group_on1ls06:number_peop
 dfFinalCommunity = concatDF(dfCommunity,dfToAdd)
 mkCSV(dfFinalCommunity,"archivoCommunityFinal.csv")
 
+
+
+def dfTranspose(df):
+    data2 = pd.read_csv("C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetOriginales/Bibliography_111019.csv",sep = ";")
+    data2 = dfFix(data2,"GENERAL INFORMATION - COUNTRY LEVEL","Unnamed: 3")
+    data2.columns = ['GeneralInfo', 'CommunityCountry', 'RefugeeCountry']
+    data2 = data2.transpose()
+    data2.columns = data2.iloc[0]
+    data2 = data2.drop(data2.index[0])
+    dfCommunityCountry = data2.drop(data2.index[1])
+    dfRefugeeCountry = data2.drop(data2.index[0])
+
