@@ -15,6 +15,14 @@ def dfFix(df,col1,col2):
     result.drop(result.columns[y+1:],axis = 1, inplace = True)
     return result
 
+def dfTranspose(df):
+    df = dfFix(df,"GENERAL INFORMATION - COUNTRY LEVEL","Unnamed: 3")
+    df.columns = ['GeneralInfo', 'CommunityCountry', 'RefugeeCountry']
+    df = df.transpose()
+    df.columns = df.iloc[0]
+    df = df.drop(data2.index[0])
+    return df
+    
 def concatDF(df1,df2):
     return  pd.concat([df1,df2],axis = 1)
 
@@ -22,7 +30,6 @@ def mkCSV(df,fileName):
     df.reset_index().to_csv('DataSetFinales/'+fileName,header = True, index=False)
 
     
-
 data.set_index("group_lj1dr54:refugee_community",inplace=True)
 
 dfCommunity = data.loc['community'].copy()
@@ -41,14 +48,11 @@ dfFinalCommunity = concatDF(dfCommunity,dfToAdd)
 mkCSV(dfFinalCommunity,"archivoCommunityFinal.csv")
 
 
+data2 = pd.read_csv("C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetOriginales/Bibliography_111019.csv",sep = ";")
+data2 = dfTranspose(data2)
 
-def dfTranspose(df):
-    data2 = pd.read_csv("C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetOriginales/Bibliography_111019.csv",sep = ";")
-    data2 = dfFix(data2,"GENERAL INFORMATION - COUNTRY LEVEL","Unnamed: 3")
-    data2.columns = ['GeneralInfo', 'CommunityCountry', 'RefugeeCountry']
-    data2 = data2.transpose()
-    data2.columns = data2.iloc[0]
-    data2 = data2.drop(data2.index[0])
-    dfCommunityCountry = data2.drop(data2.index[1])
-    dfRefugeeCountry = data2.drop(data2.index[0])
+dfCommunityCountry = data2.drop(data2.index[1])
+dfRefugeeCountry = data2.drop(data2.index[0])
 
+mkCSV(dfCommunityCountry,"dfCommunityCountry.csv")
+mkCSV(dfRefugeeCountry,"dfRefugeeCountry.csv")
