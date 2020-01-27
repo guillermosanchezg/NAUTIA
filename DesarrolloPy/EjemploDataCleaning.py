@@ -5,8 +5,6 @@ mainpath = "C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/Des
 filename = "Shimelba_HostCommunity_Survey_results.csv"
 fullpath = os.path.join(mainpath, filename)
 
-data = pd.read_csv(fullpath)
-
 def dfFix(df,col1,col2):
     result = df
     x = result.columns.get_loc(col1)
@@ -28,7 +26,8 @@ def concatDF(df1,df2):
 
 def mkCSV(df,fileName):
     df.reset_index().to_csv('DataSetFinales/'+fileName,header = True, index=False)
-
+    
+data = pd.read_csv(fullpath)
     
 data.set_index("group_lj1dr54:refugee_community",inplace=True)
 
