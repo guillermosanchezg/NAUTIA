@@ -1,0 +1,4 @@
+"start","end","Type_of_setlement","Type_of_Host_Community","Sanitation_type","Type_of_Service","Public_Latrines:Sex_segregated","Public_Latrines:Lighting","Slab","Ventilated","Construction_Details:Durable_Structure","Construction_Details:Wall_and_Roof","Construction_Details:Door","meta:instanceID"
+"2019-10-18 18:07:02.326","2019-10-18 18:07:28.955","host_comunity","hostcommunityA","public",,"yes","yes","yes","yes","yes","yes","no","uuid:ebab3e04-13d9-4c9b-ad59-964bd4024e15"
+"2019-10-18 18:07:33.601","2019-10-18 18:07:52.641","host_comunity","hostcommunityB","communal_servi","educational_center",,,"no",,"no",,,"uuid:be84a384-d83f-452d-8faa-f1a25b6de929"
+"2019-10-18 18:07:58.147","2019-10-18 18:08:15.622","host_comunity","hostcommunityB","residential_ho",,,,"yes","yes","yes","yes","yes","uuid:fef77707-02ff-411c-8673-68fe10dec571"
