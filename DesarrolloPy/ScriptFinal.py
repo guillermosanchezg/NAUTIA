@@ -45,3 +45,8 @@ df1 = dfFix(GeneralData,"Mujeres menores de 5 años (%)","Hombres mayores de 60 
 df2 = dfFix(GeneralData,"Growth rate of populatoin (%)","Life expentancy at birth (years)")
 GD_Demography = concatDF(df1,df2) #Falta añadir clave foranea
 mkCSV(GD_Demography,"GD_Demography.csv")
+
+df1 = dfFix(GeneralData,"Ethnich group 1","Religion")
+GD_Ethnicgroup = df1 #Falta añadir clave foranea
+mkCSV(GD_Ethnicgroup,"GD_Ethnicgroup.csv")
+
