@@ -9,8 +9,8 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 -- -----------------------------------------------------
 DROP SCHEMA IF EXISTS `nautiatoolkit` ;
 
--- -----------------------------------------------------nautiatoolkit
--- Schema nautiatoolkit
+-- -----------------------------------------------------
+-- Schema nautiatoolkitnautiatoolkit
 -- -----------------------------------------------------
 CREATE SCHEMA IF NOT EXISTS `nautiatoolkit` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
 -- -----------------------------------------------------
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`Camp` (
   `StabilisationDate` DATE NULL,
   `MigrationRate` INT NULL,
   `EnviromentValeuArea` VARCHAR(45) NULL,
-  `DeforestedArea` VARCHAR(45) NULL,
+  `DeforestedArea` TINYINT(1) NULL,
   `Community_idCommunity` INT NOT NULL,
   PRIMARY KEY (`idCamp`),
   CONSTRAINT `fk_Camp_Community`

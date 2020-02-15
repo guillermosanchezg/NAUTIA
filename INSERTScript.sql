@@ -2,7 +2,7 @@ SET SQL_SAFE_UPDATES = 0;
 
 INSERT INTO `community` VALUES (1,"Shimelba"),(2,"Comunidad1");
 
-INSERT INTO `camp` VALUES (1,'1996-04-11',1000, "YES","12",1);
+INSERT INTO `camp` VALUES (1,'1996-04-11',1000, True,"12",1);
 
 INSERT INTO `country` (countryname) VALUES ("Etiopia"),("Eritrea"),("Argelia");
 INSERT INTO `Camp_has_Country` VALUES (1,1);
@@ -91,7 +91,6 @@ INSERT INTO `SE_WorkType_has_Community` (SE_WorkType_idSE_WorkType,Community_idC
                                                 (1,1,"Hombre", false),(1,1,"Hombre",true),(2,1,"Hombre",true),(2,1,"Mujer",false),(2,1,"Hombre",false),
                                                 (1,2,"Mujer", true),(1,2,"Mujer",true),(2,2,"Mujer",false),(2,2,"Mujer",true),
                                                 (1,2,"Hombre", false),(1,2,"Hombre",false),(2,2,"Hombre",true),(2,2,"Mujer",true),(2,2,"Hombre",false);
-
 
 
 -- -----------------------
