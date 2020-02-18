@@ -5,3 +5,5 @@ LINES TERMINATED BY '\n'
  (Name);
  
 SELECT * FROM community;
+
+SELECT * FROM camp;

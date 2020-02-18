@@ -10,7 +10,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 DROP SCHEMA IF EXISTS `nautiatoolkit` ;
 
 -- -----------------------------------------------------
--- Schema nautiatoolkitnautiatoolkit
+-- Schema nautiatoolkit
 -- -----------------------------------------------------
 CREATE SCHEMA IF NOT EXISTS `nautiatoolkit` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
 -- -----------------------------------------------------
@@ -39,8 +39,6 @@ CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`Camp` (
   `idCamp` INT NOT NULL AUTO_INCREMENT,
   `StabilisationDate` DATE NULL,
   `MigrationRate` INT NULL,
-  `EnviromentValeuArea` VARCHAR(45) NULL,
-  `DeforestedArea` TINYINT(1) NULL,
   `Community_idCommunity` INT NOT NULL,
   PRIMARY KEY (`idCamp`),
   CONSTRAINT `fk_Camp_Community`
@@ -3259,6 +3257,27 @@ ENGINE = InnoDB;
 CREATE INDEX `fk_S_Subject_has_S_EducationalCenter_S_EducationalCenter1_idx` ON `nautiatoolkit`.`S_Subject_has_S_EducationalCenter` (`S_EducationalCenter_idS_EducationalCenter` ASC);
 
 CREATE INDEX `fk_S_Subject_has_S_EducationalCenter_S_Subject1_idx` ON `nautiatoolkit`.`S_Subject_has_S_EducationalCenter` (`S_Subject_idS_Subject` ASC);
+
+
+-- -----------------------------------------------------
+-- Table `nautiatoolkit`.`Camp_Enviroment`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `nautiatoolkit`.`Camp_Enviroment` ;
+
+CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`Camp_Enviroment` (
+  `idCamp_Enviroment` INT NOT NULL,
+  `EnviromentValueArea` TINYINT(1) NULL,
+  `DeforestedArea` INT NULL,
+  `Camp_idCamp` INT NOT NULL,
+  PRIMARY KEY (`idCamp_Enviroment`, `Camp_idCamp`),
+  CONSTRAINT `fk_Camp_Enviroment_Camp1`
+    FOREIGN KEY (`Camp_idCamp`)
+    REFERENCES `nautiatoolkit`.`Camp` (`idCamp`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+CREATE INDEX `fk_Camp_Enviroment_Camp1_idx` ON `nautiatoolkit`.`Camp_Enviroment` (`Camp_idCamp` ASC);
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

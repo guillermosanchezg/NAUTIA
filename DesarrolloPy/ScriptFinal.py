@@ -24,9 +24,11 @@ def dfFix(df,col1 = False,col2 = False):
 def concatDF(df1,df2):
     return  pd.concat([df1,df2],axis = 1)
 
+def dropRow(df,index):
+    return df.drop(df.index[index])
+
 def mkCSV(df,fileName):
     df.to_csv('DataSetFinales/'+fileName,header = False, index=False) #Header e index a false para no mostrarlo en el csv
-  
     
 def getPath(mainpath,filename):
     return os.path.join(mainpath, filename)
@@ -54,11 +56,10 @@ mkCSV(community,"community.csv")
 
 df1 = dfFix(Bibliography,"Implementation date of the refugee camp (year)","Migration reasons")
 df2 = dfFix(Entities,"GENERAL_INFORMATION:Secondary_movement","GENERAL_INFORMATION:Relationship")
-df3 = dfFix(Entities,"Enviormental_Issues:High_enviormental_value","Enviormental_Issues:Native_Plant")
-df4 = dfFix(Entities,"Enviormental_Issues:Deforestation","Enviormental_Issues:High_enviormental_value")
-camp = concatDF(concatDF(df1,df2),concatDF(df3,df4))
-camp = camp.drop(camp.index[0])
-mkCSV(camp,"camp.csv")  
+camp = concatDF(df1,df2)
+camp = dropRow(camp,0)
+mkCSV(camp,"camp.csv") 
+
 #%%
 #Country
 
@@ -111,9 +112,9 @@ mkCSV(GD_Shelter,"GD_Shelter.csv")
 #COMMUN DATA
 
 Commun_Religion = dfFix(Bibliography,"Religion 1","Language")
-df1 = Commun_Religion.drop(Commun_Religion.index[1])
+df1 = dropRow(Commun_Religion,1)
 np_array1 = np.array(df1)
-df2 = Commun_Religion.drop(Commun_Religion.index[0])
+df2 = dropRow(Commun_Religion,0)
 np_array2 = np.array(df2)
 np_array3 = np.concatenate((np_array1,np_array2), axis = 1)
 Commun_Religion = pd.DataFrame(np_array3)
@@ -124,9 +125,9 @@ Commun_Religion = Commun_Religion.dropna()
 mkCSV(Commun_Religion,"Commun_Religion.csv")
 
 Commun_Language = dfFix(Bibliography,"Language 1","Economy and well-being")
-df1 = Commun_Language.drop(Commun_Language.index[1])
+df1 = dropRow(Commun_Language,1)
 np_array1 = np.array(df1)
-df2 = Commun_Language.drop(Commun_Language.index[0])
+df2 = dropRow(Commun_Language,0)
 np_array2 = np.array(df2)
 np_array3 = np.concatenate((np_array1,np_array2), axis = 1)
 Commun_Language = pd.DataFrame(np_array3)
@@ -136,12 +137,11 @@ Commun_Language = pd.DataFrame(Commun_Language)
 Commun_Language = Commun_Language.dropna()
 mkCSV(Commun_Language,"Commun_Language.csv")
 
-
 #%%
 #Specific DATA CAMP
 
 Camp_MovementReason = dfFix(Bibliography,"Reason 1","Climate")
-Camp_MovementReason = Camp_MovementReason.drop(Camp_MovementReason.index[0]).dropna(axis = 1)
+Camp_MovementReason = dropRow(Camp_MovementReason,0).dropna(axis = 1)
 Camp_MovementReason = Camp_MovementReason.transpose()
 mkCSV(Camp_MovementReason,"Camp_MovementReason.csv")
 
@@ -168,3 +168,20 @@ mkCSV(Camp_LocalVegetation,"Camp_LocalVegetation.csv") #1:Probar con datos 2:MOD
 Camp_LocalCrop = dfFix(Entities,"Enviormental_Issues:Native_Crops","Water_table")
 Camp_LocalCrop.transpose()
 mkCSV(Camp_LocalCrop,"Camp_LocalCrop.csv") #1:Probar con datos 2:MODIFICAR FOLMULARIO
+
+df3 = dfFix(Entities,"Enviormental_Issues:High_enviormental_value","Enviormental_Issues:Native_Plant")
+df4 = dfFix(Entities,"Enviormental_Issues:Deforestation","Enviormental_Issues:High_enviormental_value")
+Camp_Enviroment = concatDF(df3,df4) #NO DEFINITIVO, controlar tipos de datos (Bool)
+mkCSV(Camp_Enviroment,"Camp_Enviroment.csv")
+
+df1 = dfFix(Bibliography,"Tropical (Write one: Af, Aw or Am)","Temperature")
+df1 = dropRow(df1,0)
+df1 = df1.transpose()
+df1 = df1.dropna()
+df1 = df1.transpose()
+df2 = dfFix(Bibliography,"Max (ºC)","Annual precipitation")
+df2 = dropRow(df2,0)
+df3 = dfFix(Bibliography,"Max (mm)","Additional information")
+df3 = dropRow(df3,0)
+Camp_ClimaticRegion = concatDF(df1,concatDF(df2,df3))
+mkCSV(Camp_ClimaticRegion,"Camp_ClimaticRegion.csv")
