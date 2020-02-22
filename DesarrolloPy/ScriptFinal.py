@@ -44,6 +44,8 @@ def fixBibliography(df):
 Bibliography = pd.read_excel(getPath(mainpath,"Bibliography_120220.xlsx"))
 Bibliography = fixBibliography(Bibliography)
 Entities = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Entities_Interview_results.csv"))
+LocalLeaders = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Local_leaders_v3_results.csv"))
+HouseHold = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Survey_household_v6_results.csv"))
 
 #%%
 #Community
@@ -163,11 +165,11 @@ mkCSV(Camp_NaturalHazard_Has_Camp,"Camp_NaturalHazard_Has_Camp.csv") #1:Probar c
 
 Camp_LocalVegetation = dfFix(Entities,"Enviormental_Issues:Native_Plant","Enviormental_Issues:Native_Crops")
 Camp_LocalVegetation.transpose()
-mkCSV(Camp_LocalVegetation,"Camp_LocalVegetation.csv") #1:Probar con datos 2:MODIFICAR FOLMULARIO
+mkCSV(Camp_LocalVegetation,"Camp_LocalVegetation.csv") #1:Probar con datos 2:MODIFICAR FOLMULARIO o probar con librería de PLN
 
 Camp_LocalCrop = dfFix(Entities,"Enviormental_Issues:Native_Crops","Water_table")
 Camp_LocalCrop.transpose()
-mkCSV(Camp_LocalCrop,"Camp_LocalCrop.csv") #1:Probar con datos 2:MODIFICAR FOLMULARIO
+mkCSV(Camp_LocalCrop,"Camp_LocalCrop.csv") #1:Probar con datos 2:MODIFICAR FOLMULARIO o probar con librería de PLN
 
 df3 = dfFix(Entities,"Enviormental_Issues:High_enviormental_value","Enviormental_Issues:Native_Plant")
 df4 = dfFix(Entities,"Enviormental_Issues:Deforestation","Enviormental_Issues:High_enviormental_value")
@@ -185,3 +187,24 @@ df3 = dfFix(Bibliography,"Max (mm)","Additional information")
 df3 = dropRow(df3,0)
 Camp_ClimaticRegion = concatDF(df1,concatDF(df2,df3))
 mkCSV(Camp_ClimaticRegion,"Camp_ClimaticRegion.csv")
+
+Camp_EnergySource = ['diesel','Kerosene','Ethanol','gas','firewood','diesel genset','electricity','solar panel']
+Camp_EnergySource = pd.DataFrame(Camp_EnergySource)
+mkCSV(Camp_EnergySource,"Camp_EnergySource.csv")
+
+df1 = dfFix(Entities,"Fuel_Cost:Fuel_Cost_Diesel","ENERGY:Electricity_network")
+df2 = dfFix(LocalLeaders,"Costs:cost_firewood","meta:instanceID")
+Camp_EnergySource_Has_Camp = concatDF(df1,df2)
+mkCSV(Camp_EnergySource_Has_Camp,"Camp_EnergySource_Has_Camp.csv") #ESTA MAL. Comprobar con datos reales
+
+Camp_Mobility = dfFix(Entities,"GENERAL_INFORMATION:Movement_outside","Population:Women:Infants")
+mkCSV(Camp_Mobility,"Camp_Mobility.csv")
+
+Camp_Shelter = dfFix(Entities,"Shelter:Housing_Improvement","Shelter:Total_shelter")
+mkCSV(Camp_Shelter,"Camp_Shelter.csv")
+
+#%%SocioEconomic DATA
+#%%SE Demographyc And Culture
+#SE_population suma ESCALAR entre dos DF, necesito datos para probarlo
+
+
