@@ -46,6 +46,7 @@ Bibliography = fixBibliography(Bibliography)
 Entities = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Entities_Interview_results.csv"))
 LocalLeaders = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Local_leaders_v3_results.csv"))
 HouseHold = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Survey_household_v6_results.csv"))
+WomenGroup = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Women_Focus_Group2_results.csv"))
 
 #%%
 #Community
@@ -206,5 +207,34 @@ mkCSV(Camp_Shelter,"Camp_Shelter.csv")
 #%%SocioEconomic DATA
 #%%SE Demographyc And Culture
 #SE_population suma ESCALAR entre dos DF, necesito datos para probarlo
+
+SE_HouseHoldComposition = dfFix(HouseHold,"General:Old_women","Shelter:No_Rooms")
+array  = np.array(SE_HouseHoldComposition)
+array[np.isnan(array)] = 0
+array = array.astype(int)
+young = array[:,1]+array[:,3]
+array[:,1] = array[:,2]
+array[:,2] = young
+array[:,3] = array[:,4]
+array = np.delete(array,4,1)
+SE_HouseHoldComposition = pd.DataFrame(array)
+mkCSV(SE_HouseHoldComposition,"SE_HouseHoldComposition.csv")
+
+SE_PersonalHygiene = dfFix(Entities,"Sanitation:Personal_hygiene","Sanitation:Excreta")
+mkCSV(Entities,"Entities.csv")
+
+SE_CleaningMaterial = dfFix(Entities,"Sanitation:Excreta","Sanitation:Open_defecation")
+mkCSV(SE_CleaningMaterial,"SE_CleaningMaterial.csv")
+
+#%%Personal Safety
+
+SE_SafetyPlace = dfFix(WomenGroup,"Feel_Safe:Street_morning","Feel_Safe:Firewood_collection_001")
+columns = SE_SafetyPlace.columns
+array = []
+for column in columns:
+    column = column[10:]
+    array.append(column)
+SE_SafetyPlace = pd.DataFrame(array)
+mkCSV(SE_SafetyPlace,"SE_SafetyPlace.csv")
 
 
