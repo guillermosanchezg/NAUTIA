@@ -22,7 +22,7 @@ def dfFix(df,col1 = False,col2 = False):
     return result
  
 def concatDF(df1,df2):
-    return  pd.concat([df1,df2],axis = 1)
+    return  pd.concat([df1,df2],axis = 1, sort = True)
 
 def dropRow(df,index):
     return df.drop(df.index[index])
@@ -39,6 +39,15 @@ def fixBibliography(df):
     df.set_index('GeneralInfo', inplace = True)
     df = df.transpose()
     return df
+
+def getSubColumnNames(df,x):
+    columns = df.columns
+    array = []
+    for column in columns:
+        column = column[x:]
+        array.append(column)
+    return pd.DataFrame(array)
+
 #%%
 #CSV to DataFrame
 Bibliography = pd.read_excel(getPath(mainpath,"Bibliography_120220.xlsx"))
@@ -47,6 +56,8 @@ Entities = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Entities_Interview_results.c
 LocalLeaders = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Local_leaders_v3_results.csv"))
 HouseHold = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Survey_household_v6_results.csv"))
 WomenGroup = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Women_Focus_Group2_results.csv"))
+SanitationInfra = pd.read_csv(getPath(mainpath,"NAUTIA_V1_0_Sanitation_Infrastructre_results.csv"))
+Priorities = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Priorities_v3_results.csv"))
 
 #%%
 #Community
@@ -152,12 +163,7 @@ Camp_Integration = dfFix(Entities,"GENERAL_INFORMATION:Relationship","GENERAL_IN
 mkCSV(Camp_Integration,"Camp_Integration.csv")
 
 Camp_NaturalHazard = dfFix(Entities,"Enviormental_Issues:Risk:Risk_Flood","Enviormental_Issues:Deforestation")
-columns = Camp_NaturalHazard.columns
-array = []
-for column in columns:
-    column = column[30:]
-    array.append(column)
-Camp_NaturalHazard = pd.DataFrame(array)
+Camp_NaturalHazard = getSubColumnNames(Camp_NaturalHazard,30)
 mkCSV(Camp_NaturalHazard,"Camp_NaturalHazard.csv")
 
 Camp_NaturalHazard_Has_Camp = dfFix(Entities,"Enviormental_Issues:Risk:Risk_Flood","Enviormental_Issues:Deforestation")
@@ -229,12 +235,44 @@ mkCSV(SE_CleaningMaterial,"SE_CleaningMaterial.csv")
 #%%Personal Safety
 
 SE_SafetyPlace = dfFix(WomenGroup,"Feel_Safe:Street_morning","Feel_Safe:Firewood_collection_001")
-columns = SE_SafetyPlace.columns
-array = []
-for column in columns:
-    column = column[10:]
-    array.append(column)
-SE_SafetyPlace = pd.DataFrame(array)
-mkCSV(SE_SafetyPlace,"SE_SafetyPlace.csv")
+SE_SafetyPlace = getSubColumnNames(SE_SafetyPlace,10)
+mkCSV(SE_SafetyPlace,"SE_SafetyPlace.csv") 
+
+SE_SafetyPlace_has_Community = dfFix(WomenGroup,"Feel_Safe:Street_morning","Feel_Safe:Firewood_collection_001")
+mkCSV(SE_SafetyPlace_has_Community,"SE_SafetyPlace_has_Community.csv") 
+
+#SE_ConflictArea: Los datos entran como string de lugares, pero se quiere guardar coordenadas.
+
+df1 = dfFix(LocalLeaders,"Settlement_security:secur_committees","Food_security:cultivation_months")
+df1 = df1.isin(["yes"]) #Genera boolean DF. True si elem == "yes"
+df2 = dfFix(Entities,"Women_Patrol","Education_Issues")
+df2 = df2.isin(["Yes"]) #Genera boolean DF. True si elem == "Yes"
+SE_SafetyCommittee = concatDF(df1,df2)
+mkCSV(SE_SafetyCommittee,"SE_SafetyCommittee.csv") 
+
+SE_SafetyLatrines = dfFix(SanitationInfra, "Public_Latrines:Sex_segregated","Slab")
+SE_SafetyLatrines = SE_SafetyLatrines.isin(["yes"]) #Genera boolean DF. True si elem == "Yes"
+mkCSV(SE_SafetyLatrines,"SE_SafetyLatrines.csv") 
+
+
+#%%SE_Economy
+
+SE_Economy = dfFix(LocalLeaders, "Costs:cost_basic_basket","Costs:cost_firewood")
+mkCSV(SE_Economy,"SE_Economy.csv") 
+
+SE_IncomeTtype = dfFix(HouseHold, "Economy:Main_inco","Economy:Money")
+mkCSV(SE_IncomeTtype,"SE_IncomeTtype.csv") 
+
+df1 = dfFix(HouseHold, "General:Gender","General:Settlement")
+df2 = dfFix(HouseHold, "Economy:Money","Economy:Food")
+SE_IncomeTtype_has_Community = concatDF(df1,df2)
+mkCSV(SE_IncomeTtype_has_Community,"SE_IncomeTtype_has_Community.csv") 
+
+SE_ExpenseType = ['food','clothes','water','education','transport','health','energy']
+SE_ExpenseType = pd.DataFrame(SE_ExpenseType)
+mkCSV(SE_ExpenseType,"SE_ExpenseType.csv")
+
+
+
 
 
