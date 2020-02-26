@@ -266,11 +266,54 @@ mkCSV(SE_IncomeTtype,"SE_IncomeTtype.csv")
 df1 = dfFix(HouseHold, "General:Gender","General:Settlement")
 df2 = dfFix(HouseHold, "Economy:Money","Economy:Food")
 SE_IncomeTtype_has_Community = concatDF(df1,df2)
-mkCSV(SE_IncomeTtype_has_Community,"SE_IncomeTtype_has_Community.csv") 
+mkCSV(SE_IncomeTtype_has_Community,"SE_IncomeTtype_has_Community.csv") #mucho ojo con las PKs y FKs
 
 SE_ExpenseType = ['food','clothes','water','education','transport','health','energy']
 SE_ExpenseType = pd.DataFrame(SE_ExpenseType)
 mkCSV(SE_ExpenseType,"SE_ExpenseType.csv")
+
+df1 = dfFix(HouseHold, "General:Gender","General:Settlement")
+df2 = dfFix(HouseHold, "Economy:Food","meta:instanceID")
+array = np.array(df2)
+array2 = np.array(df1)
+
+income = []
+gender = []
+i = 0
+for row in array:
+    gen = array2[i]
+    for elem in row:
+        income = np.append(income,elem)
+        gender = np.append(gender,gen)
+    i+=1
+
+gender = pd.DataFrame(gender)
+gender = gender.reset_index(drop = True)
+income = pd.DataFrame(income)
+income = income.reset_index(drop = True)
+
+SE_ExpenseType_has_Community = concatDF(gender,income)
+mkCSV(SE_ExpenseType_has_Community,"SE_ExpenseType_has_Community.csv") 
+
+priorities = ['energy','shelter','water access','sanitation','education','health','public space','food','TIC','work','waste management','public transport','religious center','socio cultural center','market']
+priorities = pd.DataFrame(priorities)
+mkCSV(priorities,"SE_Priorities.csv")
+
+#df1 = dfFix(Priorities,"group_yf0yl72:Energy_1","Priority_2:Instruction")
+#df2 = dfFix(Priorities,"Priority_2:Energy_2","Priority_3:Instruction_001")
+#df2 = dfFix(Priorities,"Priority_3:Energy_3","Priority_4:Instruction_002")
+#[...]
+#mkCSV(SE_Priorities_has_Community,"SE_Priorities_has_Community.csv")  continuar cuando se tenga acceso a servidor ODK
+
+#%% GenderData
+
+#SE_GenderData = dfFix(Entities,"","")
+#mkCSV(priorities,"SE_Priorities_has_Community.csv") No existe dicho dato en los formularios
+
+#SE_WorkType no la encuentro en los formularios
+
+#%%GOVERNMENT_DATA
+#G_PublicPolitic no forma parte ETL
 
 
 
