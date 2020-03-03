@@ -48,6 +48,33 @@ def getSubColumnNames(df,x):
         array.append(column)
     return pd.DataFrame(array)
 
+def addInstitutionAndType(df,array1,array2,instType,index):
+    refugees = dropRow(df,index)
+    refugees = refugees.dropna(axis = 1)
+    refugees = np.array(refugees)
+    for row in refugees:
+        for elem in row:
+            array1 = np.append(array1,elem)
+            array2 = np.append(array2,instType)
+    return array1,array2
+
+def politicalActor(df1,df2,df3,df4,df5,index):
+    institution = []
+    instType = []
+
+    institution, instType  = addInstitutionAndType(df1,institution,instType,'Public Institution',index)
+    institution, instType  = addInstitutionAndType(df2,institution,instType,'Private Institution',index)
+    institution, instType  = addInstitutionAndType(df3,institution,instType,'NGO',index)
+    institution, instType  = addInstitutionAndType(df4,institution,instType,'International Agency',index)
+    institution, instType  = addInstitutionAndType(df5,institution,instType,'Local',index)
+
+    institution = pd.DataFrame(institution)
+    institution = institution.reset_index(drop = True)
+    instType = pd.DataFrame(instType)
+    instType = instType.reset_index(drop = True)
+    
+    return concatDF(institution,instType)
+
 #%%
 #CSV to DataFrame
 Bibliography = pd.read_excel(getPath(mainpath,"Bibliography_120220.xlsx"))
@@ -58,6 +85,10 @@ HouseHold = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Survey_household_v6_results
 WomenGroup = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Women_Focus_Group2_results.csv"))
 SanitationInfra = pd.read_csv(getPath(mainpath,"NAUTIA_V1_0_Sanitation_Infrastructre_results.csv"))
 Priorities = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Priorities_v3_results.csv"))
+GeneralForm = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_General_form_v3_results.csv"))
+PublicSpace = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Public_Space_results.csv"))
+WaterInf = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Water_Infrastructure_results.csv"))
+
 
 #%%
 #Community
@@ -227,7 +258,7 @@ SE_HouseHoldComposition = pd.DataFrame(array)
 mkCSV(SE_HouseHoldComposition,"SE_HouseHoldComposition.csv")
 
 SE_PersonalHygiene = dfFix(Entities,"Sanitation:Personal_hygiene","Sanitation:Excreta")
-mkCSV(Entities,"Entities.csv")
+mkCSV(SE_PersonalHygiene,"SE_PersonalHygiene.csv")
 
 SE_CleaningMaterial = dfFix(Entities,"Sanitation:Excreta","Sanitation:Open_defecation")
 mkCSV(SE_CleaningMaterial,"SE_CleaningMaterial.csv")
@@ -315,7 +346,99 @@ mkCSV(priorities,"SE_Priorities.csv")
 #%%GOVERNMENT_DATA
 #G_PublicPolitic no forma parte ETL
 
+dfPublic = dfFix(Bibliography,"Public institutions","Private institutions")
+dfPrivate = dfFix(Bibliography,"Private institutions","Non-profit organizations/NGOs")
+dfNonProfit = dfFix(Bibliography,"Non-profit organizations/NGOs","International cooperation agencies")
+dfInternational = dfFix(Bibliography,"International cooperation agencies","Local representatives/local committees/ local liders")
+dfLocal = dfFix(Bibliography,"Local representatives/local committees/ local liders")
+
+G_PoliticalActor1 = politicalActor(dfPublic,dfPrivate,dfNonProfit,dfInternational,dfLocal,0)
+mkCSV(G_PoliticalActor1,"G_PoliticalActor1.csv")
+G_PoliticalActor2 = politicalActor(dfPublic,dfPrivate,dfNonProfit,dfInternational,dfLocal,1)
+mkCSV(G_PoliticalActor2,"G_PoliticalActor2.csv")
+
+#%%FISICO AMBIENTALES DATA
+
+df1 = dfFix(Bibliography,"Latitude","Topography")
+df2 = dfFix(Entities,"Water_table","Sanitation:Personal_hygiene")
+FA_geographicIdentification = concatDF(df1,df2)
+mkCSV(FA_geographicIdentification,"FA_geographicIdentification.csv")
+
+FA_Topography = dfFix(Bibliography,"Upper bound (m)","FOOD SECURITY")
+mkCSV(FA_Topography,"FA_Topography.csv")
+
+FA_NaturalResource = dfFix(Bibliography,"r.1","ACTORS (PARTNERS) IDENTIFICATION")
+FA_NaturalResource = dropRow(FA_NaturalResource,0)
+FA_NaturalResource = FA_NaturalResource.dropna(axis = 1)
+FA_NaturalResource = np.array(FA_NaturalResource)
+bound = []
+resource = []
+for row in FA_NaturalResource:
+    for elem in row:
+        bound = np.append(bound,elem)
+        resource = np.append(resource,'river')
+        
+bound = pd.DataFrame(bound)
+bound = bound.reset_index(drop = True)
+resource = pd.DataFrame(resource)
+resource = resource.reset_index(drop = True)
+
+FA_NaturalResource = concatDF(bound,resource)
+mkCSV(FA_NaturalResource,"FA_NaturalResource.csv")
+
+#%% URBANISM DATA
+
+df1 = dfFix(Entities,"Urban_Planning_001:Urban_Planning","Urban_Planning_001:Growth_area")
+df2 = dfFix(GeneralForm,"Urban_information:Boundary_limits","Urban_information:Drain_system") 
+df3 = dfFix(Entities,"Urban_Planning_001:Land_Managment","Urban_Planning_001:Risk_Managment")
+df4 = dfFix(Entities,"Urban_Planning_001:Growth_area","Urban_Planning_001:Land_Managment")
+df5 = dfFix(Entities,"Urban_Planning_001:Risk_Managment","Shelter:Housing_Improvement")
+U_Urbanism = concatDF(df1,concatDF(df2,concatDF(df3,concatDF(df4,df5))))
+
+#U_Area No está claro el origen de datos
+
+#U_LandUse no sé de donde se coge la información del Plano
+
+U_Road = dfFix(GeneralForm,"Urban_information:Drain_system","Energy:electrical_grid") 
+mkCSV(U_Road,"U_Road.csv") #Falta la información que sale de Plano
+
+df1 = dfFix(PublicSpace,"Record_your_current_location:Latitude","Record_your_current_location:Accuracy") 
+df2 = dfFix(PublicSpace,"Details:Shade_Areas","meta:instanceID") 
+df2 = df2.isin(["yes"]) #Genera boolean DF. True si elem == "yes"
+U_RecreationalArea = concatDF(df1,df2)
+mkCSV(U_RecreationalArea,"U_RecreationalArea.csv")
+
+#U_PublicSpace no sñe de donde se coge la información del plano
+
+#%%INFRASTRUCTURE DATA
+
+#%%Water
+
+df1 = dfFix(Entities,"Water:Quality","Water:Treatment")
+df2 = dfFix(Entities,"Water:Comsuption","Water:Time")
+INF_WaterInfrastructure = concatDF(df1,df2)
+mkCSV(INF_WaterInfrastructure,"INF_WaterInfrastructure.csv")    
+
+INF_TimeSpent = dfFix(HouseHold,"Water:Water_col","health_001:Healthcare")
+mkCSV(INF_TimeSpent,"INF_TimeSpent.csv")
 
 
+INF_PotabilitationSystem = dfFix(Entities,"Water:Treatment","Water:Comsuption")
+mkCSV(INF_PotabilitationSystem,"INF_PotabilitationSystem.csv") #PROBLEMA PLN
 
+df1 = dfFix(WaterInf,"Record_your_current_location:Latitude","Record_your_current_location:Accuracy")
+df2 = dfFix(WaterInf,"Availability","meta:instanceID")
+df2 = df2.isin(["yes"]) #Genera boolean DF. True si elem == "yes"
+INF_WaterPoint = concatDF(df1,df2)
+mkCSV(INF_WaterPoint,"INF_WaterPoint.csv")
+
+#INF_IrrigationSystem No se encuentra el origen de datos.
+
+#%%Sanitation
+
+df1 = dfFix(Entities,"Sanitation:Open_defecation","Sanitation:Type_of_Latrine")
+df1 = df1.isin(["yes"]) #Genera boolean DF. True si elem == "yes"
+df2 = dfFix(Entities,"Sanitation:Type_of_Latrine","Sanitation:Individual_Latrines")
+INF_SanitationAccess = concatDF(df1,df2)
+mkCSV(INF_SanitationAccess,"INF_SanitationAccess.csv")
 
