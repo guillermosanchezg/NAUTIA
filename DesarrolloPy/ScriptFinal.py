@@ -88,7 +88,8 @@ Priorities = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Priorities_v3_results.csv"
 GeneralForm = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_General_form_v3_results.csv"))
 PublicSpace = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Public_Space_results.csv"))
 WaterInf = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Water_Infrastructure_results.csv"))
-
+SanitationInf = pd.read_csv(getPath(mainpath,"NAUTIA_V1_0_Sanitation_Infrastructre_results.csv"))
+WasteManagementInf = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Waste_Management_Infrastructure_results.csv"))
 
 #%%
 #Community
@@ -441,4 +442,39 @@ df1 = df1.isin(["yes"]) #Genera boolean DF. True si elem == "yes"
 df2 = dfFix(Entities,"Sanitation:Type_of_Latrine","Sanitation:Individual_Latrines")
 INF_SanitationAccess = concatDF(df1,df2)
 mkCSV(INF_SanitationAccess,"INF_SanitationAccess.csv")
+
+INF_SanitationSystmeQuality = dfFix(SanitationInf,"Slab","meta:instanceID")
+INF_SanitationSystmeQuality = INF_SanitationSystmeQuality.isin(["yes"]) #Genera boolean DF. True si elem == "yes"
+mkCSV(INF_SanitationSystmeQuality,"INF_SanitationSystmeQuality.csv")
+
+#%%WasteManagement
+
+INF_WasteManagementInf = dfFix(Entities,"Waste_Managment:Waste_Collection","Waste_Managment:Landfill_Details:Location_1")
+mkCSV(INF_WasteManagementInf,"INF_WasteManagementInf.csv")
+
+INF_landFill = dfFix(Entities,"Waste_Managment:Landfill_Details:Location_1","Water:Quality")
+mkCSV(INF_landFill,"INF_landFill.csv")
+
+INF_CollectionPoints = dfFix(WasteManagementInf,"Record_your_current_location:Latitude","Record_your_current_location:Accuracy")
+mkCSV(INF_CollectionPoints,"INF_CollectionPoints.csv")
+
+
+#%%Energy
+
+df1 = dfFix(GeneralForm,"Energy:electrical_grid","Energy:power_point")
+df1 = df1.isin(["yes"]) #Genera boolean DF. True si elem == "yes"
+df2 = dfFix(Entities,"ENERGY:Electricity_network","ENERGY:Covered_services")
+df2 = df2.isin(["yes"]) #Genera boolean DF. True si elem == "yes"
+df3 = dfFix(Entities,"ENERGY:Power_failure","ENERGY:Street_Light")
+df4 = dfFix(Entities,"ENERGY:Street_Light","Urban_Planning_001:Urban_Planning")
+df4 = df4.isin(["yes"]) #Genera boolean DF. True si elem == "yes"
+df5 = dfFix(GeneralForm,"Energy:Distance_ST","Transport:Kind_transport_inside")
+INF_EnergyInfrastructure = concatDF(df1,(concatDF(df2,concatDF(df3,concatDF(df4,df5)))))
+mkCSV(INF_EnergyInfrastructure,"INF_EnergyInfrastructure")
+
+INF_ExpandPlandBeneficiaries = dfFix(Entities,"ENERGY:Covered_services","ENERGY:Power_failure") #Posible problema PLN
+mkCSV(INF_ExpandPlandBeneficiaries,"INF_ExpandPlandBeneficiaries.csv") 
+
+
+
 
