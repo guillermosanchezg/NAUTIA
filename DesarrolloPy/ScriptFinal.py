@@ -2,7 +2,7 @@
 """
 Created on Mon Feb 10 17:34:18 2020
 
-@author: guill
+@author: Guillermo Sánchez Gutiérrez-Cabello
 """
 #%%
 import numpy as np
@@ -90,6 +90,8 @@ PublicSpace = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Public_Space_results.csv"
 WaterInf = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Water_Infrastructure_results.csv"))
 SanitationInf = pd.read_csv(getPath(mainpath,"NAUTIA_V1_0_Sanitation_Infrastructre_results.csv"))
 WasteManagementInf = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Waste_Management_Infrastructure_results.csv"))
+EnergyINF = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Energy_Infrastructure_results.csv"))
+Business = pd.read_csv(getPath(mainpath,"NAUTIA1_0_Business_surveys_v3_results.csv"))
 
 #%%
 #Community
@@ -475,6 +477,9 @@ mkCSV(INF_EnergyInfrastructure,"INF_EnergyInfrastructure")
 INF_ExpandPlandBeneficiaries = dfFix(Entities,"ENERGY:Covered_services","ENERGY:Power_failure") #Posible problema PLN
 mkCSV(INF_ExpandPlandBeneficiaries,"INF_ExpandPlandBeneficiaries.csv") 
 
+INF_GenerationSource = ['electrical grid','diesel genset','solar panel','other']
+INF_GenerationSource = pd.DataFrame(INF_GenerationSource)
+mkCSV(INF_GenerationSource,"INF_GenerationSource.csv")
 
 
 
