@@ -481,5 +481,17 @@ INF_GenerationSource = ['electrical grid','diesel genset','solar panel','other']
 INF_GenerationSource = pd.DataFrame(INF_GenerationSource)
 mkCSV(INF_GenerationSource,"INF_GenerationSource.csv")
 
+#INF_GenerationSource_has_Community # No se puede guardar la informacion de los requisitos porque no se pregunta la info completa, solo a negocios
 
+df1 = dfFix(EnergyINF,"Ofert:Type_of_water_supply","Ofert:Picture")
+df2 = dfFix(EnergyINF,"Ofert:Power_of_generation","Ofert:Power_of_generation_001")
+INF_GenerationSystem = concatDF(df1,df2)
+mkCSV(INF_GenerationSystem,"INF_GenerationSystem.csv")
 
+#INF_Appliance #problema PNL
+
+df1 = dfFix(GeneralForm,"Energy:Stove","Energy:Firewood_weight")
+df2 = dfFix(GeneralForm,"Energy:fuel_cooking","Energy:technology_street_lighting")
+df3 = dfFix(GeneralForm, "Energy:Firewood_weight","Energy:fuel_cooking")
+INF_Kitchen = concatDF(df1,concatDF(df2,df3))
+mkCSV(INF_Kitchen,"INF_Kitchen.csv")
