@@ -495,3 +495,8 @@ df2 = dfFix(GeneralForm,"Energy:fuel_cooking","Energy:technology_street_lighting
 df3 = dfFix(GeneralForm, "Energy:Firewood_weight","Energy:fuel_cooking")
 INF_Kitchen = concatDF(df1,concatDF(df2,df3))
 mkCSV(INF_Kitchen,"INF_Kitchen.csv")
+
+INF_CookWomen = dfFix(WomenGroup,"Cooking_Details:Cooking_Inside","Street_light")
+mkCSV(INF_CookWomen,"INF_CookWomen.csv")
+
+
