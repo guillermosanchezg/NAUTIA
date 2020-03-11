@@ -499,4 +499,12 @@ mkCSV(INF_Kitchen,"INF_Kitchen.csv")
 INF_CookWomen = dfFix(WomenGroup,"Cooking_Details:Cooking_Inside","Street_light")
 mkCSV(INF_CookWomen,"INF_CookWomen.csv")
 
+df1 = dfFix(Entities,"ENERGY:Street_Light","Urban_Planning_001:Urban_Planning")
+df1 = df1.isin(["yes"])
+df2 = dfFix(GeneralForm,"Energy:Distance_ST","Transport:Kind_transport_inside")
+df3 = dfFix(WomenGroup,"Feel_Safe:Street_Night","Feel_Safe:Bath_Area")
+INF_PublicLighting = concatDF(df1,(concatDF(df2,df3)))
+mkCSV(INF_PublicLighting,"INF_PublicLighting.csv")
 
+INF_LightingTech = dfFix(GeneralForm,"Energy:technology_street_lighting","Energy:Distance_ST")
+mkCSV(INF_LightingTech,"INF_LightingTech.csv")
