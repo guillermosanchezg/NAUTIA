@@ -25,7 +25,7 @@ def concatDF(df1,df2):
     return  pd.concat([df1,df2],axis = 1, sort = True)
 
 def dropRow(df,index):
-    return df.drop(df.index[index])
+    return df.drop(df.index[index]) #revisar funcion con ejemplo de S_EducationalCenter y sus problemas en cascada
 
 def mkCSV(df,fileName):
     df.to_csv('DataSetFinales/'+fileName,header = False, index=False) #Header e index a false para no mostrarlo en el csv
@@ -93,6 +93,7 @@ WasteManagementInf = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Waste_Management_I
 EnergyINF = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Energy_Infrastructure_results.csv"))
 Business = pd.read_csv(getPath(mainpath,"NAUTIA1_0_Business_surveys_v3_results.csv"))
 MobilityINF = pd.read_csv(getPath(mainpath,"NAUTIA_1_0__Transport_servicesaccess_points_results.csv")) 
+ComunalServices = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Communal_Services_results.csv")) 
 #%%
 #Community
 
@@ -509,13 +510,10 @@ mkCSV(INF_PublicLighting,"INF_PublicLighting.csv")
 INF_LightingTech = dfFix(GeneralForm,"Energy:technology_street_lighting","Energy:Distance_ST")
 mkCSV(INF_LightingTech,"INF_LightingTech.csv")
 
-INF_WomensSafety = dfFix(WomenGroup,"Feel_Safe:Street_Night","Feel_Safe:Bath_Area")
-mkCSV(INF_WomensSafety,"INF_WomensSafety.csv")
 
 df1 = dfFix(EnergyINF,"Item","Sector")
 df1 = df1.isin(["street light"])
 streetLamp = dfFix(EnergyINF,"Record_your_current_location:Latitude","Record_your_current_location:Accuracy")
-dropRow(streetLamp,0)
 array1 = np.array(df1)
 
 i = 0
@@ -536,6 +534,78 @@ mkCSV(INF_MobilityPoint,"INF_MobilityPoint.csv")
 INF_MobilityWay = ['walking','motrocycle','bike','truck','animal','car']
 INF_MobilityWay = pd.DataFrame(INF_MobilityWay)
 mkCSV(INF_MobilityWay,"INF_MobilityWay.csv")
+
+#INF_MobilityWay_has_Community #Pensar durante proceso FK
+
+#%% SERVICIOS DATA
+
+df1 = dfFix(ComunalServices,"General_Information:Type_of_service","General_Information:Other_service")
+df1 = df1.isin(["educational_center"])
+df2 = dfFix(ComunalServices,"General_Information:Record_your_current_location:Latitude","General_Information:Record_your_current_location:Accuracy")
+df3 = dfFix(ComunalServices,"Education_level","education_details:Subjects")
+df4 = dfFix(ComunalServices,"education_details:Start_001","Health_Center")
+S_EducationalCenter = concatDF(df2,(concatDF(df3,df4)))
+array1 = np.array(df1)
+
+i = 0
+for row in array1:
+    for elem in row:
+        if(elem == False):
+            S_EducationalCenter = S_EducationalCenter.drop(index = i)
+    i += 1
+
+mkCSV(S_EducationalCenter,"S_EducationalCenter.csv")
+
+#S_Subject #Problema PLN
+
+#S_Subject_has_S_EducationalCenter
+
+df1 = dfFix(ComunalServices,"Health_Center","Health_Center_details:Capacity")
+df1 = df1.isin(["primary_care"])
+S_PrimaryAttention = dfFix(ComunalServices,"General_Information:Record_your_current_location:Latitude","General_Information:Record_your_current_location:Accuracy")
+array1 = np.array(df1)
+
+i = 0
+for row in array1:
+    for elem in row:
+        if(elem == False):
+            S_PrimaryAttention = S_PrimaryAttention.drop(index = i)
+    i += 1
+
+mkCSV(S_PrimaryAttention,"S_PrimaryAttention.csv")
+
+df1 = dfFix(ComunalServices,"Health_Center","Health_Center_details:Capacity")
+df1 = df1.isin(["hospital"])                                                  #probar con datos
+df2 = dfFix(ComunalServices,"General_Information:Record_your_current_location:Latitude","General_Information:Record_your_current_location:Accuracy")
+df3 = dfFix(ComunalServices,"Health_Center_details:Capacity","Associate_infrastructure:Sanitation")
+S_Hospital = concatDF(df2,df3)
+array1 = np.array(df1)
+
+i = 0
+for row in array1:
+    for elem in row:
+        if(elem == False):
+            S_Hospital = S_Hospital.drop(index = i)
+    i += 1
+
+mkCSV(S_Hospital,"S_Hospital.csv")
+
+df1 = dfFix(ComunalServices,"General_Information:Type_of_service","General_Information:Other_service") #probar con datos
+df1 = df1.isin(["cementary"])                                                  #probar con datos
+df2 = dfFix(ComunalServices,"General_Information:Record_your_current_location:Latitude","General_Information:Record_your_current_location:Accuracy")
+df3 = dfFix(ComunalServices,"Cementary_Details:Drainage","Education_level")
+S_Cemenatary = concatDF(df2,df3)
+array1 = np.array(df1)
+
+i = 0
+for row in array1:
+    for elem in row:
+        if(elem == False):
+            S_Cemenatary = S_Cemenatary.drop(index = i)
+    i += 1
+
+mkCSV(S_Cemenatary,"S_Cemenatary.csv")
+
 
 
 
