@@ -92,7 +92,7 @@ SanitationInf = pd.read_csv(getPath(mainpath,"NAUTIA_V1_0_Sanitation_Infrastruct
 WasteManagementInf = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Waste_Management_Infrastructure_results.csv"))
 EnergyINF = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Energy_Infrastructure_results.csv"))
 Business = pd.read_csv(getPath(mainpath,"NAUTIA1_0_Business_surveys_v3_results.csv"))
-
+MobilityINF = pd.read_csv(getPath(mainpath,"NAUTIA_1_0__Transport_servicesaccess_points_results.csv")) 
 #%%
 #Community
 
@@ -508,3 +508,35 @@ mkCSV(INF_PublicLighting,"INF_PublicLighting.csv")
 
 INF_LightingTech = dfFix(GeneralForm,"Energy:technology_street_lighting","Energy:Distance_ST")
 mkCSV(INF_LightingTech,"INF_LightingTech.csv")
+
+INF_WomensSafety = dfFix(WomenGroup,"Feel_Safe:Street_Night","Feel_Safe:Bath_Area")
+mkCSV(INF_WomensSafety,"INF_WomensSafety.csv")
+
+df1 = dfFix(EnergyINF,"Item","Sector")
+df1 = df1.isin(["street light"])
+streetLamp = dfFix(EnergyINF,"Record_your_current_location:Latitude","Record_your_current_location:Accuracy")
+dropRow(streetLamp,0)
+array1 = np.array(df1)
+
+i = 0
+for row in array1:
+    for elem in row:
+        if(elem == False):
+            streetLamp = dropRow(streetLamp,i)
+    i += 1
+
+mkCSV(streetLamp,"streetLamp.csv") #Necesario probar con datos
+
+#%%Mobility Infrastructure
+#INF_MobilityInfrasctucture = dfFix(Entities,"","") #no se encuentra el dato en origen
+
+INF_MobilityPoint = dfFix(MobilityINF,"Record_your_current_location:Latitude","Record_your_current_location:Accuracy")
+mkCSV(INF_MobilityPoint,"INF_MobilityPoint.csv")
+
+INF_MobilityWay = ['walking','motrocycle','bike','truck','animal','car']
+INF_MobilityWay = pd.DataFrame(INF_MobilityWay)
+mkCSV(INF_MobilityWay,"INF_MobilityWay.csv")
+
+
+
+
