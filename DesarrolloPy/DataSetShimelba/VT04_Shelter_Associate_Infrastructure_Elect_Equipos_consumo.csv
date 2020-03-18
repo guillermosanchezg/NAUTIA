@@ -1,0 +1,11 @@
+Equipment_picture,Equipment_Name,Power_003,Time_comsumption,PARENT_KEY,KEY,SET-OF-Equipos_consumo
+media\1540552978669.jpg,"","","",uuid:a73a952a-4051-40cd-ba26-c49c7073161d,uuid:a73a952a-4051-40cd-ba26-c49c7073161d/Equipos_consumo[1],uuid:a73a952a-4051-40cd-ba26-c49c7073161d/Equipos_consumo
+"",Lastop,"","",uuid:8dcffa27-e9e0-4898-972b-2d4a5c2d4db6,uuid:8dcffa27-e9e0-4898-972b-2d4a5c2d4db6/Equipos_consumo[1],uuid:8dcffa27-e9e0-4898-972b-2d4a5c2d4db6/Equipos_consumo
+"","","","",uuid:d941e0b6-6b18-4f92-b4dd-0db1967a4791,uuid:d941e0b6-6b18-4f92-b4dd-0db1967a4791/Equipos_consumo[1],uuid:d941e0b6-6b18-4f92-b4dd-0db1967a4791/Equipos_consumo
+"","","","",uuid:d941e0b6-6b18-4f92-b4dd-0db1967a4791,uuid:d941e0b6-6b18-4f92-b4dd-0db1967a4791/Equipos_consumo[2],uuid:d941e0b6-6b18-4f92-b4dd-0db1967a4791/Equipos_consumo
+media\1540550576654.jpg,D light,"","",uuid:c3ca0851-55ae-487e-90d6-158c526f003a,uuid:c3ca0851-55ae-487e-90d6-158c526f003a/Equipos_consumo[1],uuid:c3ca0851-55ae-487e-90d6-158c526f003a/Equipos_consumo
+media\1540299868505.jpg,CD player,8786 w,10_00_12_00 16_00_18_00,uuid:599b13e0-60dd-4966-8ee0-5454cab664ec,uuid:599b13e0-60dd-4966-8ee0-5454cab664ec/Equipos_consumo[1],uuid:599b13e0-60dd-4966-8ee0-5454cab664ec/Equipos_consumo
+"",Smartphone,"","",uuid:841705b0-3ed2-4849-8ffe-54a7db1a4408,uuid:841705b0-3ed2-4849-8ffe-54a7db1a4408/Equipos_consumo[1],uuid:841705b0-3ed2-4849-8ffe-54a7db1a4408/Equipos_consumo
+"",Foco,"","",uuid:841705b0-3ed2-4849-8ffe-54a7db1a4408,uuid:841705b0-3ed2-4849-8ffe-54a7db1a4408/Equipos_consumo[2],uuid:841705b0-3ed2-4849-8ffe-54a7db1a4408/Equipos_consumo
+"",Torch,"","",uuid:43dd2a90-7a9b-443c-834d-ec14cef0854f,uuid:43dd2a90-7a9b-443c-834d-ec14cef0854f/Equipos_consumo[1],uuid:43dd2a90-7a9b-443c-834d-ec14cef0854f/Equipos_consumo
+media\1540556106288.jpg,"","",00_00_6_00,uuid:03d7650d-78eb-4e69-855c-ccf441459d4a,uuid:03d7650d-78eb-4e69-855c-ccf441459d4a/Equipos_consumo[1],uuid:03d7650d-78eb-4e69-855c-ccf441459d4a/Equipos_consumo
