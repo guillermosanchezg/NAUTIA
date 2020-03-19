@@ -94,6 +94,7 @@ EnergyINF = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Energy_Infrastructure_resul
 Business = pd.read_csv(getPath(mainpath,"NAUTIA1_0_Business_surveys_v3_results.csv"))
 MobilityINF = pd.read_csv(getPath(mainpath,"NAUTIA_1_0__Transport_servicesaccess_points_results.csv")) 
 ComunalServices = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Communal_Services_results.csv")) 
+GeneralCitizen = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_General_Citizen_Focus_Group_results.csv"))
 #%%
 #Community
 
@@ -538,6 +539,7 @@ mkCSV(INF_MobilityWay,"INF_MobilityWay.csv")
 #INF_MobilityWay_has_Community #Pensar durante proceso FK
 
 #%% SERVICIOS DATA
+#%%Ceneter
 
 df1 = dfFix(ComunalServices,"General_Information:Type_of_service","General_Information:Other_service")
 df1 = df1.isin(["educational_center"])
@@ -606,7 +608,49 @@ for row in array1:
 
 mkCSV(S_Cemenatary,"S_Cemenatary.csv")
 
+df1 = dfFix(ComunalServices,"General_Information:Other_service","General_Information:Name") 
+df1 = df1.isnull()
+df2 = dfFix(ComunalServices,"General_Information:Record_your_current_location:Latitude","General_Information:Record_your_current_location:Accuracy")
+df3 = dfFix(ComunalServices,"General_Information:Other_service","General_Information:Sharing_Services")
+S_OtherCenter = concatDF(df2,df3)
 
+array1 = np.array(df1)
 
+i = 0
+for row in array1:
+    for elem in row:
+        if(elem == True):
+            S_OtherCenter = S_OtherCenter.drop(index = i)
+    i += 1
 
+mkCSV(S_OtherCenter,"S_Cemenatary.csv")
 
+S_BuildingQuality = dfFix(ComunalServices,"Construction_Details:Appropiate_Roof","meta:instanceID") 
+S_BuildingQuality = S_BuildingQuality.isin(["yes"])
+mkCSV(S_BuildingQuality,"S_BuildingQuality.csv")
+
+#%%Service
+#S_HealthCenterService #información de plano
+
+#S_MedicineAcces #No se encuentra el origen del dato
+
+#S_dataAcces #Posible problema PLN pero no hay datos para comprobar
+
+S_RepeaterAntena = dfFix(Entities,"Antenna","meta:instanceID")
+mkCSV(S_RepeaterAntena,"S_RepeaterAntena.csv")
+
+#S_NoEducationCause #Posible problema PLN pero no hay datos para comprobar
+
+#%%KnowEledge
+
+S_Tecknowlege = ["Phone Call","Internet","PC","Programming"]
+S_Tecknowlege = pd.DataFrame(S_Tecknowlege)
+mkCSV(S_Tecknowlege,"S_Tecknowlege.csv")
+
+S_Tecknowlege_has_Community = dfFix(GeneralCitizen,"TICs_Knowledge:Phone_Call","App_USED")
+S_Tecknowlege_has_Community = S_Tecknowlege_has_Community.transpose()
+mkCSV(S_Tecknowlege_has_Community,"S_Tecknowlege_has_Community.csv")
+
+S_App = ["WhatsApp","Facebook","Skype","Instagram","Google","Youtube","Email","Word","Excel","Otra"]
+S_App = pd.DataFrame(S_App)
+mkCSV(S_App,"S_App.csv")
