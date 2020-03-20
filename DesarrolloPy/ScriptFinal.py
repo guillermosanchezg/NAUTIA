@@ -95,6 +95,7 @@ Business = pd.read_csv(getPath(mainpath,"NAUTIA1_0_Business_surveys_v3_results.c
 MobilityINF = pd.read_csv(getPath(mainpath,"NAUTIA_1_0__Transport_servicesaccess_points_results.csv")) 
 ComunalServices = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Communal_Services_results.csv")) 
 GeneralCitizen = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_General_Citizen_Focus_Group_results.csv"))
+Shelter = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Shelter_results.csv"))
 #%%
 #Community
 
@@ -654,3 +655,26 @@ mkCSV(S_Tecknowlege_has_Community,"S_Tecknowlege_has_Community.csv")
 S_App = ["WhatsApp","Facebook","Skype","Instagram","Google","Youtube","Email","Word","Excel","Otra"]
 S_App = pd.DataFrame(S_App)
 mkCSV(S_App,"S_App.csv")
+
+#S_App_has_Community #problema PLN
+
+#%% SHELTER DATA 
+
+#SH_Shelter = dfFix(Entities,"Shelter:Total_shelter","Shelter:Vulnerable_Area:Vunerable_Area")
+#Problena PLN en última columna, Caso independiente
+
+df1 = dfFix(Shelter,"Location:Latitude","Location:Accuracy")
+df2 = dfFix(Shelter,"Construc_tion_Details:Appropiate_Roof","Construc_tion_Details:Picture_Outside")
+df2 = df2.isin(["yes"])
+SH_Building = concatDF(df1,df2)
+mkCSV(SH_Building,"SH_Building.csv")
+
+
+SH_House = dfFix(HouseHold,"Shelter:No_Rooms","Energy:Access_Y_N_001")
+mkCSV(SH_House,"SH_House.csv")
+
+#%%FOOD SECURITY DATA
+#%%FOOD
+
+
+
