@@ -676,5 +676,87 @@ mkCSV(SH_House,"SH_House.csv")
 #%%FOOD SECURITY DATA
 #%%FOOD
 
+FS_Cause = dfFix(Bibliography,"Cause 1","Affected groups due to food insecurity")
+FS_Cause = FS_Cause.transpose()
+FS_Cause = FS_Cause.dropna(axis = 1)
+mkCSV(FS_Cause,"FS_Cause.csv") #Incompleto falta separar por comunidadades
 
+df1 = dfFix(Bibliography,"Children","Calories of the typical dish")
+df1 = df1.isin(["yes"])
+df2 = dfFix(Bibliography,"Intake (g) - default value 70g-","GENERAL INFORMATION OF REFUGEES SETTLEMENT")
+FS_FoodSafety = concatDF(df1,df2)
+mkCSV(FS_FoodSafety,"FS_FoodSafety.csv") #Incompleto falta separar por comunidadades
+
+FS_FoodAccess = ["meat","grain","vegetable","fruit"]
+FS_FoodAccess = pd.DataFrame(FS_FoodAccess)
+mkCSV(FS_FoodAccess,"FS_FoodAccess.csv")
+
+FS_FoodAccess_has_Community = dfFix(GeneralCitizen,"Type_Food:Meat","times:One_time")
+FS_FoodAccess_has_Community = FS_FoodAccess_has_Community.transpose()
+mkCSV(FS_FoodAccess_has_Community,"FS_FoodAccess_has_Community.csv")
+
+df1 = ["one","two","three","Greater than three"]
+df1 = pd.DataFrame(df1)
+df2 = dfFix(GeneralCitizen,"times:One_time","main_food:Breakfast")
+df2 = df2.transpose()
+array = np.array(df2)
+array2 =[]
+i = 0
+for row in array:
+    for elem in row:
+        array2 = np.append(array2,elem)
+    i+=1  
+df2 = pd.DataFrame(array2)
+FS_TimesPerDay = concatDF(df1,df2)
+mkCSV(FS_TimesPerDay,"FS_TimesPerDay.csv")#probar con datos
+
+df1 = ["Breakfast","lunch","coffe time","dinner"]
+df1 = pd.DataFrame(df1)
+df2 = dfFix(GeneralCitizen,"main_food:Breakfast","typical_dish:Pork")
+df2 = df2.transpose()
+array = np.array(df2)
+array2 =[]
+i = 0
+for row in array:
+    for elem in row:
+        array2 = np.append(array2,elem)
+    i+=1  
+df2 = pd.DataFrame(array2)
+FS_ImportantMeal = concatDF(df1,df2)
+mkCSV(FS_ImportantMeal,"FS_ImportantMeal.csv")#probar con datos
+
+df1 = ["pork","beef","chicken","lamp","cereals","legumes","fruits"]
+df1 = pd.DataFrame(df1)
+df2 = dfFix(Bibliography,"Pork (200 kcal/100g)","Intake (g) - default value 70g-")
+df2 = dropRow(df2,1)
+df2 = df2.transpose()
+array = np.array(df2)
+array2 =[]
+i = 0
+for row in array:
+    for elem in row:
+        array2 = np.append(array2,elem)
+    i+=1 
+df2 = pd.DataFrame(array2)
+FS_TypcalPlate = concatDF(df1,df2)
+mkCSV(FS_TypcalPlate,"FS_TypcalPlate.csv")
+
+#%%Source
+
+df1 = ["Humanitarian Aid","Crops","Market"]
+df1 = pd.DataFrame(df1)
+df2 = dfFix(GeneralCitizen,"Main_food_source:Humanitarian_Aid","meta:instanceID")
+df2 = df2.transpose()
+
+array = np.array(df2)
+array2 =[]
+i = 0
+for row in array:
+    for elem in row:
+        array2 = np.append(array2,elem)
+    i+=1
+    
+df2 = pd.DataFrame(array2)
+FS_FoodSource = concatDF(df1,df2)
+mkCSV(FS_FoodSource,"FS_FoodSource.csv")#Probar con datos en GeneralCitizen
 
