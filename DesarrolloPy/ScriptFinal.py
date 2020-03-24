@@ -760,3 +760,10 @@ df2 = pd.DataFrame(array2)
 FS_FoodSource = concatDF(df1,df2)
 mkCSV(FS_FoodSource,"FS_FoodSource.csv")#Probar con datos en GeneralCitizen
 
+
+#FS_CultivationSeason #problema PLN
+
+#%%Corral and Crop
+
+
+
