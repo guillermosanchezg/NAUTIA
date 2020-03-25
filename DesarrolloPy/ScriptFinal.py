@@ -8,6 +8,9 @@ Created on Mon Feb 10 17:34:18 2020
 import numpy as np
 import pandas as pd
 import os
+import sklearn
+from sklearn.feature_extraction.text import CountVectorizer
+count_vectorizer = CountVectorizer()
 #%%
 mainpath = "C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetOriginales"
 
@@ -20,12 +23,12 @@ def dfFix(df,col1 = False,col2 = False):
         y = result.columns.get_loc(col2)
         result.drop(result.columns[y:],axis = 1, inplace = True)
     return result
- 
+
 def concatDF(df1,df2):
-    return  pd.concat([df1,df2],axis = 1, sort = True)
+    return  pd.concat([df1,df2],axis = 1, ignore_index = True, sort = True)
 
 def dropRow(df,index):
-    return df.drop(df.index[index]) #revisar funcion con ejemplo de S_EducationalCenter y sus problemas en cascada
+    return df.drop(df.index[index])
 
 def mkCSV(df,fileName):
     df.to_csv('DataSetFinales/'+fileName,header = False, index=False) #Header e index a false para no mostrarlo en el csv
@@ -46,7 +49,7 @@ def getSubColumnNames(df,x):
     for column in columns:
         column = column[x:]
         array.append(column)
-    return pd.DataFrame(array)
+    return pd.DataFrame(array) 
 
 def addInstitutionAndType(df,array1,array2,instType,index):
     refugees = dropRow(df,index)
@@ -75,6 +78,15 @@ def politicalActor(df1,df2,df3,df4,df5,index):
     
     return concatDF(institution,instType)
 
+def separateValues(df):
+    array = np.array(df)
+    corpus = []
+    for row in array:
+        for elem in row:
+            corpus = np.append(corpus,[elem])
+    X = count_vectorizer.fit_transform(corpus)
+    array = count_vectorizer.get_feature_names()
+    return pd.DataFrame(array)  
 #%%
 #CSV to DataFrame
 Bibliography = pd.read_excel(getPath(mainpath,"Bibliography_120220.xlsx"))
@@ -314,7 +326,6 @@ df1 = dfFix(HouseHold, "General:Gender","General:Settlement")
 df2 = dfFix(HouseHold, "Economy:Food","meta:instanceID")
 array = np.array(df2)
 array2 = np.array(df1)
-
 income = []
 gender = []
 i = 0
@@ -324,7 +335,6 @@ for row in array:
         income = np.append(income,elem)
         gender = np.append(gender,gen)
     i+=1
-
 gender = pd.DataFrame(gender)
 gender = gender.reset_index(drop = True)
 income = pd.DataFrame(income)
@@ -383,13 +393,11 @@ resource = []
 for row in FA_NaturalResource:
     for elem in row:
         bound = np.append(bound,elem)
-        resource = np.append(resource,'river')
-        
+        resource = np.append(resource,'river')       
 bound = pd.DataFrame(bound)
 bound = bound.reset_index(drop = True)
 resource = pd.DataFrame(resource)
 resource = resource.reset_index(drop = True)
-
 FA_NaturalResource = concatDF(bound,resource)
 mkCSV(FA_NaturalResource,"FA_NaturalResource.csv")
 
@@ -415,7 +423,7 @@ df2 = df2.isin(["yes"]) #Genera boolean DF. True si elem == "yes"
 U_RecreationalArea = concatDF(df1,df2)
 mkCSV(U_RecreationalArea,"U_RecreationalArea.csv")
 
-#U_PublicSpace no sñe de donde se coge la información del plano
+#U_PublicSpace no se de donde se coge la información del plano
 
 #%%INFRASTRUCTURE DATA
 
@@ -429,7 +437,6 @@ mkCSV(INF_WaterInfrastructure,"INF_WaterInfrastructure.csv")
 INF_TimeSpent = dfFix(HouseHold,"Water:Water_col","health_001:Healthcare")
 mkCSV(INF_TimeSpent,"INF_TimeSpent.csv")
 
-
 INF_PotabilitationSystem = dfFix(Entities,"Water:Treatment","Water:Comsuption")
 mkCSV(INF_PotabilitationSystem,"INF_PotabilitationSystem.csv") #PROBLEMA PLN
 
@@ -440,7 +447,6 @@ INF_WaterPoint = concatDF(df1,df2)
 mkCSV(INF_WaterPoint,"INF_WaterPoint.csv")
 
 #INF_IrrigationSystem No se encuentra el origen de datos.
-
 #%%Sanitation
 
 df1 = dfFix(Entities,"Sanitation:Open_defecation","Sanitation:Type_of_Latrine")
@@ -550,32 +556,31 @@ df3 = dfFix(ComunalServices,"Education_level","education_details:Subjects")
 df4 = dfFix(ComunalServices,"education_details:Start_001","Health_Center")
 S_EducationalCenter = concatDF(df2,(concatDF(df3,df4)))
 array1 = np.array(df1)
-
 i = 0
 for row in array1:
     for elem in row:
         if(elem == False):
             S_EducationalCenter = S_EducationalCenter.drop(index = i)
     i += 1
-
 mkCSV(S_EducationalCenter,"S_EducationalCenter.csv")
 
-#S_Subject #Problema PLN
+df1 = dfFix(ComunalServices,"education_details:Subjects","education_details:Subjects_001")
+df1 = df1.dropna()
+S_Subject = separateValues(df1)
+mkCSV(S_Subject,"S_Subject.csv")
 
-#S_Subject_has_S_EducationalCenter
+#S_Subject_has_S_EducationalCenter 
 
 df1 = dfFix(ComunalServices,"Health_Center","Health_Center_details:Capacity")
 df1 = df1.isin(["primary_care"])
 S_PrimaryAttention = dfFix(ComunalServices,"General_Information:Record_your_current_location:Latitude","General_Information:Record_your_current_location:Accuracy")
 array1 = np.array(df1)
-
 i = 0
 for row in array1:
     for elem in row:
         if(elem == False):
             S_PrimaryAttention = S_PrimaryAttention.drop(index = i)
     i += 1
-
 mkCSV(S_PrimaryAttention,"S_PrimaryAttention.csv")
 
 df1 = dfFix(ComunalServices,"Health_Center","Health_Center_details:Capacity")
@@ -584,33 +589,26 @@ df2 = dfFix(ComunalServices,"General_Information:Record_your_current_location:La
 df3 = dfFix(ComunalServices,"Health_Center_details:Capacity","Associate_infrastructure:Sanitation")
 S_Hospital = concatDF(df2,df3)
 array1 = np.array(df1)
-
 i = 0
 for row in array1:
     for elem in row:
         if(elem == False):
             S_Hospital = S_Hospital.drop(index = i)
     i += 1
-
 mkCSV(S_Hospital,"S_Hospital.csv")
-
- 
 
 df1 = dfFix(ComunalServices,"General_Information:Other_service","General_Information:Name") 
 df1 = df1.isnull()
 df2 = dfFix(ComunalServices,"General_Information:Record_your_current_location:Latitude","General_Information:Record_your_current_location:Accuracy")
 df3 = dfFix(ComunalServices,"General_Information:Other_service","General_Information:Sharing_Services")
 S_OtherCenter = concatDF(df2,df3)
-
 array1 = np.array(df1)
-
 i = 0
 for row in array1:
     for elem in row:
         if(elem == True):
             S_OtherCenter = S_OtherCenter.drop(index = i)
     i += 1
-
 mkCSV(S_OtherCenter,"S_Cemenatary.csv")
 
 S_BuildingQuality = dfFix(ComunalServices,"Construction_Details:Appropiate_Roof","meta:instanceID") 
@@ -734,7 +732,6 @@ df1 = ["Humanitarian Aid","Crops","Market"]
 df1 = pd.DataFrame(df1)
 df2 = dfFix(GeneralCitizen,"Main_food_source:Humanitarian_Aid","meta:instanceID")
 df2 = df2.transpose()
-
 array = np.array(df2)
 array2 =[]
 i = 0
@@ -742,7 +739,6 @@ for row in array:
     for elem in row:
         array2 = np.append(array2,elem)
     i+=1
-    
 df2 = pd.DataFrame(array2)
 FS_FoodSource = concatDF(df1,df2)
 mkCSV(FS_FoodSource,"FS_FoodSource.csv")#Probar con datos en GeneralCitizen
