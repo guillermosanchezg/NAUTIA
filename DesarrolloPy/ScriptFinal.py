@@ -96,6 +96,7 @@ MobilityINF = pd.read_csv(getPath(mainpath,"NAUTIA_1_0__Transport_servicesaccess
 ComunalServices = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Communal_Services_results.csv")) 
 GeneralCitizen = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_General_Citizen_Focus_Group_results.csv"))
 Shelter = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Shelter_results.csv"))
+FarmyardCrop = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Farmyard_and_Crops_results.csv"))
 #%%
 #Community
 
@@ -593,21 +594,7 @@ for row in array1:
 
 mkCSV(S_Hospital,"S_Hospital.csv")
 
-df1 = dfFix(ComunalServices,"General_Information:Type_of_service","General_Information:Other_service") #probar con datos
-df1 = df1.isin(["cementary"])                                                  #probar con datos
-df2 = dfFix(ComunalServices,"General_Information:Record_your_current_location:Latitude","General_Information:Record_your_current_location:Accuracy")
-df3 = dfFix(ComunalServices,"Cementary_Details:Drainage","Education_level")
-S_Cemenatary = concatDF(df2,df3)
-array1 = np.array(df1)
-
-i = 0
-for row in array1:
-    for elem in row:
-        if(elem == False):
-            S_Cemenatary = S_Cemenatary.drop(index = i)
-    i += 1
-
-mkCSV(S_Cemenatary,"S_Cemenatary.csv")
+ 
 
 df1 = dfFix(ComunalServices,"General_Information:Other_service","General_Information:Name") 
 df1 = df1.isnull()
@@ -765,5 +752,53 @@ mkCSV(FS_FoodSource,"FS_FoodSource.csv")#Probar con datos en GeneralCitizen
 
 #%%Corral and Crop
 
+df1 = dfFix(LocalLeaders,"Food_security:Grazing_technique","Costs:basic_basket")
+df2 = dfFix(LocalLeaders,"Food_security:fertilizers","Food_security:storing_food")
+df2 = df2.isin(["yes"])
+FS_CorralCropData = concatDF(df1,df2)
+mkCSV(FS_CorralCropData,"FS_CorralCropData.csv")
 
+df1 = dfFix(FarmyardCrop,"Item","Property") #probar con datos
+df1 = df1.isin(["crop_area"])                                                  #probar con datos
+df2 = dfFix(FarmyardCrop,"Record_your_current_location:Latitude","Record_your_current_location:Accuracy")
+df3 = dfFix(FarmyardCrop,"Property","Drainage")
+df4 = dfFix(FarmyardCrop,"Drainage","Irrigation")
+df4 = df4.isin(["yes"]) #NaN != no. Revisar
+FS_CorralUbication = concatDF(df2,concatDF(df3,df4))
+array1 = np.array(df1)
+i = 0
+for row in array1:
+    for elem in row:
+        if(elem == False):
+            FS_CorralUbication = FS_CorralUbication.drop(index = i)
+    i += 1
+mkCSV(FS_CorralUbication,"FS_CorralUbication.csv")
 
+df1 = dfFix(FarmyardCrop,"Item","Property")
+df1 = df1.isin(["farmyard"])
+df2 = dfFix(FarmyardCrop,"Record_your_current_location:Latitude","Record_your_current_location:Accuracy")
+df3 = dfFix(FarmyardCrop,"Property","Drainage")
+df4 = dfFix(FarmyardCrop,"Irrigation","Irrigation_details:Water_pump")
+df4 = df4.isin(["yes"]) #NaN != no. Revisar
+FS_CropUbication = concatDF(df2,concatDF(df3,df4))
+array1 = np.array(df1)
+i = 0
+for row in array1:
+    for elem in row:
+        if(elem == False):
+            FS_CropUbication = FS_CropUbication.drop(index = i)
+    i += 1
+mkCSV(FS_CropUbication,"FS_CropUbication.csv")
+
+#%%Continuity
+
+FS_FoodAccessContinuity = dfFix(LocalLeaders,"Food_security:perishable_food","Costs:basic_basket")
+mkCSV(FS_FoodAccessContinuity,"FS_FoodAccessContinuity.csv")
+
+#FS_SelfSufficiencySeason #Problema PLN
+
+#FS_OwnCultivationFoodType #Problema PLN
+
+#FS_GrainConservation #Problema PLN
+
+#FS_GrainMill #No existe el dato
