@@ -11,6 +11,21 @@ import os
 import sklearn
 from sklearn.feature_extraction.text import CountVectorizer
 count_vectorizer = CountVectorizer()
+
+import numpy as np
+import pandas as pd
+import os
+import sklearn
+from sklearn.feature_extraction.text import CountVectorizer
+count_vectorizer = CountVectorizer()
+
+import nltk
+nltk.download("popular") # required to download the stopwords lists
+
+from nltk.corpus import stopwords
+
+spanish_stopwords = stopwords.words('spanish')
+english_stopwords = stopwords.words('english')
 #%%
 mainpath = "C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetOriginales"
 
@@ -221,12 +236,12 @@ Camp_NaturalHazard_Has_Camp.transpose()
 mkCSV(Camp_NaturalHazard_Has_Camp,"Camp_NaturalHazard_Has_Camp.csv") #1:Probar con datos 2:FKs4
 
 Camp_LocalVegetation = dfFix(Entities,"Enviormental_Issues:Native_Plant","Enviormental_Issues:Native_Crops")
-Camp_LocalVegetation.transpose()
-mkCSV(Camp_LocalVegetation,"Camp_LocalVegetation.csv") #1:Probar con datos 2:MODIFICAR FOLMULARIO o probar con librería de PLN
+Camp_LocalVegetation = separateValues(Camp_LocalVegetation)
+mkCSV(Camp_LocalVegetation,"Camp_LocalVegetation.csv") #1:Probar con datos ¿2:MODIFICAR FOLMULARIO? 
 
 Camp_LocalCrop = dfFix(Entities,"Enviormental_Issues:Native_Crops","Water_table")
-Camp_LocalCrop.transpose()
-mkCSV(Camp_LocalCrop,"Camp_LocalCrop.csv") #1:Probar con datos 2:MODIFICAR FOLMULARIO o probar con librería de PLN
+Camp_LocalCrop = separateValues(Camp_LocalCrop)
+mkCSV(Camp_LocalCrop,"Camp_LocalCrop.csv") #1:Probar con datos 2:MODIFICAR FOLMULARIO?
 
 df3 = dfFix(Entities,"Enviormental_Issues:High_enviormental_value","Enviormental_Issues:Native_Plant")
 df4 = dfFix(Entities,"Enviormental_Issues:Deforestation","Enviormental_Issues:High_enviormental_value")
@@ -438,7 +453,8 @@ INF_TimeSpent = dfFix(HouseHold,"Water:Water_col","health_001:Healthcare")
 mkCSV(INF_TimeSpent,"INF_TimeSpent.csv")
 
 INF_PotabilitationSystem = dfFix(Entities,"Water:Treatment","Water:Comsuption")
-mkCSV(INF_PotabilitationSystem,"INF_PotabilitationSystem.csv") #PROBLEMA PLN
+INF_PotabilitationSystem = separateValues(INF_PotabilitationSystem)
+mkCSV(INF_PotabilitationSystem,"INF_PotabilitationSystem.csv")
 
 df1 = dfFix(WaterInf,"Record_your_current_location:Latitude","Record_your_current_location:Accuracy")
 df2 = dfFix(WaterInf,"Availability","meta:instanceID")
@@ -484,7 +500,8 @@ df5 = dfFix(GeneralForm,"Energy:Distance_ST","Transport:Kind_transport_inside")
 INF_EnergyInfrastructure = concatDF(df1,(concatDF(df2,concatDF(df3,concatDF(df4,df5)))))
 mkCSV(INF_EnergyInfrastructure,"INF_EnergyInfrastructure")
 
-INF_ExpandPlandBeneficiaries = dfFix(Entities,"ENERGY:Covered_services","ENERGY:Power_failure") #Posible problema PLN
+INF_ExpandPlandBeneficiaries = dfFix(Entities,"ENERGY:Covered_services","ENERGY:Power_failure") 
+INF_ExpandPlandBeneficiaries = separateValues(INF_ExpandPlandBeneficiaries)
 mkCSV(INF_ExpandPlandBeneficiaries,"INF_ExpandPlandBeneficiaries.csv") 
 
 INF_GenerationSource = ['electrical grid','diesel genset','solar panel','other']
@@ -620,13 +637,16 @@ mkCSV(S_BuildingQuality,"S_BuildingQuality.csv")
 
 #S_MedicineAcces #No se encuentra el origen del dato
 
-#S_dataAcces #Posible problema PLN pero no hay datos para comprobar
+S_DataAccess = dfFix(Entities,"Data_Access","Antenna")
+S_DataAccess = separateValues(S_DataAccess)
+mkCSV(S_DataAccess,"S_DataAccess.csv")
 
 S_RepeaterAntena = dfFix(Entities,"Antenna","meta:instanceID")
 mkCSV(S_RepeaterAntena,"S_RepeaterAntena.csv")
 
-#S_NoEducationCause #Posible problema PLN pero no hay datos para comprobar
-
+S_NoEducationCause = dfFix(Entities,"Education_Issues","Data_Access")
+S_NoEducationCause = separateValues(S_NoEducationCause)
+S_NoEducationCause(S_NoEducationCause,"S_NoEducationCause.csv")
 #%%KnowEledge
 
 S_Tecknowlege = ["Phone Call","Internet","PC","Programming"]
