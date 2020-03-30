@@ -9,19 +9,12 @@ import numpy as np
 import pandas as pd
 import os
 import sklearn
-from sklearn.feature_extraction.text import CountVectorizer
-count_vectorizer = CountVectorizer()
 
-import numpy as np
-import pandas as pd
-import os
-import sklearn
 from sklearn.feature_extraction.text import CountVectorizer
 count_vectorizer = CountVectorizer()
 
 import nltk
 nltk.download("popular") # required to download the stopwords lists
-
 from nltk.corpus import stopwords
 
 spanish_stopwords = stopwords.words('spanish')
@@ -42,8 +35,8 @@ def dfFix(df,col1 = False,col2 = False):
 def concatDF(df1,df2):
     return  pd.concat([df1,df2],axis = 1, ignore_index = True, sort = True)
 
-def dropRow(df,index):
-    return df.drop(df.index[index])
+def dropRow(df,i):
+    return df.drop(index = i)
 
 def mkCSV(df,fileName):
     df.to_csv('DataSetFinales/'+fileName,header = False, index=False) #Header e index a false para no mostrarlo en el csv
@@ -56,6 +49,7 @@ def fixBibliography(df):
     df.columns = ['GeneralInfo', 'CommunityCountry', 'RefugeeCountry']
     df.set_index('GeneralInfo', inplace = True)
     df = df.transpose()
+    df.reset_index(inplace = True)
     return df
 
 def getSubColumnNames(df,x):
@@ -93,6 +87,48 @@ def politicalActor(df1,df2,df3,df4,df5,index):
     
     return concatDF(institution,instType)
 
+def get_claveValor(df1,df2):
+    array1 = np.array(df2)
+    array2 = np.array(df1)
+    result1 = []
+    result2 = []
+    i = 0
+    for row in array1:
+        var = array2[i]
+        for elem in row:
+            result1 = np.append(result1,elem)
+            result2 = np.append(result2,var)
+        i+=1
+    result2 = pd.DataFrame(result2)
+    result2 = result2.reset_index(drop = True)
+    result1 = pd.DataFrame(result1)
+    result1 = result1.reset_index(drop = True)
+    return concatDF(result2,result1)
+
+def get_FSClaveValor(df1,df2):
+    df2 = df2.transpose()
+    array = np.array(df2)
+    array2 =[]
+    i = 0
+    for row in array:
+        for elem in row:
+            array2 = np.append(array2,elem)
+        i+=1  
+    df2 = pd.DataFrame(array2)
+    return concatDF(df1,df2)
+
+def get_valueBySector(df1,df2):
+    df2 = df2.reset_index()
+    array1 = np.array(df1)
+    i = 0
+    for row in array1:
+        for elem in row:
+            if(elem == False):
+                df2 = dropRow(df2,i)
+        i += 1
+    df2 = df2.set_index('index')
+    return df2
+
 def separateValues(df):
     array = np.array(df)
     corpus = []
@@ -102,8 +138,7 @@ def separateValues(df):
     X = count_vectorizer.fit_transform(corpus)
     array = count_vectorizer.get_feature_names()
     return pd.DataFrame(array)  
-#%%
-#CSV to DataFrame
+#%% CSV to DataFrame
 Bibliography = pd.read_excel(getPath(mainpath,"Bibliography_120220.xlsx"))
 Bibliography = fixBibliography(Bibliography)
 Entities = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Entities_Interview_results.csv"))
@@ -124,14 +159,12 @@ ComunalServices = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Communal_Services_res
 GeneralCitizen = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_General_Citizen_Focus_Group_results.csv"))
 Shelter = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Shelter_results.csv"))
 FarmyardCrop = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Farmyard_and_Crops_results.csv"))
-#%%
-#Community
+#%%Community
 
 community = ["Shimelba"]
 community = pd.DataFrame(community)
 mkCSV(community,"community.csv")
-#%% 
-#Camp
+#%% CAMP
 
 df1 = dfFix(Bibliography,"Implementation date of the refugee camp (year)","Migration reasons")
 df2 = dfFix(Entities,"GENERAL_INFORMATION:Secondary_movement","GENERAL_INFORMATION:Relationship")
@@ -139,14 +172,12 @@ camp = concatDF(df1,df2)
 camp = dropRow(camp,0)
 mkCSV(camp,"camp.csv") 
 
-#%%
-#Country
+#%%Country
 
 Country = dfFix(Bibliography,"Country's name", "Number of inhabitants (#)")
 mkCSV(Country,"Country.csv")
 
-#%%
-#GENERAL DATA
+#%%GENERAL DATA
 
 df1 = dfFix(Bibliography,"Mujeres menores de 5 años (%)","Total population")
 df2 = dfFix(Bibliography,"Growth rate of populatoin (%)","Culture")
@@ -187,8 +218,7 @@ mkCSV(GD_ServiceAcces,"GD_ServiceAcces.csv")
 GD_Shelter = dfFix(Bibliography,"Slum population rate (%)","SPECIFIC INFORMATION - SETTLEMENTS LEVEL") 
 mkCSV(GD_Shelter,"GD_Shelter.csv")
 
-#%%
-#COMMUN DATA
+#%%COMMUN DATA
 
 Commun_Religion = dfFix(Bibliography,"Religion 1","Language")
 df1 = dropRow(Commun_Religion,1)
@@ -216,8 +246,7 @@ Commun_Language = pd.DataFrame(Commun_Language)
 Commun_Language = Commun_Language.dropna()
 mkCSV(Commun_Language,"Commun_Language.csv")
 
-#%%
-#Specific DATA CAMP
+#%% Specific DATA CAMP
 
 Camp_MovementReason = dfFix(Bibliography,"Reason 1","Climate")
 Camp_MovementReason = dropRow(Camp_MovementReason,0).dropna(axis = 1)
@@ -277,7 +306,15 @@ mkCSV(Camp_Shelter,"Camp_Shelter.csv")
 
 #%%SocioEconomic DATA
 #%%SE Demographyc And Culture
-#SE_population suma ESCALAR entre dos DF, necesito datos para probarlo
+
+df1 = dfFix(Entities,"Population:Women:Infants","Population:Men:Infants_001")
+df2 = dfFix(Entities,"Population:Men:Infants_001","Fuel_Cost:Main_Fuel")
+df1 = np.array(df1)
+df2 = np.array(df2)
+array = np.array([],dtype = int)
+array = df1+df2
+SE_population = pd.DataFrame(array)
+mkCSV(SE_population,"SE_population.csv")
 
 SE_HouseHoldComposition = dfFix(HouseHold,"General:Old_women","Shelter:No_Rooms")
 array  = np.array(SE_HouseHoldComposition)
@@ -306,7 +343,10 @@ mkCSV(SE_SafetyPlace,"SE_SafetyPlace.csv")
 SE_SafetyPlace_has_Community = dfFix(WomenGroup,"Feel_Safe:Street_morning","Feel_Safe:Firewood_collection_001")
 mkCSV(SE_SafetyPlace_has_Community,"SE_SafetyPlace_has_Community.csv") 
 
-#SE_ConflictArea: Los datos entran como string de lugares, pero se quiere guardar coordenadas.
+SE_ConflictArea = dfFix(WomenGroup,"Trouble_Spots","Cooking_Details:INSTRUCTION_001")
+SE_ConflictArea = SE_ConflictArea.dropna()
+SE_ConflictArea = separateValues(SE_ConflictArea)
+mkCSV(SE_ConflictArea,"SE_ConflictArea.csv") #IMPORRANTE Los datos entran como string de lugares, pero se quiere guardar coordenadas.
 
 df1 = dfFix(LocalLeaders,"Settlement_security:secur_committees","Food_security:cultivation_months")
 df1 = df1.isin(["yes"]) #Genera boolean DF. True si elem == "yes"
@@ -339,24 +379,8 @@ mkCSV(SE_ExpenseType,"SE_ExpenseType.csv")
 
 df1 = dfFix(HouseHold, "General:Gender","General:Settlement")
 df2 = dfFix(HouseHold, "Economy:Food","meta:instanceID")
-array = np.array(df2)
-array2 = np.array(df1)
-income = []
-gender = []
-i = 0
-for row in array:
-    gen = array2[i]
-    for elem in row:
-        income = np.append(income,elem)
-        gender = np.append(gender,gen)
-    i+=1
-gender = pd.DataFrame(gender)
-gender = gender.reset_index(drop = True)
-income = pd.DataFrame(income)
-income = income.reset_index(drop = True)
-
-SE_ExpenseType_has_Community = concatDF(gender,income)
-mkCSV(SE_ExpenseType_has_Community,"SE_ExpenseType_has_Community.csv") 
+SE_ExpenseType_has_Community = get_claveValor(df1,df2)
+mkCSV(SE_ExpenseType_has_Community,"SE_ExpenseType_has_Community.csv")
 
 priorities = ['energy','shelter','water access','sanitation','education','health','public space','food','TIC','work','waste management','public transport','religious center','socio cultural center','market']
 priorities = pd.DataFrame(priorities)
@@ -371,9 +395,21 @@ mkCSV(priorities,"SE_Priorities.csv")
 #%% GenderData
 
 #SE_GenderData = dfFix(Entities,"","")
-#mkCSV(priorities,"SE_Priorities_has_Community.csv") No existe dicho dato en los formularios
+#mkCSV(SE_GenderData,"SE_GenderData.csv") No existe dicho dato en los formularios
 
-#SE_WorkType no la encuentro en los formularios
+SE_WorkType = ["Firewood Collection", "Cooking"]
+SE_WorkType = pd.DataFrame(SE_WorkType)
+mkCSV(SE_WorkType,"SE_WorkType")
+
+df1 = dfFix(GeneralCitizen,"Firewood_collection:Childs","Cooking:Childs_001")
+df2 = dfFix(GeneralCitizen,"Cooking:Childs_001","TICs_Knowledge:Phone_Call")
+df1 = df1.transpose()
+df2 = df2.transpose()
+df1 = df1.reset_index(drop = True)
+df2 = df2.reset_index(drop = True)
+SE_WorkType_has_Community = concatDF(df1,df2)
+SE_WorkType_has_Community = SE_WorkType_has_Community.transpose()
+mkCSV(SE_WorkType_has_Community,"SE_WorkType_has_Community")
 
 #%%GOVERNMENT_DATA
 #G_PublicPolitic no forma parte ETL
@@ -539,17 +575,9 @@ mkCSV(INF_LightingTech,"INF_LightingTech.csv")
 
 df1 = dfFix(EnergyINF,"Item","Sector")
 df1 = df1.isin(["street light"])
-streetLamp = dfFix(EnergyINF,"Record_your_current_location:Latitude","Record_your_current_location:Accuracy")
-array1 = np.array(df1)
-
-i = 0
-for row in array1:
-    for elem in row:
-        if(elem == False):
-            streetLamp = dropRow(streetLamp,i)
-    i += 1
-
-mkCSV(streetLamp,"streetLamp.csv") #Necesario probar con datos
+INF_StreetLamp = dfFix(EnergyINF,"Record_your_current_location:Latitude","Record_your_current_location:Accuracy")
+INF_StreetLamp = get_valueBySector(df1,INF_StreetLamp)
+mkCSV(INF_StreetLamp,"INF_StreetLamp.csv")  #Necesario probar con datos
 
 #%%Mobility Infrastructure
 #INF_MobilityInfrasctucture = dfFix(Entities,"","") #no se encuentra el dato en origen
@@ -572,13 +600,7 @@ df2 = dfFix(ComunalServices,"General_Information:Record_your_current_location:La
 df3 = dfFix(ComunalServices,"Education_level","education_details:Subjects")
 df4 = dfFix(ComunalServices,"education_details:Start_001","Health_Center")
 S_EducationalCenter = concatDF(df2,(concatDF(df3,df4)))
-array1 = np.array(df1)
-i = 0
-for row in array1:
-    for elem in row:
-        if(elem == False):
-            S_EducationalCenter = S_EducationalCenter.drop(index = i)
-    i += 1
+S_EducationalCenter = get_valueBySector(df1,S_EducationalCenter)
 mkCSV(S_EducationalCenter,"S_EducationalCenter.csv")
 
 df1 = dfFix(ComunalServices,"education_details:Subjects","education_details:Subjects_001")
@@ -591,13 +613,7 @@ mkCSV(S_Subject,"S_Subject.csv")
 df1 = dfFix(ComunalServices,"Health_Center","Health_Center_details:Capacity")
 df1 = df1.isin(["primary_care"])
 S_PrimaryAttention = dfFix(ComunalServices,"General_Information:Record_your_current_location:Latitude","General_Information:Record_your_current_location:Accuracy")
-array1 = np.array(df1)
-i = 0
-for row in array1:
-    for elem in row:
-        if(elem == False):
-            S_PrimaryAttention = S_PrimaryAttention.drop(index = i)
-    i += 1
+S_PrimaryAttention = get_valueBySector(df1,S_PrimaryAttention)
 mkCSV(S_PrimaryAttention,"S_PrimaryAttention.csv")
 
 df1 = dfFix(ComunalServices,"Health_Center","Health_Center_details:Capacity")
@@ -605,28 +621,24 @@ df1 = df1.isin(["hospital"])                                                  #p
 df2 = dfFix(ComunalServices,"General_Information:Record_your_current_location:Latitude","General_Information:Record_your_current_location:Accuracy")
 df3 = dfFix(ComunalServices,"Health_Center_details:Capacity","Associate_infrastructure:Sanitation")
 S_Hospital = concatDF(df2,df3)
-array1 = np.array(df1)
-i = 0
-for row in array1:
-    for elem in row:
-        if(elem == False):
-            S_Hospital = S_Hospital.drop(index = i)
-    i += 1
+S_Hospital = get_valueBySector(df1,S_Hospital)
 mkCSV(S_Hospital,"S_Hospital.csv")
 
-df1 = dfFix(ComunalServices,"General_Information:Other_service","General_Information:Name") 
-df1 = df1.isnull()
+df1 = dfFix(ComunalServices,"General_Information:Type_of_service","General_Information:Other_service")
+df1 = df1.isin(["cementary"])
+df2 = dfFix(ComunalServices,"General_Information:Record_your_current_location:Latitude","General_Information:Record_your_current_location:Accuracy")
+df3 = dfFix(ComunalServices,"Cementary_Details:Drainage","Education_level")
+S_Cementary = concatDF(df2,df3)
+S_Cementary = get_valueBySector(df1,S_Cementary)
+mkCSV(S_Cementary,"S_Cementary.csv")
+
+df1 = dfFix(ComunalServices,"General_Information:Type_of_service","General_Information:Other_service") 
+df1 = df1.isin(["other"])
 df2 = dfFix(ComunalServices,"General_Information:Record_your_current_location:Latitude","General_Information:Record_your_current_location:Accuracy")
 df3 = dfFix(ComunalServices,"General_Information:Other_service","General_Information:Sharing_Services")
 S_OtherCenter = concatDF(df2,df3)
-array1 = np.array(df1)
-i = 0
-for row in array1:
-    for elem in row:
-        if(elem == True):
-            S_OtherCenter = S_OtherCenter.drop(index = i)
-    i += 1
-mkCSV(S_OtherCenter,"S_Cemenatary.csv")
+S_OtherCenter = get_valueBySector(df1,S_OtherCenter)
+mkCSV(S_OtherCenter,"S_OtherCenter.csv")
 
 S_BuildingQuality = dfFix(ComunalServices,"Construction_Details:Appropiate_Roof","meta:instanceID") 
 S_BuildingQuality = S_BuildingQuality.isin(["yes"])
@@ -661,12 +673,12 @@ S_App = ["WhatsApp","Facebook","Skype","Instagram","Google","Youtube","Email","W
 S_App = pd.DataFrame(S_App)
 mkCSV(S_App,"S_App.csv")
 
-#S_App_has_Community #problema PLN
+#S_App_has_Community
 
 #%% SHELTER DATA 
 
-#SH_Shelter = dfFix(Entities,"Shelter:Total_shelter","Shelter:Vulnerable_Area:Vunerable_Area")
-#Problena PLN en última columna, Caso independiente
+SH_Shelter = dfFix(Entities,"Shelter:Total_shelter","Shelter:Vulnerable_Area:Vunerable_Area")
+mkCSV(SH_Shelter,"SH_Shelter.csv")
 
 df1 = dfFix(Shelter,"Location:Latitude","Location:Accuracy")
 df2 = dfFix(Shelter,"Construc_tion_Details:Appropiate_Roof","Construc_tion_Details:Picture_Outside")
@@ -704,65 +716,29 @@ df1 = ["one","two","three","Greater than three"]
 df1 = pd.DataFrame(df1)
 df2 = dfFix(GeneralCitizen,"times:One_time","main_food:Breakfast")
 df2 = df2.transpose()
-array = np.array(df2)
-array2 =[]
-i = 0
-for row in array:
-    for elem in row:
-        array2 = np.append(array2,elem)
-    i+=1  
-df2 = pd.DataFrame(array2)
-FS_TimesPerDay = concatDF(df1,df2)
-mkCSV(FS_TimesPerDay,"FS_TimesPerDay.csv")#probar con datos
+FS_TimesPerDay = get_FSClaveValor(df1,df2)
+mkCSV(FS_TimesPerDay,"FS_TimesPerDay.csv") #probar con datos
 
 df1 = ["Breakfast","lunch","coffe time","dinner"]
 df1 = pd.DataFrame(df1)
 df2 = dfFix(GeneralCitizen,"main_food:Breakfast","typical_dish:Pork")
 df2 = df2.transpose()
-array = np.array(df2)
-array2 =[]
-i = 0
-for row in array:
-    for elem in row:
-        array2 = np.append(array2,elem)
-    i+=1  
-df2 = pd.DataFrame(array2)
-FS_ImportantMeal = concatDF(df1,df2)
-mkCSV(FS_ImportantMeal,"FS_ImportantMeal.csv")#probar con datos
+FS_ImportantMeal = get_FSClaveValor(df1,df2)
+mkCSV(FS_ImportantMeal,"FS_ImportantMeal.csv") #probar con datos
 
 df1 = ["pork","beef","chicken","lamp","cereals","legumes","fruits"]
 df1 = pd.DataFrame(df1)
 df2 = dfFix(Bibliography,"Pork (200 kcal/100g)","Intake (g) - default value 70g-")
 df2 = dropRow(df2,1)
-df2 = df2.transpose()
-array = np.array(df2)
-array2 =[]
-i = 0
-for row in array:
-    for elem in row:
-        array2 = np.append(array2,elem)
-    i+=1 
-df2 = pd.DataFrame(array2)
-FS_TypcalPlate = concatDF(df1,df2)
+FS_TypcalPlate = get_FSClaveValor(df1,df2)
 mkCSV(FS_TypcalPlate,"FS_TypcalPlate.csv")
-
 #%%Source
 
 df1 = ["Humanitarian Aid","Crops","Market"]
 df1 = pd.DataFrame(df1)
 df2 = dfFix(GeneralCitizen,"Main_food_source:Humanitarian_Aid","meta:instanceID")
-df2 = df2.transpose()
-array = np.array(df2)
-array2 =[]
-i = 0
-for row in array:
-    for elem in row:
-        array2 = np.append(array2,elem)
-    i+=1
-df2 = pd.DataFrame(array2)
-FS_FoodSource = concatDF(df1,df2)
-mkCSV(FS_FoodSource,"FS_FoodSource.csv")#Probar con datos en GeneralCitizen
-
+FS_FoodSource = get_FSClaveValor(df1,df2)
+mkCSV(FS_FoodSource,"FS_FoodSource.csv") #Probar con datos en GeneralCitizen
 
 #FS_CultivationSeason #problema PLN
 
@@ -781,13 +757,7 @@ df3 = dfFix(FarmyardCrop,"Property","Drainage")
 df4 = dfFix(FarmyardCrop,"Drainage","Irrigation")
 df4 = df4.isin(["yes"]) #NaN != no. Revisar
 FS_CorralUbication = concatDF(df2,concatDF(df3,df4))
-array1 = np.array(df1)
-i = 0
-for row in array1:
-    for elem in row:
-        if(elem == False):
-            FS_CorralUbication = FS_CorralUbication.drop(index = i)
-    i += 1
+FS_CorralUbication = get_valueBySector(df1,FS_CorralUbication)
 mkCSV(FS_CorralUbication,"FS_CorralUbication.csv")
 
 df1 = dfFix(FarmyardCrop,"Item","Property")
@@ -797,13 +767,7 @@ df3 = dfFix(FarmyardCrop,"Property","Drainage")
 df4 = dfFix(FarmyardCrop,"Irrigation","Irrigation_details:Water_pump")
 df4 = df4.isin(["yes"]) #NaN != no. Revisar
 FS_CropUbication = concatDF(df2,concatDF(df3,df4))
-array1 = np.array(df1)
-i = 0
-for row in array1:
-    for elem in row:
-        if(elem == False):
-            FS_CropUbication = FS_CropUbication.drop(index = i)
-    i += 1
+FS_CropUbication =get_valueBySector(df1,FS_CropUbication)
 mkCSV(FS_CropUbication,"FS_CropUbication.csv")
 
 #%%Continuity
@@ -813,8 +777,12 @@ mkCSV(FS_FoodAccessContinuity,"FS_FoodAccessContinuity.csv")
 
 #FS_SelfSufficiencySeason #Problema PLN
 
-#FS_OwnCultivationFoodType #Problema PLN
+FS_OwnCultivationFoodType = dfFix(LocalLeaders,"Food_security:kind_food","Food_security:fertilizers")
+FS_OwnCultivationFoodType = separateValues(FS_OwnCultivationFoodType)
+mkCSV(FS_OwnCultivationFoodType,"FS_OwnCultivationFoodType.csv")
 
-#FS_GrainConservation #Problema PLN
+FS_GrainConservation = dfFix(LocalLeaders,"Food_security:dry_food","Food_security:perishable_food")
+FS_GrainConservation = separateValues(FS_GrainConservation)
+mkCSV(FS_GrainConservation,"FS_GrainConservation.csv")
 
 #FS_GrainMill #No existe el dato
