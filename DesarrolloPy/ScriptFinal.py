@@ -39,6 +39,7 @@ def dropRow(df,i):
     return df.drop(index = i)
 
 def mkCSV(df,fileName):
+    df = df.dropna(how = 'all')
     df.to_csv('DataSetFinales/'+fileName,header = False, index=False) #Header e index a false para no mostrarlo en el csv
     
 def getPath(mainpath,filename):
@@ -399,7 +400,7 @@ mkCSV(priorities,"SE_Priorities.csv")
 
 SE_WorkType = ["Firewood Collection", "Cooking"]
 SE_WorkType = pd.DataFrame(SE_WorkType)
-mkCSV(SE_WorkType,"SE_WorkType")
+mkCSV(SE_WorkType,"SE_WorkType.csv")
 
 df1 = dfFix(GeneralCitizen,"Firewood_collection:Childs","Cooking:Childs_001")
 df2 = dfFix(GeneralCitizen,"Cooking:Childs_001","TICs_Knowledge:Phone_Call")
@@ -409,7 +410,7 @@ df1 = df1.reset_index(drop = True)
 df2 = df2.reset_index(drop = True)
 SE_WorkType_has_Community = concatDF(df1,df2)
 SE_WorkType_has_Community = SE_WorkType_has_Community.transpose()
-mkCSV(SE_WorkType_has_Community,"SE_WorkType_has_Community")
+mkCSV(SE_WorkType_has_Community,"SE_WorkType_has_Community.csv")
 
 #%%GOVERNMENT_DATA
 #G_PublicPolitic no forma parte ETL
@@ -534,7 +535,7 @@ df4 = dfFix(Entities,"ENERGY:Street_Light","Urban_Planning_001:Urban_Planning")
 df4 = df4.isin(["yes"]) #Genera boolean DF. True si elem == "yes"
 df5 = dfFix(GeneralForm,"Energy:Distance_ST","Transport:Kind_transport_inside")
 INF_EnergyInfrastructure = concatDF(df1,(concatDF(df2,concatDF(df3,concatDF(df4,df5)))))
-mkCSV(INF_EnergyInfrastructure,"INF_EnergyInfrastructure")
+mkCSV(INF_EnergyInfrastructure,"INF_EnergyInfrastructure.csv")
 
 INF_ExpandPlandBeneficiaries = dfFix(Entities,"ENERGY:Covered_services","ENERGY:Power_failure") 
 INF_ExpandPlandBeneficiaries = separateValues(INF_ExpandPlandBeneficiaries)
@@ -658,7 +659,7 @@ mkCSV(S_RepeaterAntena,"S_RepeaterAntena.csv")
 
 S_NoEducationCause = dfFix(Entities,"Education_Issues","Data_Access")
 S_NoEducationCause = separateValues(S_NoEducationCause)
-S_NoEducationCause(S_NoEducationCause,"S_NoEducationCause.csv")
+mkCSV(S_NoEducationCause,"S_NoEducationCause.csv")
 #%%KnowEledge
 
 S_Tecknowlege = ["Phone Call","Internet","PC","Programming"]

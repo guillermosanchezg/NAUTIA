@@ -432,10 +432,10 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`SE_HouseHoldComposition` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`SE_HouseHoldComposition` (
   `idSE_HouseHoldComposition` INT NOT NULL AUTO_INCREMENT,
-  `Women` FLOAT NULL,
-  `Men` FLOAT NULL,
-  `Teenagers` FLOAT NULL,
-  `Kids` FLOAT NULL,
+  `Women` INT NULL,
+  `Men` INT NULL,
+  `Teenagers` INT NULL,
+  `Kids` INT NULL,
   `Community_idCommunity` INT NOT NULL,
   PRIMARY KEY (`idSE_HouseHoldComposition`, `Community_idCommunity`),
   CONSTRAINT `fk_SE_HouseHoldComposition_Community1`
@@ -467,9 +467,9 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`SE_ConflictArea` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`SE_ConflictArea` (
   `idEonflictArea` INT NOT NULL AUTO_INCREMENT,
-  `Latitude` VARCHAR(45) NULL,
-  `Longitude` VARCHAR(45) NULL,
-  `Altitude` INT NULL,
+  `Latitude` FLOAT NULL,
+  `Longitude` FLOAT NULL,
+  `Altitude` FLOAT NULL,
   `Community_idCommunity` INT NOT NULL,
   PRIMARY KEY (`idEonflictArea`, `Community_idCommunity`),
   CONSTRAINT `fk_SC_ConflictArea_Community1`
@@ -534,8 +534,8 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`FA_Topography` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`FA_Topography` (
   `idFA_Topography` INT NOT NULL AUTO_INCREMENT,
-  `UpperBound` INT NULL,
-  `LowerBound` INT NULL,
+  `UpperBound` FLOAT NULL,
+  `LowerBound` FLOAT NULL,
   `Community_idCommunity` INT NOT NULL,
   PRIMARY KEY (`idFA_Topography`, `Community_idCommunity`),
   CONSTRAINT `fk_Topography_Community1`
@@ -576,16 +576,14 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`U_Urbanism` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`U_Urbanism` (
   `idU_Urbanism` INT NOT NULL AUTO_INCREMENT,
-  `UrbanPlan` VARCHAR(45) NULL,
+  `UrbanPlan` TINYINT(1) NULL,
   `UrbanPlanDuratrion` INT NULL,
   `CampLimits` VARCHAR(45) NULL,
   `LandManagement` VARCHAR(45) NULL,
-  `PlannedGrowth` VARCHAR(45) NULL,
+  `PlannedGrowth` TINYINT(1) NULL,
   `GrowthForecast` INT NULL,
   `UrbanPlanRiskInstruments` VARCHAR(45) NULL,
-  `Storm_Tornado` VARCHAR(45) NULL,
-  `Earthquakes` VARCHAR(45) NULL,
-  `Flood` VARCHAR(45) NULL,
+  `RiskType` VARCHAR(45) NULL,
   `AVG_PlotArea` INT NULL,
   `PlotDelimitation` VARCHAR(45) NULL,
   `Community_idCommunity` INT NOT NULL,
@@ -651,9 +649,9 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`U_RecreationalArea` ;
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`U_RecreationalArea` (
   `idRecreationalArea` INT NOT NULL AUTO_INCREMENT,
   `AreaName` VARCHAR(45) NULL,
-  `Latitude` VARCHAR(45) NULL,
-  `Longitude` VARCHAR(45) NULL,
-  `Altitude` INT NULL,
+  `Latitude` FLOAT NULL,
+  `Longitude` FLOAT NULL,
+  `Altitude` FLOAT NULL,
   `Woodland_ShadedArea` TINYINT(1) NULL,
   `UrbanFurniture` TINYINT(1) NULL,
   `Floor_DrainageSystem` TINYINT(1) NULL,
@@ -678,8 +676,8 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`U_Road` ;
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`U_Road` (
   `idU_Road` INT NOT NULL AUTO_INCREMENT,
   `RoadsLength` INT NULL,
-  `DrainageSystem` VARCHAR(45) NULL,
-  `Conditioning` VARCHAR(45) NULL,
+  `DrainageSystem` INT NULL,
+  `Conditioning` INT NULL,
   `Community_idCommunity` INT NOT NULL,
   PRIMARY KEY (`idU_Road`, `Community_idCommunity`),
   CONSTRAINT `fk_U_Road_Community1`
@@ -700,7 +698,7 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`INF_WaterInfrastructure` ;
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`INF_WaterInfrastructure` (
   `idINF_WaterInfrastructure` INT NOT NULL AUTO_INCREMENT,
   `WaterQuality` VARCHAR(45) NULL,
-  `ConsumptionPerCapita` FLOAT NULL,
+  `ConsumptionPerCapita` VARCHAR(45) NULL,
   `SourceType` VARCHAR(45) NULL,
   `Community_idCommunity` INT NOT NULL,
   PRIMARY KEY (`idINF_WaterInfrastructure`, `Community_idCommunity`),
@@ -789,12 +787,11 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`INF_EnergyInfrastructure` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`INF_EnergyInfrastructure` (
   `idINF_EnergyInfrastructure` INT NOT NULL AUTO_INCREMENT,
-  `ElectricServiceByElectricityGrid` VARCHAR(45) NULL,
-  `MediumVoltage` INT NULL,
-  `DistributionGridVoltage` INT NULL,
-  `ExpandPlan` VARCHAR(45) NULL,
+  `ElectricServiceByElectricityGrid` TINYINT(1) NULL,
+  `ExpandPlan` TINYINT(1) NULL,
   `BlackoutElectricityPerDay` INT NULL,
   `CurveOfDemand` VARCHAR(45) NULL,
+  `StreetLight` TINYINT(1) NULL,
   `DistanceToElectricityGrid` INT NULL,
   `Community_idCommunity` INT NOT NULL,
   PRIMARY KEY (`idINF_EnergyInfrastructure`, `Community_idCommunity`),
@@ -827,7 +824,6 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`INF_GenerationSystem` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`INF_GenerationSystem` (
   `idINF_GenerationSystem` INT NOT NULL AUTO_INCREMENT,
-  `Sector` VARCHAR(45) NULL,
   `SystemType` VARCHAR(45) NULL,
   `Capacity` INT NULL,
   `Community_idCommunity` INT NOT NULL,
@@ -895,11 +891,12 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`INF_CookWoman` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`INF_CookWoman` (
   `idINF_CookWoman` INT NOT NULL AUTO_INCREMENT COMMENT '2',
-  `CookingPlace` VARCHAR(45) NULL,
+  `CookingInside` FLOAT NULL,
+  `CookingOutside` FLOAT NULL,
   `CookingHours` FLOAT NULL,
-  `WeeklyFirewood` INT NULL,
+  `HealthFirewood` FLOAT NULL,
+  `WeeklyFirewood` FLOAT NULL,
   `FirewoodHours` FLOAT NULL,
-  `HealthFirewood` TINYINT(1) NULL,
   `Community_idCommunity` INT NOT NULL,
   PRIMARY KEY (`idINF_CookWoman`, `Community_idCommunity`),
   CONSTRAINT `fk_INF_CookWoman_Community1`
@@ -919,9 +916,9 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`INF_PublicLighting` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`INF_PublicLighting` (
   `idINF_PublicLighting` INT NOT NULL AUTO_INCREMENT,
-  `StreetLightWorking` VARCHAR(45) NULL,
+  `StreetLightWorking` TINYINT(1) NULL,
   `LightPointsDistance` FLOAT NULL,
-  `InfluenceInWomensSafety` VARCHAR(45) NULL,
+  `InfluenceInWomensSafety` INT NULL,
   `Community_idCommunity` INT NOT NULL,
   PRIMARY KEY (`idINF_PublicLighting`, `Community_idCommunity`),
   CONSTRAINT `fk_INF_PublicLighting_Community1`
@@ -941,9 +938,9 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`INF_StreetLamp` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`INF_StreetLamp` (
   `idINF_StreetLamp` INT NOT NULL AUTO_INCREMENT,
-  `Latitude` VARCHAR(45) NULL,
-  `Longitude` VARCHAR(45) NULL,
-  `Altitude` INT NULL,
+  `Latitude` FLOAT NULL,
+  `Longitude` FLOAT NULL,
+  `Altitude` FLOAT NULL,
   `Community_idCommunity` INT NOT NULL,
   PRIMARY KEY (`idINF_StreetLamp`, `Community_idCommunity`),
   CONSTRAINT `fk_INF_StreetLamp_Community1`
@@ -995,9 +992,9 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`INF_MobillityPoint` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`INF_MobillityPoint` (
   `idINF_MobillityPoint` INT NOT NULL AUTO_INCREMENT,
-  `Latitude` VARCHAR(45) NULL,
-  `Longitude` VARCHAR(45) NULL,
-  `Altitude` INT NULL,
+  `Latitude` FLOAT NULL,
+  `Longitude` FLOAT NULL,
+  `Altitude` FLOAT NULL,
   `Community_idCommunity` INT NOT NULL,
   PRIMARY KEY (`idINF_MobillityPoint`, `Community_idCommunity`),
   CONSTRAINT `fk_INF_MobillityPoint_Community1`
@@ -1019,8 +1016,8 @@ CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`S_BuildingQuality` (
   `idS_BuildingQuality` INT NOT NULL AUTO_INCREMENT,
   `NoFiltrationRoof` TINYINT(1) NULL,
   `SecureStructured` TINYINT(1) NULL,
-  `ThermalConfort` TINYINT(1) NULL,
   `ClimaticHazard` TINYINT(1) NULL,
+  `ThermalConfort` TINYINT(1) NULL,
   PRIMARY KEY (`idS_BuildingQuality`))
 ENGINE = InnoDB;
 
@@ -1035,14 +1032,13 @@ CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`S_EducationalCenter` (
   `Latitude` VARCHAR(45) NULL,
   `Longitude` VARCHAR(45) NULL,
   `Altitude` INT NULL,
-  `NoAccessArea` FLOAT NULL,
   `EducationType` VARCHAR(45) NULL,
   `Students` INT NULL,
   `Workingpoints` INT NULL,
   `Teachers` INT NULL,
   `Material` VARCHAR(100) NULL,
-  `TimeStart` VARCHAR(45) NULL,
-  `TimeFinish` VARCHAR(45) NULL,
+  `TimeStart` TIME NULL,
+  `TimeFinish` TIME NULL,
   `S_BuildingQuality_idS_BuildingQuality` INT NOT NULL,
   PRIMARY KEY (`idS_EducationalCenter`),
   CONSTRAINT `fk_S_EducationaCenter_S_BuildingQuality1`
@@ -1107,9 +1103,9 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`S_PrimaryAttention` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`S_PrimaryAttention` (
   `idS_PrimaryAttention` INT NOT NULL AUTO_INCREMENT,
-  `Latitude` VARCHAR(45) NULL,
-  `Longitude` VARCHAR(45) NULL,
-  `Altitude` INT NULL,
+  `Latitude` FLOAT NULL,
+  `Longitude` FLOAT NULL,
+  `Altitude` FLOAT NULL,
   `NoAccesArea` FLOAT NULL,
   `S_BuildingQuality_idS_BuildingQuality` INT NOT NULL,
   PRIMARY KEY (`idS_PrimaryAttention`),
@@ -1130,11 +1126,11 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`S_Hospital` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`S_Hospital` (
   `idS_Hospital` INT NOT NULL AUTO_INCREMENT,
-  `Latitude` VARCHAR(45) NULL,
-  `Longitude` VARCHAR(45) NULL,
-  `Altitude` INT NULL,
-  `NoAccessArea` FLOAT NULL,
+  `Latitude` FLOAT NULL,
+  `Longitude` FLOAT NULL,
+  `Altitude` FLOAT NULL,
   `Beds` INT NULL,
+  `NoAccessArea` FLOAT NULL,
   `S_BuildingQuality_idS_BuildingQuality` INT NOT NULL,
   PRIMARY KEY (`idS_Hospital`),
   CONSTRAINT `fk_S_Hospital_S_BuildingQuality1`
@@ -1154,12 +1150,12 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`S_Cementery` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`S_Cementery` (
   `idS_Cementery` INT NOT NULL AUTO_INCREMENT,
-  `Latitude` VARCHAR(45) NULL,
-  `Longitude` VARCHAR(45) NULL,
-  `Altitude` INT NULL,
-  `NoAccessArea` FLOAT NULL,
+  `Latitude` FLOAT NULL,
+  `Longitude` FLOAT NULL,
+  `Altitude` FLOAT NULL,
   `Drainage` VARCHAR(45) NULL,
   `UpperBound` INT NULL,
+  `NoAccessArea` FLOAT NULL,
   PRIMARY KEY (`idS_Cementery`))
 ENGINE = InnoDB;
 
@@ -1171,12 +1167,12 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`S_OtherCenter` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`S_OtherCenter` (
   `idS_OtherCenter` INT NOT NULL AUTO_INCREMENT,
-  `Latitude` VARCHAR(45) NULL,
-  `Longitude` VARCHAR(45) NULL,
-  `Altitude` INT NULL,
-  `NoAccessArea` FLOAT NULL,
+  `Latitude` FLOAT NULL,
+  `Longitude` FLOAT NULL,
+  `Altitude` FLOAT NULL,
   `CenterType` VARCHAR(45) NULL,
   `CenterName` VARCHAR(45) NULL,
+  `NoAccessArea` FLOAT NULL,
   PRIMARY KEY (`idS_OtherCenter`))
 ENGINE = InnoDB;
 
@@ -1202,18 +1198,6 @@ CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`S_Tecknowlege` (
   `idS_Tecknowlege` INT NOT NULL AUTO_INCREMENT,
   `knowlegeType` VARCHAR(45) NULL,
   PRIMARY KEY (`idS_Tecknowlege`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `nautiatoolkit`.`S_HardwareAccesibility`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `nautiatoolkit`.`S_HardwareAccesibility` ;
-
-CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`S_HardwareAccesibility` (
-  `idS_HardwareAccesibility` INT NOT NULL AUTO_INCREMENT,
-  `HardWareType` VARCHAR(45) NULL,
-  PRIMARY KEY (`idS_HardwareAccesibility`))
 ENGINE = InnoDB;
 
 
@@ -1252,21 +1236,22 @@ CREATE INDEX `fk_SH_Shelter_Community1_idx` ON `nautiatoolkit`.`SH_Shelter` (`Co
 
 
 -- -----------------------------------------------------
--- Table `nautiatoolkit`.`SH_House`
+-- Table `nautiatoolkit`.`SH_Building`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `nautiatoolkit`.`SH_House` ;
+DROP TABLE IF EXISTS `nautiatoolkit`.`SH_Building` ;
 
-CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`SH_House` (
+CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`SH_Building` (
   `idSH_House` INT NOT NULL AUTO_INCREMENT,
-  `Rooms` INT NULL,
-  `GasTight` TINYINT(1) NULL,
+  `Latitude` FLOAT NULL,
+  `Longitude` FLOAT NULL,
+  `Altitude` FLOAT NULL,
+  `ApropiateRoof` TINYINT(1) NULL,
   `SecureStructured` TINYINT(1) NULL,
   `ClimateThreatProtect` TINYINT(1) NULL,
   `WindowsAllRooms` TINYINT(1) NULL,
   `NoHumidity` TINYINT(1) NULL,
   `NoAnimals` TINYINT(1) NULL,
   `LT30Dregrees` TINYINT(1) NULL,
-  `PosibleUpgrading` TINYINT(1) NULL,
   `Community_idCommunity` INT NOT NULL,
   PRIMARY KEY (`idSH_House`, `Community_idCommunity`),
   CONSTRAINT `fk_SH_FamilyHouse_Community1`
@@ -1276,30 +1261,27 @@ CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`SH_House` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+CREATE UNIQUE INDEX `ClimateThreatProtect_UNIQUE` ON `nautiatoolkit`.`SH_Building` (`ClimateThreatProtect` ASC);
+
 
 -- -----------------------------------------------------
--- Table `nautiatoolkit`.`FS_FoodSafety`
+-- Table `nautiatoolkit`.`FS_Cause`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `nautiatoolkit`.`FS_FoodSafety` ;
+DROP TABLE IF EXISTS `nautiatoolkit`.`FS_Cause` ;
 
-CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`FS_FoodSafety` (
+CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`FS_Cause` (
   `idFS_FoodSafety` INT NOT NULL AUTO_INCREMENT,
   `Cause` VARCHAR(45) NULL,
-  `KidsAffected` TINYINT(1) NULL,
-  `WomenAffected` TINYINT(1) NULL,
-  `MenAffected` TINYINT(1) NULL,
-  `SeniorsAffected` TINYINT(1) NULL,
-  `Ingtake` FLOAT NULL,
   `Community_idCommunity` INT NOT NULL,
   PRIMARY KEY (`idFS_FoodSafety`, `Community_idCommunity`),
-  CONSTRAINT `fk_FS_FoodSafety_Community1`
+  CONSTRAINT `fk_FS_Cause_Community1`
     FOREIGN KEY (`Community_idCommunity`)
     REFERENCES `nautiatoolkit`.`Community` (`idCommunity`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-CREATE INDEX `fk_FS_FoodSafety_Community1_idx` ON `nautiatoolkit`.`FS_FoodSafety` (`Community_idCommunity` ASC);
+CREATE INDEX `fk_FS_Cause_Community1_idx` ON `nautiatoolkit`.`FS_Cause` (`Community_idCommunity` ASC);
 
 
 -- -----------------------------------------------------
@@ -1315,24 +1297,24 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `nautiatoolkit`.`FS_DailyMeal`
+-- Table `nautiatoolkit`.`FS_TimesPerDay`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `nautiatoolkit`.`FS_DailyMeal` ;
+DROP TABLE IF EXISTS `nautiatoolkit`.`FS_TimesPerDay` ;
 
-CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`FS_DailyMeal` (
-  `idFS_DailyMeal` INT NOT NULL AUTO_INCREMENT,
-  `TimesPerDay` INT NULL,
-  `ImportantMeal` VARCHAR(45) NULL,
+CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`FS_TimesPerDay` (
+  `idFS_TimesPerDay` INT NOT NULL AUTO_INCREMENT,
+  `times` VARCHAR(45) NULL,
+  `numberPeople` INT NULL,
   `Community_idCommunity` INT NOT NULL,
-  PRIMARY KEY (`idFS_DailyMeal`, `Community_idCommunity`),
-  CONSTRAINT `fk_FS_DailyMeal_Community1`
+  PRIMARY KEY (`idFS_TimesPerDay`, `Community_idCommunity`),
+  CONSTRAINT `fk_FS_TimesPerDay_Community1`
     FOREIGN KEY (`Community_idCommunity`)
     REFERENCES `nautiatoolkit`.`Community` (`idCommunity`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-CREATE INDEX `fk_FS_DailyMeal_Community1_idx` ON `nautiatoolkit`.`FS_DailyMeal` (`Community_idCommunity` ASC);
+CREATE INDEX `fk_FS_TimesPerDay_Community1_idx` ON `nautiatoolkit`.`FS_TimesPerDay` (`Community_idCommunity` ASC);
 
 
 -- -----------------------------------------------------
@@ -1343,6 +1325,7 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`FS_FoodSource` ;
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`FS_FoodSource` (
   `idFS_FoodSource` INT NOT NULL AUTO_INCREMENT,
   `Source` VARCHAR(45) NULL,
+  `NumberPeople` INT NULL,
   PRIMARY KEY (`idFS_FoodSource`))
 ENGINE = InnoDB;
 
@@ -1355,7 +1338,7 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`FS_TypicalPlate` ;
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`FS_TypicalPlate` (
   `idFS_TypicalPlate` INT NOT NULL AUTO_INCREMENT,
   `Plate` VARCHAR(45) NULL,
-  `Kcal` FLOAT NULL,
+  `Kcal_100g` FLOAT NULL,
   PRIMARY KEY (`idFS_TypicalPlate`))
 ENGINE = InnoDB;
 
@@ -1367,7 +1350,6 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`FS_FoodAccessContinuity` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`FS_FoodAccessContinuity` (
   `idFS_FoodAccessContinuity` INT NOT NULL AUTO_INCREMENT,
-  `SelfSufficiencySeason` VARCHAR(100) NULL,
   `NoProcessedFoodDuration` INT NULL,
   `FoodConservationTec` VARCHAR(45) NULL,
   `Community_idCommunity` INT NOT NULL,
@@ -1390,8 +1372,16 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`FS_GrainConservation` ;
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`FS_GrainConservation` (
   `idFS_GrainConservation` INT NOT NULL AUTO_INCREMENT,
   `ConservationTec` VARCHAR(45) NULL,
-  PRIMARY KEY (`idFS_GrainConservation`))
+  `Community_idCommunity` INT NOT NULL,
+  PRIMARY KEY (`idFS_GrainConservation`, `Community_idCommunity`),
+  CONSTRAINT `fk_FS_GrainConservation_Community1`
+    FOREIGN KEY (`Community_idCommunity`)
+    REFERENCES `nautiatoolkit`.`Community` (`idCommunity`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+CREATE INDEX `fk_FS_GrainConservation_Community1_idx` ON `nautiatoolkit`.`FS_GrainConservation` (`Community_idCommunity` ASC);
 
 
 -- -----------------------------------------------------
@@ -1461,10 +1451,10 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`FA_GeographicIdentification` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`FA_GeographicIdentification` (
   `idFA_GeographicIdentification` INT NOT NULL AUTO_INCREMENT,
-  `Latitude` VARCHAR(45) NULL,
-  `Longitude` VARCHAR(45) NULL,
-  `PhreaticLevel` INT NULL,
-  `Area` INT NULL,
+  `Latitude` FLOAT NULL,
+  `Longitude` FLOAT NULL,
+  `PhreaticLevel` FLOAT NULL,
+  `Area` FLOAT NULL,
   `Community_idCommunity` INT NOT NULL,
   PRIMARY KEY (`idFA_GeographicIdentification`, `Community_idCommunity`),
   CONSTRAINT `fk_FA_GeographicIdentification_Community1`
@@ -1537,8 +1527,8 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`SE_SafetyCommittee` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`SE_SafetyCommittee` (
   `idSE_SafetyCommittee` INT NOT NULL AUTO_INCREMENT,
-  `SC_SafetyCommittee` VARCHAR(45) NULL,
-  `WomenPatrol` VARCHAR(45) NULL,
+  `SafetyCommittee` TINYINT(1) NULL,
+  `WomenPatrol` TINYINT(1) NULL,
   `Community_idCommunity` INT NOT NULL,
   PRIMARY KEY (`idSE_SafetyCommittee`, `Community_idCommunity`),
   CONSTRAINT `fk_SC_SafetyCommittee_Community1`
@@ -1558,8 +1548,8 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`SE_SafetyLatrines` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`SE_SafetyLatrines` (
   `idSE_SafetyLatrines` INT NOT NULL AUTO_INCREMENT,
-  `SeparatedBySex` VARCHAR(45) NULL,
-  `Light` VARCHAR(45) NULL,
+  `SeparatedBySex` TINYINT(1) NULL,
+  `Light` TINYINT(1) NULL,
   `Community_idCommunity` INT NOT NULL,
   PRIMARY KEY (`idSE_SafetyLatrines`, `Community_idCommunity`),
   CONSTRAINT `fk_SE_SafetyLatrines_Community1`
@@ -1613,7 +1603,7 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`INF_TimeSpent` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`INF_TimeSpent` (
   `idINF_TimeSpent` INT NOT NULL AUTO_INCREMENT,
-  `DailyTimeSpent` FLOAT NULL,
+  `DailyTimeSpent` INT NULL,
   `INF_WaterInfrastructure_idINF_WaterInfrastructure` INT NOT NULL,
   `INF_WaterInfrastructure_Community_idCommunity` INT NOT NULL,
   PRIMARY KEY (`idINF_TimeSpent`, `INF_WaterInfrastructure_idINF_WaterInfrastructure`, `INF_WaterInfrastructure_Community_idCommunity`),
@@ -1635,8 +1625,7 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`INF_SanitationAccess` ;
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`INF_SanitationAccess` (
   `idINF_SanitationAccess` INT NOT NULL AUTO_INCREMENT,
   `OutdoorsLatrine` TINYINT(1) NULL,
-  `SharedLatrine` TINYINT(1) NULL,
-  `IndividualLatrine` VARCHAR(45) NULL,
+  `latrineType` VARCHAR(45) NULL,
   `Community_idCommunity` INT NOT NULL,
   PRIMARY KEY (`idINF_SanitationAccess`, `Community_idCommunity`),
   CONSTRAINT `fk_INF_SanitationAccess_Community1`
@@ -1656,8 +1645,11 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`INF_SanitationSystemQuality` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`INF_SanitationSystemQuality` (
   `idINF_SanitationSystemQuality` INT NOT NULL AUTO_INCREMENT,
-  `LatrineQuality` VARCHAR(45) NULL,
-  `BuildingQuality` VARCHAR(100) NULL,
+  `slab` TINYINT(1) NULL,
+  `ventilated` TINYINT(1) NULL,
+  `durableStructure` TINYINT(1) NULL,
+  `wall_Roof` TINYINT(1) NULL,
+  `door` TINYINT(1) NULL,
   PRIMARY KEY (`idINF_SanitationSystemQuality`))
 ENGINE = InnoDB;
 
@@ -1691,9 +1683,9 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`FS_CorralUbication` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`FS_CorralUbication` (
   `idFS_CorralUbication` INT NOT NULL AUTO_INCREMENT,
-  `Latitude` VARCHAR(45) NULL,
-  `Longitude` VARCHAR(45) NULL,
-  `Altitude` INT NULL,
+  `Latitude` FLOAT NULL,
+  `Longitude` FLOAT NULL,
+  `Altitude` FLOAT NULL,
   `Type` VARCHAR(45) NULL,
   `DrainageSystem` VARCHAR(45) NULL,
   PRIMARY KEY (`idFS_CorralUbication`))
@@ -1708,7 +1700,7 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`FS_CorralCropData` ;
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`FS_CorralCropData` (
   `idFS_CorralCropData` INT NOT NULL AUTO_INCREMENT,
   `PastoralismTechnique` VARCHAR(45) NULL,
-  `FertilizationSystem` VARCHAR(45) NULL,
+  `FertilizationSystem` TINYINT(1) NULL,
   `Community_idCommunity` INT NOT NULL,
   PRIMARY KEY (`idFS_CorralCropData`, `Community_idCommunity`),
   CONSTRAINT `fk_FS_CorralCropData_Community1`
@@ -1769,47 +1761,6 @@ ENGINE = InnoDB;
 CREATE INDEX `fk_HostCommunity_has_Camp_Camp1_idx` ON `nautiatoolkit`.`HostCommunity_has_Camp` (`Camp_idCamp` ASC);
 
 CREATE INDEX `fk_HostCommunity_has_Camp_HostCommunity1_idx` ON `nautiatoolkit`.`HostCommunity_has_Camp` (`HostCommunity_idHostCommunity` ASC);
-
-
--- -----------------------------------------------------
--- Table `nautiatoolkit`.`People`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `nautiatoolkit`.`People` ;
-
-CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`People` (
-  `idPeople` INT NOT NULL AUTO_INCREMENT,
-  `Sex` VARCHAR(45) NULL,
-  `Workshop` VARCHAR(45) NULL,
-  `Community_idCommunity` INT NOT NULL,
-  PRIMARY KEY (`idPeople`, `Community_idCommunity`),
-  CONSTRAINT `fk_People_Community1`
-    FOREIGN KEY (`Community_idCommunity`)
-    REFERENCES `nautiatoolkit`.`Community` (`idCommunity`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-CREATE INDEX `fk_People_Community1_idx` ON `nautiatoolkit`.`People` (`Community_idCommunity` ASC);
-
-
--- -----------------------------------------------------
--- Table `nautiatoolkit`.`InterviewedCenter`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `nautiatoolkit`.`InterviewedCenter` ;
-
-CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`InterviewedCenter` (
-  `idInterviewedCenter` INT NOT NULL AUTO_INCREMENT,
-  `CenterType` VARCHAR(45) NULL,
-  `Community_idCommunity` INT NOT NULL,
-  PRIMARY KEY (`idInterviewedCenter`, `Community_idCommunity`),
-  CONSTRAINT `fk_InterviewedCenter_Community1`
-    FOREIGN KEY (`Community_idCommunity`)
-    REFERENCES `nautiatoolkit`.`Community` (`idCommunity`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-CREATE INDEX `fk_InterviewedCenter_Community1_idx` ON `nautiatoolkit`.`InterviewedCenter` (`Community_idCommunity` ASC);
 
 
 -- -----------------------------------------------------
@@ -2094,7 +2045,8 @@ CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`SE_Priority_has_Community` (
   `idSE_Priority_has_Community` INT NOT NULL AUTO_INCREMENT,
   `SE_Priority_idSE_Priority` INT NOT NULL,
   `Community_idCommunity` INT NOT NULL,
-  `sex` VARCHAR(45) NULL,
+  `totalAnswer` INT NULL,
+  `priorityLevel` INT NULL,
   PRIMARY KEY (`idSE_Priority_has_Community`, `SE_Priority_idSE_Priority`, `Community_idCommunity`),
   CONSTRAINT `fk_SE_Priority_has_Community_SE_Priority1`
     FOREIGN KEY (`SE_Priority_idSE_Priority`)
@@ -2131,12 +2083,12 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `nautiatoolkit`.`SE_WorkType_has_Community` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`SE_WorkType_has_Community` (
-  `idSE_WorkType_has_Community` INT NOT NULL AUTO_INCREMENT,
   `SE_WorkType_idSE_WorkType` INT NOT NULL,
   `Community_idCommunity` INT NOT NULL,
-  `Sex` VARCHAR(45) NULL,
-  `Kid` TINYINT(1) NULL,
-  PRIMARY KEY (`idSE_WorkType_has_Community`, `SE_WorkType_idSE_WorkType`, `Community_idCommunity`),
+  `childNumber` INT NULL,
+  `womenNumber` INT NULL,
+  `menNumber` INT NULL,
+  PRIMARY KEY (`SE_WorkType_idSE_WorkType`, `Community_idCommunity`),
   CONSTRAINT `fk_SE_WorkType_has_Community_SE_WorkType1`
     FOREIGN KEY (`SE_WorkType_idSE_WorkType`)
     REFERENCES `nautiatoolkit`.`SE_WorkType` (`idSE_WorkType`)
@@ -2187,9 +2139,9 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`INF_WaterPoint` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`INF_WaterPoint` (
   `idINF_WaterPoint` INT NOT NULL AUTO_INCREMENT,
-  `Latitude` VARCHAR(45) NULL,
-  `Longitude` VARCHAR(45) NULL,
-  `Altitude` INT NULL,
+  `Latitude` FLOAT NULL,
+  `Longitude` FLOAT NULL,
+  `Altitude` FLOAT NULL,
   `Working` VARCHAR(45) NULL,
   `Community_idCommunity` INT NOT NULL,
   PRIMARY KEY (`idINF_WaterPoint`, `Community_idCommunity`),
@@ -2210,9 +2162,9 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`INF_ColletionPoints` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`INF_ColletionPoints` (
   `idINF_ColletionPoints` INT NOT NULL AUTO_INCREMENT,
-  `Latitude` VARCHAR(45) NULL,
-  `Longitude` VARCHAR(45) NULL,
-  `Altitude` INT NULL,
+  `Latitude` FLOAT NULL,
+  `Longitude` FLOAT NULL,
+  `Altitude` FLOAT NULL,
   `Community_idCommunity` INT NOT NULL,
   PRIMARY KEY (`idINF_ColletionPoints`, `Community_idCommunity`),
   CONSTRAINT `fk_INF_ColletionPoints_Community1`
@@ -2384,6 +2336,7 @@ CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`S_Tecknowlege_has_Community` (
   `idS_Tecknowlege_has_Community` INT NOT NULL AUTO_INCREMENT,
   `S_Tecknowlege_idS_Tecknowlege` INT NOT NULL,
   `Community_idCommunity` INT NOT NULL,
+  `NumberPersons` INT NULL,
   PRIMARY KEY (`idS_Tecknowlege_has_Community`, `S_Tecknowlege_idS_Tecknowlege`, `Community_idCommunity`),
   CONSTRAINT `fk_S_Tecknowlege_has_Community_S_Tecknowlege1`
     FOREIGN KEY (`S_Tecknowlege_idS_Tecknowlege`)
@@ -2400,34 +2353,6 @@ ENGINE = InnoDB;
 CREATE INDEX `fk_S_Tecknowlege_has_Community_Community1_idx` ON `nautiatoolkit`.`S_Tecknowlege_has_Community` (`Community_idCommunity` ASC);
 
 CREATE INDEX `fk_S_Tecknowlege_has_Community_S_Tecknowlege1_idx` ON `nautiatoolkit`.`S_Tecknowlege_has_Community` (`S_Tecknowlege_idS_Tecknowlege` ASC);
-
-
--- -----------------------------------------------------
--- Table `nautiatoolkit`.`S_HardwareAccesibility_has_Community`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `nautiatoolkit`.`S_HardwareAccesibility_has_Community` ;
-
-CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`S_HardwareAccesibility_has_Community` (
-  `idS_HardwareAccesibility_has_Community` INT NOT NULL AUTO_INCREMENT,
-  `S_HardwareAccesibility_idS_HardwareAccesibility` INT NOT NULL,
-  `Community_idCommunity` INT NOT NULL,
-  `OperativeSystem` VARCHAR(45) NULL,
-  PRIMARY KEY (`idS_HardwareAccesibility_has_Community`, `S_HardwareAccesibility_idS_HardwareAccesibility`, `Community_idCommunity`),
-  CONSTRAINT `fk_S_HardwareAccesibility_has_Community_S_HardwareAccesibility1`
-    FOREIGN KEY (`S_HardwareAccesibility_idS_HardwareAccesibility`)
-    REFERENCES `nautiatoolkit`.`S_HardwareAccesibility` (`idS_HardwareAccesibility`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_S_HardwareAccesibility_has_Community_Community1`
-    FOREIGN KEY (`Community_idCommunity`)
-    REFERENCES `nautiatoolkit`.`Community` (`idCommunity`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-CREATE INDEX `fk_S_HardwareAccesibility_has_Community_Community1_idx` ON `nautiatoolkit`.`S_HardwareAccesibility_has_Community` (`Community_idCommunity` ASC);
-
-CREATE INDEX `fk_S_HardwareAccesibility_has_Community_S_HardwareAccesibil_idx` ON `nautiatoolkit`.`S_HardwareAccesibility_has_Community` (`S_HardwareAccesibility_idS_HardwareAccesibility` ASC);
 
 
 -- -----------------------------------------------------
@@ -2464,10 +2389,10 @@ CREATE INDEX `fk_S_App_has_Community_S_App1_idx` ON `nautiatoolkit`.`S_App_has_C
 DROP TABLE IF EXISTS `nautiatoolkit`.`FS_FoodAccess_has_Community` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`FS_FoodAccess_has_Community` (
-  `idFS_FoodAccess_has_Community` INT NOT NULL AUTO_INCREMENT,
   `FS_FoodAccess_idFS_FoodAccess` INT NOT NULL,
   `Community_idCommunity` INT NOT NULL,
-  PRIMARY KEY (`idFS_FoodAccess_has_Community`, `FS_FoodAccess_idFS_FoodAccess`, `Community_idCommunity`),
+  `NumberPeople` INT NULL,
+  PRIMARY KEY (`FS_FoodAccess_idFS_FoodAccess`, `Community_idCommunity`),
   CONSTRAINT `fk_FS_FoodAccess_has_Community_FS_FoodAccess1`
     FOREIGN KEY (`FS_FoodAccess_idFS_FoodAccess`)
     REFERENCES `nautiatoolkit`.`FS_FoodAccess` (`idFS_FoodAccess`)
@@ -2546,9 +2471,28 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`FS_CultivationSeason` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`FS_CultivationSeason` (
   `idFS_CultivationSeason` INT NOT NULL AUTO_INCREMENT,
-  `Month` VARCHAR(45) NULL,
-  PRIMARY KEY (`idFS_CultivationSeason`))
+  `january` TINYINT(1) NULL,
+  `february` TINYINT(1) NULL,
+  `march` TINYINT(1) NULL,
+  `april` TINYINT(1) NULL,
+  `may` TINYINT(1) NULL,
+  `june` TINYINT(1) NULL,
+  `july` TINYINT(1) NULL,
+  `august` TINYINT(1) NULL,
+  `september` TINYINT(1) NULL,
+  `octuber` TINYINT(1) NULL,
+  `november` TINYINT(1) NULL,
+  `december` TINYINT(1) NULL,
+  `Community_idCommunity` INT NOT NULL,
+  PRIMARY KEY (`idFS_CultivationSeason`, `Community_idCommunity`),
+  CONSTRAINT `fk_FS_CultivationSeason_Community1`
+    FOREIGN KEY (`Community_idCommunity`)
+    REFERENCES `nautiatoolkit`.`Community` (`idCommunity`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+CREATE INDEX `fk_FS_CultivationSeason_Community1_idx` ON `nautiatoolkit`.`FS_CultivationSeason` (`Community_idCommunity` ASC);
 
 
 -- -----------------------------------------------------
@@ -2735,32 +2679,6 @@ CREATE INDEX `fk_FS_OwnCultivationFoodType_has_Community_FS_OwnCultivatio_idx` O
 
 
 -- -----------------------------------------------------
--- Table `nautiatoolkit`.`FS_GrainConservation_has_Community`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `nautiatoolkit`.`FS_GrainConservation_has_Community` ;
-
-CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`FS_GrainConservation_has_Community` (
-  `FS_GrainConservation_idFS_GrainConservation` INT NOT NULL,
-  `Community_idCommunity` INT NOT NULL,
-  PRIMARY KEY (`FS_GrainConservation_idFS_GrainConservation`, `Community_idCommunity`),
-  CONSTRAINT `fk_FS_GrainConservation_has_Community_FS_GrainConservation1`
-    FOREIGN KEY (`FS_GrainConservation_idFS_GrainConservation`)
-    REFERENCES `nautiatoolkit`.`FS_GrainConservation` (`idFS_GrainConservation`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_FS_GrainConservation_has_Community_Community1`
-    FOREIGN KEY (`Community_idCommunity`)
-    REFERENCES `nautiatoolkit`.`Community` (`idCommunity`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-CREATE INDEX `fk_FS_GrainConservation_has_Community_Community1_idx` ON `nautiatoolkit`.`FS_GrainConservation_has_Community` (`Community_idCommunity` ASC);
-
-CREATE INDEX `fk_FS_GrainConservation_has_Community_FS_GrainConservation1_idx` ON `nautiatoolkit`.`FS_GrainConservation_has_Community` (`FS_GrainConservation_idFS_GrainConservation` ASC);
-
-
--- -----------------------------------------------------
 -- Table `nautiatoolkit`.`Comun_Language`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `nautiatoolkit`.`Comun_Language` ;
@@ -2857,9 +2775,9 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`FS_CropUbication` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`FS_CropUbication` (
   `idFS_CropUbication` INT NOT NULL AUTO_INCREMENT,
-  `Latitude` VARCHAR(45) NULL,
-  `Longitude` VARCHAR(45) NULL,
-  `Altitude` INT NULL,
+  `Latitude` FLOAT NULL,
+  `Longitude` FLOAT NULL,
+  `Altitude` FLOAT NULL,
   `Type` VARCHAR(45) NULL,
   `IrrigationSystem` VARCHAR(45) NULL,
   PRIMARY KEY (`idFS_CropUbication`))
@@ -2946,46 +2864,6 @@ ENGINE = InnoDB;
 CREATE INDEX `fk_INF_MobilityWay_has_Community_Community1_idx` ON `nautiatoolkit`.`INF_MobilityWay_has_Community` (`Community_idCommunity` ASC);
 
 CREATE INDEX `fk_INF_MobilityWay_has_Community_INF_MobilityWay1_idx` ON `nautiatoolkit`.`INF_MobilityWay_has_Community` (`INF_MobilityWay_idINF_MobilityWay` ASC);
-
-
--- -----------------------------------------------------
--- Table `nautiatoolkit`.`SH_Upgrading`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `nautiatoolkit`.`SH_Upgrading` ;
-
-CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`SH_Upgrading` (
-  `idSH_Upgrading` INT NOT NULL,
-  `UpgradingType` VARCHAR(45) NULL,
-  PRIMARY KEY (`idSH_Upgrading`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `nautiatoolkit`.`SH_Upgrading_has_SH_House`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `nautiatoolkit`.`SH_Upgrading_has_SH_House` ;
-
-CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`SH_Upgrading_has_SH_House` (
-  `idSH_Upgrading_has_SH_House` INT NOT NULL AUTO_INCREMENT,
-  `SH_Upgrading_idSH_Upgrading` INT NOT NULL,
-  `SH_House_idSH_House` INT NOT NULL,
-  `SH_House_Community_idCommunity` INT NOT NULL,
-  PRIMARY KEY (`idSH_Upgrading_has_SH_House`, `SH_Upgrading_idSH_Upgrading`, `SH_House_idSH_House`, `SH_House_Community_idCommunity`),
-  CONSTRAINT `fk_SH_Upgrading_has_SH_House_SH_Upgrading1`
-    FOREIGN KEY (`SH_Upgrading_idSH_Upgrading`)
-    REFERENCES `nautiatoolkit`.`SH_Upgrading` (`idSH_Upgrading`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_SH_Upgrading_has_SH_House_SH_House1`
-    FOREIGN KEY (`SH_House_idSH_House` , `SH_House_Community_idCommunity`)
-    REFERENCES `nautiatoolkit`.`SH_House` (`idSH_House` , `Community_idCommunity`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-CREATE INDEX `fk_SH_Upgrading_has_SH_House_SH_House1_idx` ON `nautiatoolkit`.`SH_Upgrading_has_SH_House` (`SH_House_idSH_House` ASC, `SH_House_Community_idCommunity` ASC);
-
-CREATE INDEX `fk_SH_Upgrading_has_SH_House_SH_Upgrading1_idx` ON `nautiatoolkit`.`SH_Upgrading_has_SH_House` (`SH_Upgrading_idSH_Upgrading` ASC);
 
 
 -- -----------------------------------------------------
@@ -3278,6 +3156,103 @@ CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`Camp_Enviroment` (
 ENGINE = InnoDB;
 
 CREATE INDEX `fk_Camp_Enviroment_Camp1_idx` ON `nautiatoolkit`.`Camp_Enviroment` (`Camp_idCamp` ASC);
+
+
+-- -----------------------------------------------------
+-- Table `nautiatoolkit`.`SH_House`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `nautiatoolkit`.`SH_House` ;
+
+CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`SH_House` (
+  `idSH_House` INT NOT NULL AUTO_INCREMENT,
+  `Rooms` INT NULL,
+  `PosibleUpgrading` VARCHAR(45) NULL,
+  `Community_idCommunity` INT NOT NULL,
+  PRIMARY KEY (`idSH_House`, `Community_idCommunity`),
+  CONSTRAINT `fk_SH_House_Community1`
+    FOREIGN KEY (`Community_idCommunity`)
+    REFERENCES `nautiatoolkit`.`Community` (`idCommunity`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+CREATE INDEX `fk_SH_House_Community1_idx` ON `nautiatoolkit`.`SH_House` (`Community_idCommunity` ASC);
+
+
+-- -----------------------------------------------------
+-- Table `nautiatoolkit`.`FS_FoodSafety`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `nautiatoolkit`.`FS_FoodSafety` ;
+
+CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`FS_FoodSafety` (
+  `idFS_FoodSafety` INT NOT NULL AUTO_INCREMENT,
+  `kids` TINYINT(1) NULL,
+  `women` TINYINT(1) NULL,
+  `men` TINYINT(1) NULL,
+  `senior` TINYINT(1) NULL,
+  `intake` FLOAT NULL,
+  `Community_idCommunity` INT NOT NULL,
+  PRIMARY KEY (`idFS_FoodSafety`, `Community_idCommunity`),
+  CONSTRAINT `fk_FS_FoodSafety_Community1`
+    FOREIGN KEY (`Community_idCommunity`)
+    REFERENCES `nautiatoolkit`.`Community` (`idCommunity`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+CREATE INDEX `fk_FS_FoodSafety_Community1_idx` ON `nautiatoolkit`.`FS_FoodSafety` (`Community_idCommunity` ASC);
+
+
+-- -----------------------------------------------------
+-- Table `nautiatoolkit`.`FS_ImportantMeal`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `nautiatoolkit`.`FS_ImportantMeal` ;
+
+CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`FS_ImportantMeal` (
+  `idFS_ImportantMeal` INT NOT NULL AUTO_INCREMENT,
+  `meal` VARCHAR(45) NULL,
+  `numberPeople` INT NULL,
+  `Community_idCommunity` INT NOT NULL,
+  PRIMARY KEY (`idFS_ImportantMeal`, `Community_idCommunity`),
+  CONSTRAINT `fk_FS_ImportantMeal_Community1`
+    FOREIGN KEY (`Community_idCommunity`)
+    REFERENCES `nautiatoolkit`.`Community` (`idCommunity`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+CREATE INDEX `fk_FS_ImportantMeal_Community1_idx` ON `nautiatoolkit`.`FS_ImportantMeal` (`Community_idCommunity` ASC);
+
+
+-- -----------------------------------------------------
+-- Table `nautiatoolkit`.`FS_SelfSufficiencySeason`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `nautiatoolkit`.`FS_SelfSufficiencySeason` ;
+
+CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`FS_SelfSufficiencySeason` (
+  `idFS_SelfSufficiencySeason` INT NOT NULL AUTO_INCREMENT,
+  `january` TINYINT(1) NULL,
+  `february` TINYINT(1) NULL,
+  `march` TINYINT(1) NULL,
+  `april` TINYINT(1) NULL,
+  `may` TINYINT(1) NULL,
+  `june` TINYINT(1) NULL,
+  `july` TINYINT(1) NULL,
+  `august` TINYINT(1) NULL,
+  `september` TINYINT(1) NULL,
+  `octuber` TINYINT(1) NULL,
+  `november` TINYINT(1) NULL,
+  `december` TINYINT(1) NULL,
+  `Community_idCommunity` INT NOT NULL,
+  PRIMARY KEY (`idFS_SelfSufficiencySeason`, `Community_idCommunity`),
+  CONSTRAINT `fk_FS_SelfSufficiencySeason_Community1`
+    FOREIGN KEY (`Community_idCommunity`)
+    REFERENCES `nautiatoolkit`.`Community` (`idCommunity`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+CREATE INDEX `fk_FS_SelfSufficiencySeason_Community1_idx` ON `nautiatoolkit`.`FS_SelfSufficiencySeason` (`Community_idCommunity` ASC);
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

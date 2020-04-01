@@ -1,1 +1,4 @@
 "start","end","IMPORTANT_NOTE","Type_of_setlement","Type_of_Host_Community","Record_your_current_location:Latitude","Record_your_current_location:Longitude","Record_your_current_location:Altitude","Record_your_current_location:Accuracy","meta:instanceID"
+"2020-03-11 16:18:53.264","2020-03-26 11:22:18.214",,"host_comunity","hostcommunityA","40.3867764452","-3.6984690396","594.3527221680","4.9000000000","uuid:8ecbf009-e722-4b03-a510-7ddd0fee54c5"
+"2020-03-27 12:26:49.66","2020-03-27 12:29:25.23",,"host_comunity","hostcommunityA","40.2812994900","-3.8071002500","695.0000000000","39.0000000000","uuid:ae052dcc-ce84-4222-897d-7c29451078a9"
+"2020-03-27 12:29:53.124","2020-03-27 12:33:34.442",,"refugee_camp",,"40.2813335900","-3.8071199100","704.0000000000","5.0000000000","uuid:018a50f6-6c31-4885-adc3-68e4af7afe14"
