@@ -35,14 +35,28 @@ for row in tablesList:
     string = np.array([],dtype = str)
     for column in columnList:
         if(pk):
-            pk = False
+           pk = False
         else:
-            string = np.append(string,column[0])
-    f.write("(")
+           string = np.append(string,column[0])
+    f.write("    (")
     for elem in string:
         if(elem != string[-1]):
-            f.write(elem+",")
+           f.write("@v"+elem+",")
         else:
-            f.write(elem)
-    f.write(");\n\n")
+           f.write("@v"+elem)
+    f.write(")\n")
+    f.write("SET ")
+    for elem in string:
+       if(elem != string[-1]):
+           f.write("    "+elem+" = "+"if(@v"+elem+"='',null,@v"+elem+")")
+       else:
+           if(elem == string[0]):
+               f.write("    "+elem+" = "+"if(@v"+elem+"='',null,@v"+elem+");\n\n")
+           else:
+               if(elem != "Community_idCommunity"):
+                   f.write(",\n    "+elem+" = "+"if(@v"+elem+"='',null,@v"+elem+");\n\n") 
+               else:
+                   f.write(";\n\n")
+       if(elem != string[-1] and elem != string[-2]):
+           f.write(",\n")
 f.close()
