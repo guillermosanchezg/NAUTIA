@@ -40,6 +40,7 @@ def dropRow(df,i):
 
 def mkCSV(df,fileName):
     df = df.dropna(how = 'all')
+    fileName = fileName.lower()
     df.to_csv('DataSetFinales/'+fileName,header = False, index=False) #Header e index a false para no mostrarlo en el csv
     
 def getPath(mainpath,filename):
