@@ -69,13 +69,14 @@ for row in tablesList:
                    f.write("    "+column+" = "+"if(@v"+column+"='',null,@v"+column+")")
                else:
                    if(column == string[0]):
+                       print(column)
                        f.write("    "+column+" = "+"if(@v"+column+"='',null,@v"+column+");\n\n")
                    else:
                        if(column != "Community_idCommunity"):
                            f.write(",\n    "+column+" = "+"if(@v"+column+"='',null,@v"+column+");\n\n") 
                        else:
                            f.write(";\n\n")
-                           f.write("INSERT INTO "+elem+" (Community_idCommunity)\nVALUES (@CommunityID);\n\n")  
+                           f.write("UPDATE "+elem+" SET Community_idCommunity = (SELECT @CommunityID);\n\n")  
                if(column != string[-1] and column != string[-2]):
                    f.write(",\n")
 

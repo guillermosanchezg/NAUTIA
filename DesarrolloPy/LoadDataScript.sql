@@ -14,8 +14,7 @@ LINES TERMINATED BY '\n'
 SET     StabilisationDate = if(@vStabilisationDate='',null,@vStabilisationDate),
     MigrationRate = if(@vMigrationRate='',null,@vMigrationRate);
 
-INSERT INTO camp (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE camp SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/camp_climaticregion.csv'
 INTO TABLE camp_climaticregion
@@ -211,8 +210,7 @@ SET     Latitude = if(@vLatitude='',null,@vLatitude),
     PhreaticLevel = if(@vPhreaticLevel='',null,@vPhreaticLevel),
     Area = if(@vArea='',null,@vArea);
 
-INSERT INTO fa_geographicidentification (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE fa_geographicidentification SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/fa_naturalresource.csv'
 INTO TABLE fa_naturalresource
@@ -222,8 +220,7 @@ LINES TERMINATED BY '\n'
 SET     Type = if(@vType='',null,@vType),
     Bound = if(@vBound='',null,@vBound);
 
-INSERT INTO fa_naturalresource (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE fa_naturalresource SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/fa_topography.csv'
 INTO TABLE fa_topography
@@ -233,8 +230,7 @@ LINES TERMINATED BY '\n'
 SET     UpperBound = if(@vUpperBound='',null,@vUpperBound),
     LowerBound = if(@vLowerBound='',null,@vLowerBound);
 
-INSERT INTO fa_topography (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE fa_topography SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/fs_cause.csv'
 INTO TABLE fs_cause
@@ -243,8 +239,7 @@ LINES TERMINATED BY '\n'
     (@vCause,@vCommunity_idCommunity);
 SET     Cause = if(@vCause='',null,@vCause);
 
-INSERT INTO fs_cause (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE fs_cause SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/fs_corralcropdata.csv'
 INTO TABLE fs_corralcropdata
@@ -254,8 +249,7 @@ LINES TERMINATED BY '\n'
 SET     PastoralismTechnique = if(@vPastoralismTechnique='',null,@vPastoralismTechnique),
     FertilizationSystem = if(@vFertilizationSystem='',null,@vFertilizationSystem);
 
-INSERT INTO fs_corralcropdata (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE fs_corralcropdata SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/fs_corralubication.csv'
 INTO TABLE fs_corralubication
@@ -275,8 +269,7 @@ LINES TERMINATED BY '\n'
     (@vFS_CorralUbication_idFS_CorralUbication,@vCommunity_idCommunity);
 SET     FS_CorralUbication_idFS_CorralUbication = if(@vFS_CorralUbication_idFS_CorralUbication='',null,@vFS_CorralUbication_idFS_CorralUbication);
 
-INSERT INTO fs_corralubication_has_community (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE fs_corralubication_has_community SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/fs_cropubication.csv'
 INTO TABLE fs_cropubication
@@ -296,8 +289,7 @@ LINES TERMINATED BY '\n'
     (@vFS_CropUbication_idFS_CropUbication,@vCommunity_idCommunity);
 SET     FS_CropUbication_idFS_CropUbication = if(@vFS_CropUbication_idFS_CropUbication='',null,@vFS_CropUbication_idFS_CropUbication);
 
-INSERT INTO fs_cropubication_has_community (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE fs_cropubication_has_community SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/fs_cultivationseason.csv'
 INTO TABLE fs_cultivationseason
@@ -317,8 +309,7 @@ SET     january = if(@vjanuary='',null,@vjanuary),
     november = if(@vnovember='',null,@vnovember),
     december = if(@vdecember='',null,@vdecember);
 
-INSERT INTO fs_cultivationseason (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE fs_cultivationseason SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/fs_cultivationseason_has_community.csv'
 INTO TABLE fs_cultivationseason_has_community
@@ -350,8 +341,7 @@ LINES TERMINATED BY '\n'
 SET     NoProcessedFoodDuration = if(@vNoProcessedFoodDuration='',null,@vNoProcessedFoodDuration),
     FoodConservationTec = if(@vFoodConservationTec='',null,@vFoodConservationTec);
 
-INSERT INTO fs_foodaccesscontinuity (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE fs_foodaccesscontinuity SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/fs_foodsafety.csv'
 INTO TABLE fs_foodsafety
@@ -364,8 +354,7 @@ SET     kids = if(@vkids='',null,@vkids),
     senior = if(@vsenior='',null,@vsenior),
     intake = if(@vintake='',null,@vintake);
 
-INSERT INTO fs_foodsafety (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE fs_foodsafety SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/fs_foodsource.csv'
 INTO TABLE fs_foodsource
@@ -382,8 +371,7 @@ LINES TERMINATED BY '\n'
     (@vFS_FoodSource_idFS_FoodSource,@vCommunity_idCommunity);
 SET     FS_FoodSource_idFS_FoodSource = if(@vFS_FoodSource_idFS_FoodSource='',null,@vFS_FoodSource_idFS_FoodSource);
 
-INSERT INTO fs_foodsource_has_community (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE fs_foodsource_has_community SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/fs_grainconservation.csv'
 INTO TABLE fs_grainconservation
@@ -392,8 +380,7 @@ LINES TERMINATED BY '\n'
     (@vConservationTec,@vCommunity_idCommunity);
 SET     ConservationTec = if(@vConservationTec='',null,@vConservationTec);
 
-INSERT INTO fs_grainconservation (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE fs_grainconservation SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/fs_grainmill.csv'
 INTO TABLE fs_grainmill
@@ -404,8 +391,7 @@ SET     EnginePower = if(@vEnginePower='',null,@vEnginePower),
     Operative = if(@vOperative='',null,@vOperative),
     GoodUbication = if(@vGoodUbication='',null,@vGoodUbication);
 
-INSERT INTO fs_grainmill (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE fs_grainmill SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/fs_importantmeal.csv'
 INTO TABLE fs_importantmeal
@@ -415,8 +401,7 @@ LINES TERMINATED BY '\n'
 SET     meal = if(@vmeal='',null,@vmeal),
     numberPeople = if(@vnumberPeople='',null,@vnumberPeople);
 
-INSERT INTO fs_importantmeal (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE fs_importantmeal SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/fs_owncultivationfoodtype.csv'
 INTO TABLE fs_owncultivationfoodtype
@@ -450,8 +435,7 @@ SET     january = if(@vjanuary='',null,@vjanuary),
     november = if(@vnovember='',null,@vnovember),
     december = if(@vdecember='',null,@vdecember);
 
-INSERT INTO fs_selfsufficiencyseason (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE fs_selfsufficiencyseason SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/fs_timesperday.csv'
 INTO TABLE fs_timesperday
@@ -461,8 +445,7 @@ LINES TERMINATED BY '\n'
 SET     times = if(@vtimes='',null,@vtimes),
     numberPeople = if(@vnumberPeople='',null,@vnumberPeople);
 
-INSERT INTO fs_timesperday (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE fs_timesperday SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/fs_typicalplate.csv'
 INTO TABLE fs_typicalplate
@@ -479,8 +462,7 @@ LINES TERMINATED BY '\n'
     (@vFS_TypicalPlate_idFS_TypicalPlate,@vCommunity_idCommunity);
 SET     FS_TypicalPlate_idFS_TypicalPlate = if(@vFS_TypicalPlate_idFS_TypicalPlate='',null,@vFS_TypicalPlate_idFS_TypicalPlate);
 
-INSERT INTO fs_typicalplate_has_community (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE fs_typicalplate_has_community SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/g_politicalactor.csv'
 INTO TABLE g_politicalactor
@@ -505,8 +487,7 @@ LINES TERMINATED BY '\n'
 SET     DocumentTittle = if(@vDocumentTittle='',null,@vDocumentTittle),
     Path = if(@vPath='',null,@vPath);
 
-INSERT INTO g_publicpolitic (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE g_publicpolitic SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/gd_demography.csv'
 INTO TABLE gd_demography
@@ -664,8 +645,7 @@ SET     Latitude = if(@vLatitude='',null,@vLatitude),
     Longitude = if(@vLongitude='',null,@vLongitude),
     Altitude = if(@vAltitude='',null,@vAltitude);
 
-INSERT INTO inf_colletionpoints (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE inf_colletionpoints SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/inf_cookwoman.csv'
 INTO TABLE inf_cookwoman
@@ -679,8 +659,7 @@ SET     CookingInside = if(@vCookingInside='',null,@vCookingInside),
     WeeklyFirewood = if(@vWeeklyFirewood='',null,@vWeeklyFirewood),
     FirewoodHours = if(@vFirewoodHours='',null,@vFirewoodHours);
 
-INSERT INTO inf_cookwoman (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE inf_cookwoman SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/inf_energyinfrastructure.csv'
 INTO TABLE inf_energyinfrastructure
@@ -694,8 +673,7 @@ SET     ElectricServiceByElectricityGrid = if(@vElectricServiceByElectricityGrid
     StreetLight = if(@vStreetLight='',null,@vStreetLight),
     DistanceToElectricityGrid = if(@vDistanceToElectricityGrid='',null,@vDistanceToElectricityGrid);
 
-INSERT INTO inf_energyinfrastructure (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE inf_energyinfrastructure SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/inf_expandplanbeneficiaries.csv'
 INTO TABLE inf_expandplanbeneficiaries
@@ -740,8 +718,7 @@ LINES TERMINATED BY '\n'
 SET     SystemType = if(@vSystemType='',null,@vSystemType),
     Capacity = if(@vCapacity='',null,@vCapacity);
 
-INSERT INTO inf_generationsystem (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE inf_generationsystem SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/inf_irrigatonsystem.csv'
 INTO TABLE inf_irrigatonsystem
@@ -759,8 +736,7 @@ LINES TERMINATED BY '\n'
     (@vINF_IrrigatonSystem_idIrrigatonSystem,@vCommunity_idCommunity);
 SET     INF_IrrigatonSystem_idIrrigatonSystem = if(@vINF_IrrigatonSystem_idIrrigatonSystem='',null,@vINF_IrrigatonSystem_idIrrigatonSystem);
 
-INSERT INTO inf_irrigatonsystem_has_community (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE inf_irrigatonsystem_has_community SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/inf_kitchen.csv'
 INTO TABLE inf_kitchen
@@ -771,8 +747,7 @@ SET     MainKitchenType = if(@vMainKitchenType='',null,@vMainKitchenType),
     MainFuel = if(@vMainFuel='',null,@vMainFuel),
     FirewoodConsumption = if(@vFirewoodConsumption='',null,@vFirewoodConsumption);
 
-INSERT INTO inf_kitchen (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE inf_kitchen SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/inf_landfill.csv'
 INTO TABLE inf_landfill
@@ -783,8 +758,7 @@ SET     DistanceToHouses = if(@vDistanceToHouses='',null,@vDistanceToHouses),
     DistanceToWaterResource = if(@vDistanceToWaterResource='',null,@vDistanceToWaterResource),
     FertilEnviromentLocation = if(@vFertilEnviromentLocation='',null,@vFertilEnviromentLocation);
 
-INSERT INTO inf_landfill (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE inf_landfill SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/inf_lightingtech.csv'
 INTO TABLE inf_lightingtech
@@ -803,8 +777,7 @@ LINES TERMINATED BY '\n'
     (@vDistanceToWorkstation,@vCommunity_idCommunity);
 SET     DistanceToWorkstation = if(@vDistanceToWorkstation='',null,@vDistanceToWorkstation);
 
-INSERT INTO inf_mobilityinfrastructure (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE inf_mobilityinfrastructure SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/inf_mobilityway.csv'
 INTO TABLE inf_mobilityway
@@ -831,8 +804,7 @@ SET     Latitude = if(@vLatitude='',null,@vLatitude),
     Longitude = if(@vLongitude='',null,@vLongitude),
     Altitude = if(@vAltitude='',null,@vAltitude);
 
-INSERT INTO inf_mobillitypoint (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE inf_mobillitypoint SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/inf_potabilizationsystem.csv'
 INTO TABLE inf_potabilizationsystem
@@ -857,8 +829,7 @@ SET     StreetLightWorking = if(@vStreetLightWorking='',null,@vStreetLightWorkin
     LightPointsDistance = if(@vLightPointsDistance='',null,@vLightPointsDistance),
     InfluenceInWomensSafety = if(@vInfluenceInWomensSafety='',null,@vInfluenceInWomensSafety);
 
-INSERT INTO inf_publiclighting (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE inf_publiclighting SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/inf_sanitationaccess.csv'
 INTO TABLE inf_sanitationaccess
@@ -868,8 +839,7 @@ LINES TERMINATED BY '\n'
 SET     OutdoorsLatrine = if(@vOutdoorsLatrine='',null,@vOutdoorsLatrine),
     latrineType = if(@vlatrineType='',null,@vlatrineType);
 
-INSERT INTO inf_sanitationaccess (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE inf_sanitationaccess SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/inf_sanitationsystemquality.csv'
 INTO TABLE inf_sanitationsystemquality
@@ -889,8 +859,7 @@ LINES TERMINATED BY '\n'
     (@vINF_SanitationSystemQuality_idINF_SanitationSystemQuality,@vCommunity_idCommunity);
 SET     INF_SanitationSystemQuality_idINF_SanitationSystemQuality = if(@vINF_SanitationSystemQuality_idINF_SanitationSystemQuality='',null,@vINF_SanitationSystemQuality_idINF_SanitationSystemQuality);
 
-INSERT INTO inf_sanitationsystemquality_has_community (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE inf_sanitationsystemquality_has_community SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/inf_streetlamp.csv'
 INTO TABLE inf_streetlamp
@@ -901,8 +870,7 @@ SET     Latitude = if(@vLatitude='',null,@vLatitude),
     Longitude = if(@vLongitude='',null,@vLongitude),
     Altitude = if(@vAltitude='',null,@vAltitude);
 
-INSERT INTO inf_streetlamp (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE inf_streetlamp SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/inf_timespent.csv'
 INTO TABLE inf_timespent
@@ -920,8 +888,7 @@ LINES TERMINATED BY '\n'
     (@vCollectionServicePerMonth,@vCommunity_idCommunity);
 SET     CollectionServicePerMonth = if(@vCollectionServicePerMonth='',null,@vCollectionServicePerMonth);
 
-INSERT INTO inf_wastemanagementginfrastructure (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE inf_wastemanagementginfrastructure SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/inf_waterinfrastructure.csv'
 INTO TABLE inf_waterinfrastructure
@@ -932,8 +899,7 @@ SET     WaterQuality = if(@vWaterQuality='',null,@vWaterQuality),
     ConsumptionPerCapita = if(@vConsumptionPerCapita='',null,@vConsumptionPerCapita),
     SourceType = if(@vSourceType='',null,@vSourceType);
 
-INSERT INTO inf_waterinfrastructure (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE inf_waterinfrastructure SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/inf_waterpoint.csv'
 INTO TABLE inf_waterpoint
@@ -945,8 +911,7 @@ SET     Latitude = if(@vLatitude='',null,@vLatitude),
     Altitude = if(@vAltitude='',null,@vAltitude),
     Working = if(@vWorking='',null,@vWorking);
 
-INSERT INTO inf_waterpoint (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE inf_waterpoint SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/inf_womensafety.csv'
 INTO TABLE inf_womensafety
@@ -1002,8 +967,7 @@ LINES TERMINATED BY '\n'
     (@vS_Cementery_idS_Cementery,@vCommunity_idCommunity);
 SET     S_Cementery_idS_Cementery = if(@vS_Cementery_idS_Cementery='',null,@vS_Cementery_idS_Cementery);
 
-INSERT INTO s_cementery_has_community (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE s_cementery_has_community SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/s_dataaccess.csv'
 INTO TABLE s_dataaccess
@@ -1043,8 +1007,7 @@ LINES TERMINATED BY '\n'
     (@vS_EducationalCenter_idS_EducationalCenter,@vCommunity_idCommunity);
 SET     S_EducationalCenter_idS_EducationalCenter = if(@vS_EducationalCenter_idS_EducationalCenter='',null,@vS_EducationalCenter_idS_EducationalCenter);
 
-INSERT INTO s_educationalcenter_has_community (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE s_educationalcenter_has_community SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/s_healthcenterservice.csv'
 INTO TABLE s_healthcenterservice
@@ -1054,8 +1017,7 @@ LINES TERMINATED BY '\n'
 SET     PrimaryAttention2kms = if(@vPrimaryAttention2kms='',null,@vPrimaryAttention2kms),
     Hospital5kms = if(@vHospital5kms='',null,@vHospital5kms);
 
-INSERT INTO s_healthcenterservice (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE s_healthcenterservice SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/s_hospital.csv'
 INTO TABLE s_hospital
@@ -1076,8 +1038,7 @@ LINES TERMINATED BY '\n'
     (@vS_Hospital_idS_Hospital,@vCommunity_idCommunity);
 SET     S_Hospital_idS_Hospital = if(@vS_Hospital_idS_Hospital='',null,@vS_Hospital_idS_Hospital);
 
-INSERT INTO s_hospital_has_community (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE s_hospital_has_community SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/s_medicineaccess.csv'
 INTO TABLE s_medicineaccess
@@ -1086,8 +1047,7 @@ LINES TERMINATED BY '\n'
     (@vAccess,@vCommunity_idCommunity);
 SET     Access = if(@vAccess='',null,@vAccess);
 
-INSERT INTO s_medicineaccess (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE s_medicineaccess SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/s_noeducationcause.csv'
 INTO TABLE s_noeducationcause
@@ -1122,8 +1082,7 @@ LINES TERMINATED BY '\n'
     (@vS_OtherCenter_idS_OtherCenter,@vCommunity_idCommunity);
 SET     S_OtherCenter_idS_OtherCenter = if(@vS_OtherCenter_idS_OtherCenter='',null,@vS_OtherCenter_idS_OtherCenter);
 
-INSERT INTO s_othercenter_has_community (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE s_othercenter_has_community SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/s_primaryattention.csv'
 INTO TABLE s_primaryattention
@@ -1143,8 +1102,7 @@ LINES TERMINATED BY '\n'
     (@vS_PrimaryAttention_idS_PrimaryAttention,@vCommunity_idCommunity);
 SET     S_PrimaryAttention_idS_PrimaryAttention = if(@vS_PrimaryAttention_idS_PrimaryAttention='',null,@vS_PrimaryAttention_idS_PrimaryAttention);
 
-INSERT INTO s_primaryattention_has_community (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE s_primaryattention_has_community SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/s_repeaterantena.csv'
 INTO TABLE s_repeaterantena
@@ -1153,8 +1111,7 @@ LINES TERMINATED BY '\n'
     (@vNumber,@vCommunity_idCommunity);
 SET     Number = if(@vNumber='',null,@vNumber);
 
-INSERT INTO s_repeaterantena (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE s_repeaterantena SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/s_subject.csv'
 INTO TABLE s_subject
@@ -1211,8 +1168,7 @@ SET     Latitude = if(@vLatitude='',null,@vLatitude),
     Longitude = if(@vLongitude='',null,@vLongitude),
     Altitude = if(@vAltitude='',null,@vAltitude);
 
-INSERT INTO se_conflictarea (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE se_conflictarea SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/se_economy.csv'
 INTO TABLE se_economy
@@ -1221,8 +1177,7 @@ LINES TERMINATED BY '\n'
     (@vBasicBasketCost,@vCommunity_idCommunity);
 SET     BasicBasketCost = if(@vBasicBasketCost='',null,@vBasicBasketCost);
 
-INSERT INTO se_economy (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE se_economy SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/se_expensetype.csv'
 INTO TABLE se_expensetype
@@ -1248,8 +1203,7 @@ LINES TERMINATED BY '\n'
     (@vLeadingWomen,@vCommunity_idCommunity);
 SET     LeadingWomen = if(@vLeadingWomen='',null,@vLeadingWomen);
 
-INSERT INTO se_genderdata (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE se_genderdata SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/se_householdcomposition.csv'
 INTO TABLE se_householdcomposition
@@ -1261,8 +1215,7 @@ SET     Women = if(@vWomen='',null,@vWomen),
     Teenagers = if(@vTeenagers='',null,@vTeenagers),
     Kids = if(@vKids='',null,@vKids);
 
-INSERT INTO se_householdcomposition (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE se_householdcomposition SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/se_incometype.csv'
 INTO TABLE se_incometype
@@ -1288,8 +1241,7 @@ LINES TERMINATED BY '\n'
     (@vTimesPerWeek,@vCommunity_idCommunity);
 SET     TimesPerWeek = if(@vTimesPerWeek='',null,@vTimesPerWeek);
 
-INSERT INTO se_personalhygiene (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE se_personalhygiene SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/se_population.csv'
 INTO TABLE se_population
@@ -1302,8 +1254,7 @@ SET     LT_5 = if(@vLT_5='',null,@vLT_5),
     GT_59 = if(@vGT_59='',null,@vGT_59),
     DiferentAbilitiesPeople = if(@vDiferentAbilitiesPeople='',null,@vDiferentAbilitiesPeople);
 
-INSERT INTO se_population (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE se_population SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/se_priority.csv'
 INTO TABLE se_priority
@@ -1330,8 +1281,7 @@ LINES TERMINATED BY '\n'
 SET     SafetyCommittee = if(@vSafetyCommittee='',null,@vSafetyCommittee),
     WomenPatrol = if(@vWomenPatrol='',null,@vWomenPatrol);
 
-INSERT INTO se_safetycommittee (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE se_safetycommittee SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/se_safetylatrines.csv'
 INTO TABLE se_safetylatrines
@@ -1341,8 +1291,7 @@ LINES TERMINATED BY '\n'
 SET     SeparatedBySex = if(@vSeparatedBySex='',null,@vSeparatedBySex),
     Light = if(@vLight='',null,@vLight);
 
-INSERT INTO se_safetylatrines (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE se_safetylatrines SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/se_safetyplace.csv'
 INTO TABLE se_safetyplace
@@ -1393,8 +1342,7 @@ SET     Latitude = if(@vLatitude='',null,@vLatitude),
     NoAnimals = if(@vNoAnimals='',null,@vNoAnimals),
     LT30Dregrees = if(@vLT30Dregrees='',null,@vLT30Dregrees);
 
-INSERT INTO sh_building (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE sh_building SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/sh_house.csv'
 INTO TABLE sh_house
@@ -1404,8 +1352,7 @@ LINES TERMINATED BY '\n'
 SET     Rooms = if(@vRooms='',null,@vRooms),
     PosibleUpgrading = if(@vPosibleUpgrading='',null,@vPosibleUpgrading);
 
-INSERT INTO sh_house (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE sh_house SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/sh_shelter.csv'
 INTO TABLE sh_shelter
@@ -1416,8 +1363,7 @@ SET     TotalHouses = if(@vTotalHouses='',null,@vTotalHouses),
     ConstructionCost = if(@vConstructionCost='',null,@vConstructionCost),
     ConstructionType = if(@vConstructionType='',null,@vConstructionType);
 
-INSERT INTO sh_shelter (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE sh_shelter SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/u_area.csv'
 INTO TABLE u_area
@@ -1429,8 +1375,7 @@ SET     AreaType = if(@vAreaType='',null,@vAreaType),
     Longitude = if(@vLongitude='',null,@vLongitude),
     Altitude = if(@vAltitude='',null,@vAltitude);
 
-INSERT INTO u_area (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE u_area SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/u_landuse.csv'
 INTO TABLE u_landuse
@@ -1441,8 +1386,7 @@ SET     PrivateLandArea = if(@vPrivateLandArea='',null,@vPrivateLandArea),
     UrbanFloodingArea = if(@vUrbanFloodingArea='',null,@vUrbanFloodingArea),
     UrbanSlopeRiskAre = if(@vUrbanSlopeRiskAre='',null,@vUrbanSlopeRiskAre);
 
-INSERT INTO u_landuse (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE u_landuse SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/u_publicspace.csv'
 INTO TABLE u_publicspace
@@ -1451,8 +1395,7 @@ LINES TERMINATED BY '\n'
     (@vTotalArea,@vCommunity_idCommunity);
 SET     TotalArea = if(@vTotalArea='',null,@vTotalArea);
 
-INSERT INTO u_publicspace (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE u_publicspace SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/u_recreationalarea.csv'
 INTO TABLE u_recreationalarea
@@ -1468,8 +1411,7 @@ SET     AreaName = if(@vAreaName='',null,@vAreaName),
     Floor_DrainageSystem = if(@vFloor_DrainageSystem='',null,@vFloor_DrainageSystem),
     PSTrush = if(@vPSTrush='',null,@vPSTrush);
 
-INSERT INTO u_recreationalarea (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE u_recreationalarea SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/u_road.csv'
 INTO TABLE u_road
@@ -1480,8 +1422,7 @@ SET     RoadsLength = if(@vRoadsLength='',null,@vRoadsLength),
     DrainageSystem = if(@vDrainageSystem='',null,@vDrainageSystem),
     Conditioning = if(@vConditioning='',null,@vConditioning);
 
-INSERT INTO u_road (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE u_road SET Community_idCommunity = (SELECT @CommunityID);
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/u_urbanism.csv'
 INTO TABLE u_urbanism
@@ -1499,6 +1440,5 @@ SET     UrbanPlan = if(@vUrbanPlan='',null,@vUrbanPlan),
     AVG_PlotArea = if(@vAVG_PlotArea='',null,@vAVG_PlotArea),
     PlotDelimitation = if(@vPlotDelimitation='',null,@vPlotDelimitation);
 
-INSERT INTO u_urbanism (Community_idCommunity)
-VALUES (@CommunityID);
+UPDATE u_urbanism SET Community_idCommunity = (SELECT @CommunityID);
 

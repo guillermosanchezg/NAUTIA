@@ -367,8 +367,8 @@ mkCSV(SE_SafetyLatrines,"SE_SafetyLatrines.csv")
 SE_Economy = dfFix(LocalLeaders, "Costs:cost_basic_basket","Costs:cost_firewood")
 mkCSV(SE_Economy,"SE_Economy.csv") 
 
-SE_IncomeTtype = dfFix(HouseHold, "Economy:Main_inco","Economy:Money")
-mkCSV(SE_IncomeTtype,"SE_IncomeTtype.csv") 
+SE_Incometype = dfFix(HouseHold, "Economy:Main_inco","Economy:Money")
+mkCSV(SE_Incometype,"SE_Incometype.csv") 
 
 df1 = dfFix(HouseHold, "General:Gender","General:Settlement")
 df2 = dfFix(HouseHold, "Economy:Money","Economy:Food")
@@ -462,6 +462,7 @@ df3 = dfFix(Entities,"Urban_Planning_001:Land_Managment","Urban_Planning_001:Ris
 df4 = dfFix(Entities,"Urban_Planning_001:Growth_area","Urban_Planning_001:Land_Managment")
 df5 = dfFix(Entities,"Urban_Planning_001:Risk_Managment","Shelter:Housing_Improvement")
 U_Urbanism = concatDF(df1,concatDF(df2,concatDF(df3,concatDF(df4,df5))))
+mkCSV(U_Urbanism,"U_Urbanism.csv")
 
 #U_Area No está claro el origen de datos
 
@@ -515,8 +516,8 @@ mkCSV(INF_SanitationSystmeQuality,"INF_SanitationSystmeQuality.csv")
 
 #%%WasteManagement
 
-INF_WasteManagementInf = dfFix(Entities,"Waste_Managment:Waste_Collection","Waste_Managment:Landfill_Details:Location_1")
-mkCSV(INF_WasteManagementInf,"INF_WasteManagementInf.csv")
+INF_WasteManagementgInfrastructure = dfFix(Entities,"Waste_Managment:Waste_Collection","Waste_Managment:Landfill_Details:Location_1")
+mkCSV(INF_WasteManagementgInfrastructure,"INF_WasteManagementgInfrastructure.csv")
 
 INF_landFill = dfFix(Entities,"Waste_Managment:Landfill_Details:Location_1","Water:Quality")
 mkCSV(INF_landFill,"INF_landFill.csv")
