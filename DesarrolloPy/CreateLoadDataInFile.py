@@ -53,6 +53,7 @@ for row in tablesList:
             pk = True
             string = np.array([],dtype = str)
             for column in columnList:
+                print(column)
                 if(pk):
                    pk = False
                 else:

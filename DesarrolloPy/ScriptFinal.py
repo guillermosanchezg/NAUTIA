@@ -40,6 +40,7 @@ def dropRow(df,i):
 
 def mkCSV(df,fileName):
     df = df.dropna(how = 'all')
+    df *= 1  #Cambia columnas Booleanas por [0,1] y el resto de datos los mantiene igual.
     df = df.fillna("\\N")   
     fileName = fileName.lower()
     df.to_csv('DataSetFinales/'+fileName,header = False, index=False) #Header e index a false para no mostrarlo en el csv
