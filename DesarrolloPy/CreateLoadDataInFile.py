@@ -29,15 +29,18 @@ f.write("SET FOREIGN_KEY_CHECKS = 0;\n")
 f.write("SET SQL_SAFE_UPDATES = 0;\n\n")
 
 f.write(query1+"community.csv'\n"+query2+" community\n"+query3+"\n"+query4+"\n")
-f.write("    (Name);\n")
+f.write("    (@Name)\n")
+f.write("SET Name = NULLIF(@Name,'');\n")
 f.write("SET @CommunityID = (SELECT idCommunity FROM community ORDER BY idCommunity DESC LIMIT 1);\n\n")
 
 f.write(query1+"camp.csv'\n"+query2+" camp\n"+query3+"\n"+query4+"\n")
-f.write("    (StabilisationDate,MigrationRate);\n")
+f.write("    (@StabilisationDate,@MigrationRate)\n")
+f.write("SET StabilisationDate = NULLIF(@StabilisationDate,''),\n    MigrationRate = NULLIF(@MigrationRate,'');\n")
 f.write("SET @campID = (SELECT idCamp FROM camp ORDER BY idCamp DESC LIMIT 1);\n\n")
 
 f.write(query1+"Country.csv'\n"+query2+" Country\n"+query3+"\n"+query4+"\n")
-f.write("    (CountryName);\n")
+f.write("    (@CountryName)\n")
+f.write("SET CountryName = NULLIF(@CountryName,'');\n")
 f.write("SET @CountryID = (SELECT idCountry FROM Country ORDER BY idCountry DESC LIMIT 1);\n\n")
         
 cursor.execute("SHOW TABLES")
@@ -46,24 +49,36 @@ tablesList = np.array(tablesList)
 
 for row in tablesList:
     for elem in row:
-        if(elem != "community" and elem != "camp" and elem != "country"):        
+        if(elem != "community" and elem != "camp" and elem != "country" and elem.find("_has_") == -1):
             f.write(query1+elem+".csv'\n"+query2+" "+elem+"\n"+query3+"\n"+query4+"\n")
             cursor.execute("SHOW columns FROM "+elem)
             columnList = cursor.fetchall()
             pk = True
             string = np.array([],dtype = str)
             for column in columnList:
-                print(column)
                 if(pk):
                    pk = False
                 else:
-                   string = np.append(string,column[0])
+                    if(column[0] != "Community_idCommunity" and column[0] != "Camp_idCamp" and column[0] != "Country_idCountry"):
+                        string = np.append(string,column[0])
             f.write("    (")
             for column in string:
                 if(column != string[-1]):
-                   f.write(column+",")
+                   f.write("@"+column+",")
                 else:
-                   f.write(column+");\n\n")
+                   f.write("@"+column+")\n")
+            f.write("SET ")
+            for column in string:
+                if(column != string[-1]):
+                    if(column == string[0]):
+                        f.write(column+" = NULLIF(@"+column+",''),\n")
+                    else:
+                        f.write("    "+column+" = NULLIF(@"+column+",''),\n")
+                else:
+                    if(column == string[0]):
+                        f.write(column+" = NULLIF(@"+column+",'');\n\n")
+                    else:
+                        f.write("    "+column+" = NULLIF(@"+column+",'');\n\n")
 
 cursor.execute("SHOW TABLES")
 tablesList = cursor.fetchall()

@@ -41,7 +41,7 @@ def dropRow(df,i):
 def mkCSV(df,fileName):
     df = df.dropna(how = 'all')
     df *= 1  #Cambia columnas Booleanas por [0,1] y el resto de datos los mantiene igual.
-    df = df.fillna("\\N")   
+    #df = df.fillna("\\N")   
     fileName = fileName.lower()
     df.to_csv('DataSetFinales/'+fileName,header = False, index=False) #Header e index a false para no mostrarlo en el csv
     
@@ -210,8 +210,8 @@ mkCSV(GD_Urbanism,"GD_Urbanism.csv")
 df1 = dfFix(Bibliography,"Rural agua (%)","Access to improved sanitation") 
 df2 = dfFix(Bibliography,"Rural saneamiento(%)","Access to electricity") 
 df3 = dfFix(Bibliography,"Rural electricidad (%)","Matrix of electricity generation") 
-GD_Infrastruture = concatDF(concatDF(df1,df2),df3) 
-mkCSV(GD_Infrastruture,"GD_Infrastruture.csv")
+GD_Infrastructure = concatDF(concatDF(df1,df2),df3) 
+mkCSV(GD_Infrastructure,"GD_Infrastructure.csv")
 
 GD_ElectricGenerationMix = dfFix(Bibliography,"Hydropower (%)","High voltage (kV)") 
 mkCSV(GD_ElectricGenerationMix,"GD_ElectricGenerationMix.csv")
@@ -735,8 +735,8 @@ df1 = ["pork","beef","chicken","lamp","cereals","legumes","fruits"]
 df1 = pd.DataFrame(df1)
 df2 = dfFix(Bibliography,"Pork (200 kcal/100g)","Intake (g) - default value 70g-")
 df2 = dropRow(df2,1)
-FS_TypcalPlate = get_FSClaveValor(df1,df2)
-mkCSV(FS_TypcalPlate,"FS_TypcalPlate.csv")
+FS_TypicalPlate = get_FSClaveValor(df1,df2)
+mkCSV(FS_TypicalPlate,"FS_TypicalPlate.csv")
 #%%Source
 
 df1 = ["Humanitarian Aid","Crops","Market"]
