@@ -21,12 +21,13 @@ cursor = mydb.cursor()
 
 query1 = "LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/"
 query2 = "INTO TABLE" 
-query3 = "FIELDS TERMINATED BY ','"
+query3 = "FIELDS TERMINATED BY '\\t'"
 query4 = "LINES TERMINATED BY '\\n'"
 f = open('LoadDataScript.sql','w+')
 
 f.write("SET FOREIGN_KEY_CHECKS = 0;\n")
-f.write("SET SQL_SAFE_UPDATES = 0;\n\n")
+f.write("SET SQL_SAFE_UPDATES = 0;\n")
+f.write("SET sql_mode='NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';\n\n")
 
 f.write(query1+"community.csv'\n"+query2+" community\n"+query3+"\n"+query4+"\n")
 f.write("    (@Name)\n")
@@ -71,14 +72,14 @@ for row in tablesList:
             for column in string:
                 if(column != string[-1]):
                     if(column == string[0]):
-                        f.write(column+" = NULLIF(@"+column+",''),\n")
+                        f.write(column+" = NULLIF(@"+column+",-1),\n")
                     else:
-                        f.write("    "+column+" = NULLIF(@"+column+",''),\n")
+                        f.write("    "+column+" = NULLIF(@"+column+",-1),\n")
                 else:
                     if(column == string[0]):
-                        f.write(column+" = NULLIF(@"+column+",'');\n\n")
+                        f.write(column+" = NULLIF(@"+column+",-1);\n\n")
                     else:
-                        f.write("    "+column+" = NULLIF(@"+column+",'');\n\n")
+                        f.write("    "+column+" = NULLIF(@"+column+",-1);\n\n")
 
 cursor.execute("SHOW TABLES")
 tablesList = cursor.fetchall()

@@ -97,18 +97,18 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`GD_Demography` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`GD_Demography` (
   `idGD_Demography` INT NOT NULL AUTO_INCREMENT,
-  `Female_LT_5` FLOAT NULL,
-  `Male_LT_5` FLOAT NULL,
-  `Female_BT_5_17` FLOAT NULL,
-  `Male_BT_5_17` FLOAT NULL,
-  `Female_BT_18_59` FLOAT NULL,
-  `Male_BT_18_59` FLOAT NULL,
-  `Female_GT_59` FLOAT NULL,
-  `Male_GT_59` FLOAT NULL,
-  `GrowthRate` FLOAT NULL,
-  `RefugeePopulation` FLOAT NULL,
-  `IDH` FLOAT NULL,
-  `LifeExpectancy` FLOAT NULL,
+  `Female_LT_5` DOUBLE NULL,
+  `Male_LT_5` DOUBLE NULL,
+  `Female_BT_5_17` DOUBLE NULL,
+  `Male_BT_5_17` DOUBLE NULL,
+  `Female_BT_18_59` DOUBLE NULL,
+  `Male_BT_18_59` DOUBLE NULL,
+  `Female_GT_59` DOUBLE NULL,
+  `Male_GT_59` DOUBLE NULL,
+  `GrowthRate` DOUBLE NULL,
+  `RefugeePopulation` DOUBLE NULL,
+  `IDH` DOUBLE NULL,
+  `LifeExpectancy` DOUBLE NULL,
   `Country_idCountry` INT NOT NULL,
   PRIMARY KEY (`idGD_Demography`, `Country_idCountry`),
   CONSTRAINT `fk_General_Demography_Country1`
@@ -128,16 +128,16 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`GD_Economy` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`GD_Economy` (
   `idGD_Economy` INT NOT NULL AUTO_INCREMENT,
-  `Farming` FLOAT NULL,
-  `CattelRaising` FLOAT NULL,
-  `Industry` FLOAT NULL,
-  `ServiceSector` FLOAT NULL,
-  `PovertyPopulation` FLOAT NULL,
-  `GINI` FLOAT NULL,
-  `GDPPerCapita` FLOAT NULL,
-  `PovertyLine` FLOAT NULL,
+  `Farming` DOUBLE NULL,
+  `CattelRaising` DOUBLE NULL,
+  `Industry` DOUBLE NULL,
+  `ServiceSector` DOUBLE NULL,
+  `PovertyPopulation` DOUBLE NULL,
+  `GINI` DOUBLE NULL,
+  `GDPPerCapita` DOUBLE NULL,
+  `PovertyLine` DOUBLE NULL,
   `LocalCoin` VARCHAR(45) NULL,
-  `ExchangeRate` FLOAT NULL,
+  `ExchangeRate` DOUBLE NULL,
   `Country_idCountry` INT NOT NULL,
   PRIMARY KEY (`idGD_Economy`, `Country_idCountry`),
   CONSTRAINT `fk_GD_Economy_Country1`
@@ -177,10 +177,10 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`GD_Urbanism` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`GD_Urbanism` (
   `idGD_Urbanism` INT NOT NULL AUTO_INCREMENT,
-  `UrbanPopulation` FLOAT NULL,
-  `RuralPopulation` FLOAT NULL,
-  `UrbanDensity` FLOAT NULL,
-  `RuralDensity` FLOAT NULL,
+  `UrbanPopulation` DOUBLE NULL,
+  `RuralPopulation` DOUBLE NULL,
+  `UrbanDensity` DOUBLE NULL,
+  `RuralDensity` DOUBLE NULL,
   `Country_idCountry` INT NOT NULL,
   PRIMARY KEY (`idGD_Urbanism`, `Country_idCountry`),
   CONSTRAINT `fk_GD_Urbanism_Country1`
@@ -200,13 +200,13 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`GD_Infrastructure` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`GD_Infrastructure` (
   `idGD_Infrastructure` INT NOT NULL AUTO_INCREMENT,
-  `RuralWaterAccess` FLOAT NULL,
-  `UrbanWaterAccess` FLOAT NULL,
-  `RuralSanitationAccess` FLOAT NULL,
-  `UrbanSanitationAccess` FLOAT NULL,
-  `RuralElectricityAccess` FLOAT NULL,
-  `UrbanElectricityAccess` FLOAT NULL,
-  `NationalElectricityTariff` FLOAT NULL,
+  `RuralWaterAccess` DOUBLE NULL,
+  `UrbanWaterAccess` DOUBLE NULL,
+  `RuralSanitationAccess` DOUBLE NULL,
+  `UrbanSanitationAccess` DOUBLE NULL,
+  `RuralElectricityAccess` DOUBLE NULL,
+  `UrbanElectricityAccess` DOUBLE NULL,
+  `NationalElectricityTariff` DOUBLE NULL,
   `Country_idCountry` INT NOT NULL,
   PRIMARY KEY (`idGD_Infrastructure`, `Country_idCountry`),
   CONSTRAINT `fk_GD_Infrastructure_Country1`
@@ -226,8 +226,8 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`GD_ServiceAccess` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`GD_ServiceAccess` (
   `idGD_ServiceAccess` INT NOT NULL AUTO_INCREMENT,
-  `IlliteracyRate` FLOAT NULL,
-  `InternetAccessRate` FLOAT NULL,
+  `IlliteracyRate` DOUBLE NULL,
+  `InternetAccessRate` DOUBLE NULL,
   `Country_idCountry` INT NOT NULL,
   PRIMARY KEY (`idGD_ServiceAccess`, `Country_idCountry`),
   CONSTRAINT `fk_GD_ServiceAccess_Country1`
@@ -247,7 +247,7 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`GD_Shelter` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`GD_Shelter` (
   `idGD_Shelter` INT NOT NULL AUTO_INCREMENT,
-  `PeopleInSlum` FLOAT NULL,
+  `PeopleInSlum` DOUBLE NULL,
   `Country_idCountry` INT NOT NULL,
   PRIMARY KEY (`idGD_Shelter`, `Country_idCountry`),
   CONSTRAINT `fk_Shelter_Country1`
@@ -342,11 +342,11 @@ CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`Camp_ClimaticRegion` (
   `Region` VARCHAR(45) NULL,
   `MaxTemp` INT NULL,
   `MinTemp` INT NULL,
-  `AVGTemp` FLOAT NULL,
-  `RelativeHumidity` FLOAT NULL,
+  `AVGTemp` DOUBLE NULL,
+  `RelativeHumidity` DOUBLE NULL,
   `MaxRainfall` INT NULL,
   `MinRainfall` INT NULL,
-  `Irradiance` FLOAT NULL,
+  `Irradiance` DOUBLE NULL,
   `WindSpeed` INT NULL,
   `Camp_idCamp` INT NOT NULL,
   PRIMARY KEY (`idCamp_ClimaticRegion`, `Camp_idCamp`),
@@ -467,9 +467,9 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`SE_ConflictArea` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`SE_ConflictArea` (
   `idEonflictArea` INT NOT NULL AUTO_INCREMENT,
-  `Latitude` FLOAT NULL,
-  `Longitude` FLOAT NULL,
-  `Altitude` FLOAT NULL,
+  `Latitude` DOUBLE NULL,
+  `Longitude` DOUBLE NULL,
+  `Altitude` DOUBLE NULL,
   `Community_idCommunity` INT NOT NULL,
   PRIMARY KEY (`idEonflictArea`, `Community_idCommunity`),
   CONSTRAINT `fk_SC_ConflictArea_Community1`
@@ -534,8 +534,8 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`FA_Topography` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`FA_Topography` (
   `idFA_Topography` INT NOT NULL AUTO_INCREMENT,
-  `UpperBound` FLOAT NULL,
-  `LowerBound` FLOAT NULL,
+  `UpperBound` DOUBLE NULL,
+  `LowerBound` DOUBLE NULL,
   `Community_idCommunity` INT NOT NULL,
   PRIMARY KEY (`idFA_Topography`, `Community_idCommunity`),
   CONSTRAINT `fk_Topography_Community1`
@@ -649,9 +649,9 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`U_RecreationalArea` ;
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`U_RecreationalArea` (
   `idRecreationalArea` INT NOT NULL AUTO_INCREMENT,
   `AreaName` VARCHAR(45) NULL,
-  `Latitude` FLOAT NULL,
-  `Longitude` FLOAT NULL,
-  `Altitude` FLOAT NULL,
+  `Latitude` DOUBLE NULL,
+  `Longitude` DOUBLE NULL,
+  `Altitude` DOUBLE NULL,
   `Woodland_ShadedArea` TINYINT(1) NULL,
   `UrbanFurniture` TINYINT(1) NULL,
   `Floor_DrainageSystem` TINYINT(1) NULL,
@@ -871,7 +871,7 @@ CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`INF_Kitchen` (
   `idINF_Kitchen` INT NOT NULL AUTO_INCREMENT,
   `MainKitchenType` VARCHAR(45) NULL,
   `MainFuel` VARCHAR(45) NULL,
-  `FirewoodConsumption` FLOAT NULL,
+  `FirewoodConsumption` DOUBLE NULL,
   `Community_idCommunity` INT NOT NULL,
   PRIMARY KEY (`idINF_Kitchen`, `Community_idCommunity`),
   CONSTRAINT `fk_INF_Kitchen_Community1`
@@ -891,12 +891,12 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`INF_CookWoman` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`INF_CookWoman` (
   `idINF_CookWoman` INT NOT NULL AUTO_INCREMENT COMMENT '2',
-  `CookingInside` FLOAT NULL,
-  `CookingOutside` FLOAT NULL,
-  `CookingHours` FLOAT NULL,
-  `HealthFirewood` FLOAT NULL,
-  `WeeklyFirewood` FLOAT NULL,
-  `FirewoodHours` FLOAT NULL,
+  `CookingInside` DOUBLE NULL,
+  `CookingOutside` DOUBLE NULL,
+  `CookingHours` DOUBLE NULL,
+  `HealthFirewood` DOUBLE NULL,
+  `WeeklyFirewood` DOUBLE NULL,
+  `FirewoodHours` DOUBLE NULL,
   `Community_idCommunity` INT NOT NULL,
   PRIMARY KEY (`idINF_CookWoman`, `Community_idCommunity`),
   CONSTRAINT `fk_INF_CookWoman_Community1`
@@ -917,7 +917,7 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`INF_PublicLighting` ;
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`INF_PublicLighting` (
   `idINF_PublicLighting` INT NOT NULL AUTO_INCREMENT,
   `StreetLightWorking` TINYINT(1) NULL,
-  `LightPointsDistance` FLOAT NULL,
+  `LightPointsDistance` DOUBLE NULL,
   `InfluenceInWomensSafety` INT NULL,
   `Community_idCommunity` INT NOT NULL,
   PRIMARY KEY (`idINF_PublicLighting`, `Community_idCommunity`),
@@ -938,9 +938,9 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`INF_StreetLamp` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`INF_StreetLamp` (
   `idINF_StreetLamp` INT NOT NULL AUTO_INCREMENT,
-  `Latitude` FLOAT NULL,
-  `Longitude` FLOAT NULL,
-  `Altitude` FLOAT NULL,
+  `Latitude` DOUBLE NULL,
+  `Longitude` DOUBLE NULL,
+  `Altitude` DOUBLE NULL,
   `Community_idCommunity` INT NOT NULL,
   PRIMARY KEY (`idINF_StreetLamp`, `Community_idCommunity`),
   CONSTRAINT `fk_INF_StreetLamp_Community1`
@@ -960,7 +960,7 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`INF_MobilityInfrastructure` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`INF_MobilityInfrastructure` (
   `idINF_MobilityInfrastructure` INT NOT NULL AUTO_INCREMENT,
-  `DistanceToWorkstation` FLOAT NULL,
+  `DistanceToWorkstation` DOUBLE NULL,
   `Community_idCommunity` INT NOT NULL,
   PRIMARY KEY (`idINF_MobilityInfrastructure`, `Community_idCommunity`),
   CONSTRAINT `fk_INF_MobilityInfrastructure_Community1`
@@ -992,9 +992,9 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`INF_MobillityPoint` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`INF_MobillityPoint` (
   `idINF_MobillityPoint` INT NOT NULL AUTO_INCREMENT,
-  `Latitude` FLOAT NULL,
-  `Longitude` FLOAT NULL,
-  `Altitude` FLOAT NULL,
+  `Latitude` DOUBLE NULL,
+  `Longitude` DOUBLE NULL,
+  `Altitude` DOUBLE NULL,
   `Community_idCommunity` INT NOT NULL,
   PRIMARY KEY (`idINF_MobillityPoint`, `Community_idCommunity`),
   CONSTRAINT `fk_INF_MobillityPoint_Community1`
@@ -1082,8 +1082,8 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`S_HealthCenterService` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`S_HealthCenterService` (
   `idS_HealthCenterService` INT NOT NULL AUTO_INCREMENT,
-  `PrimaryAttention2kms` FLOAT NULL,
-  `Hospital5kms` FLOAT NULL,
+  `PrimaryAttention2kms` DOUBLE NULL,
+  `Hospital5kms` DOUBLE NULL,
   `Community_idCommunity` INT NOT NULL,
   PRIMARY KEY (`idS_HealthCenterService`, `Community_idCommunity`),
   CONSTRAINT `fk_S_HealthCenterService_Community1`
@@ -1103,10 +1103,10 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`S_PrimaryAttention` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`S_PrimaryAttention` (
   `idS_PrimaryAttention` INT NOT NULL AUTO_INCREMENT,
-  `Latitude` FLOAT NULL,
-  `Longitude` FLOAT NULL,
-  `Altitude` FLOAT NULL,
-  `NoAccesArea` FLOAT NULL,
+  `Latitude` DOUBLE NULL,
+  `Longitude` DOUBLE NULL,
+  `Altitude` DOUBLE NULL,
+  `NoAccesArea` DOUBLE NULL,
   `S_BuildingQuality_idS_BuildingQuality` INT NOT NULL,
   PRIMARY KEY (`idS_PrimaryAttention`),
   CONSTRAINT `fk_S_PrimaryAttention_S_BuildingQuality1`
@@ -1126,11 +1126,11 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`S_Hospital` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`S_Hospital` (
   `idS_Hospital` INT NOT NULL AUTO_INCREMENT,
-  `Latitude` FLOAT NULL,
-  `Longitude` FLOAT NULL,
-  `Altitude` FLOAT NULL,
+  `Latitude` DOUBLE NULL,
+  `Longitude` DOUBLE NULL,
+  `Altitude` DOUBLE NULL,
   `Beds` INT NULL,
-  `NoAccessArea` FLOAT NULL,
+  `NoAccessArea` DOUBLE NULL,
   `S_BuildingQuality_idS_BuildingQuality` INT NOT NULL,
   PRIMARY KEY (`idS_Hospital`),
   CONSTRAINT `fk_S_Hospital_S_BuildingQuality1`
@@ -1150,12 +1150,12 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`S_Cementery` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`S_Cementery` (
   `idS_Cementery` INT NOT NULL AUTO_INCREMENT,
-  `Latitude` FLOAT NULL,
-  `Longitude` FLOAT NULL,
-  `Altitude` FLOAT NULL,
+  `Latitude` DOUBLE NULL,
+  `Longitude` DOUBLE NULL,
+  `Altitude` DOUBLE NULL,
   `Drainage` VARCHAR(45) NULL,
   `UpperBound` INT NULL,
-  `NoAccessArea` FLOAT NULL,
+  `NoAccessArea` DOUBLE NULL,
   PRIMARY KEY (`idS_Cementery`))
 ENGINE = InnoDB;
 
@@ -1167,12 +1167,12 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`S_OtherCenter` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`S_OtherCenter` (
   `idS_OtherCenter` INT NOT NULL AUTO_INCREMENT,
-  `Latitude` FLOAT NULL,
-  `Longitude` FLOAT NULL,
-  `Altitude` FLOAT NULL,
+  `Latitude` DOUBLE NULL,
+  `Longitude` DOUBLE NULL,
+  `Altitude` DOUBLE NULL,
   `CenterType` VARCHAR(45) NULL,
   `CenterName` VARCHAR(45) NULL,
-  `NoAccessArea` FLOAT NULL,
+  `NoAccessArea` DOUBLE NULL,
   PRIMARY KEY (`idS_OtherCenter`))
 ENGINE = InnoDB;
 
@@ -1221,7 +1221,7 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`SH_Shelter` ;
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`SH_Shelter` (
   `idSH_Shelter` INT NOT NULL AUTO_INCREMENT,
   `TotalHouses` INT NULL,
-  `ConstructionCost` FLOAT NULL,
+  `ConstructionCost` DOUBLE NULL,
   `ConstructionType` VARCHAR(45) NULL,
   `Community_idCommunity` INT NOT NULL,
   PRIMARY KEY (`idSH_Shelter`, `Community_idCommunity`),
@@ -1242,9 +1242,9 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`SH_Building` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`SH_Building` (
   `idSH_House` INT NOT NULL AUTO_INCREMENT,
-  `Latitude` FLOAT NULL,
-  `Longitude` FLOAT NULL,
-  `Altitude` FLOAT NULL,
+  `Latitude` DOUBLE NULL,
+  `Longitude` DOUBLE NULL,
+  `Altitude` DOUBLE NULL,
   `ApropiateRoof` TINYINT(1) NULL,
   `SecureStructured` TINYINT(1) NULL,
   `ClimateThreatProtect` TINYINT(1) NULL,
@@ -1338,7 +1338,7 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`FS_TypicalPlate` ;
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`FS_TypicalPlate` (
   `idFS_TypicalPlate` INT NOT NULL AUTO_INCREMENT,
   `Plate` VARCHAR(45) NULL,
-  `Kcal_100g` FLOAT NULL,
+  `Kcal_100g` DOUBLE NULL,
   PRIMARY KEY (`idFS_TypicalPlate`))
 ENGINE = InnoDB;
 
@@ -1391,7 +1391,7 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`FS_GrainMill` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`FS_GrainMill` (
   `idGrainMill` INT NOT NULL AUTO_INCREMENT,
-  `EnginePower` FLOAT NULL,
+  `EnginePower` DOUBLE NULL,
   `Operative` VARCHAR(45) NULL,
   `GoodUbication` VARCHAR(45) NULL,
   `Community_idCommunity` INT NOT NULL,
@@ -1425,13 +1425,13 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`GD_ElectricGenerationMix` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`GD_ElectricGenerationMix` (
   `idGD_ElectricGenerationMix` INT NOT NULL AUTO_INCREMENT,
-  `Hydro` FLOAT NULL,
-  `Diesel` FLOAT NULL,
-  `Gas` FLOAT NULL,
-  `Coal` FLOAT NULL,
-  `Fotovoltaic` FLOAT NULL,
-  `Wind` FLOAT NULL,
-  `Biofuel` FLOAT NULL,
+  `Hydro` DOUBLE NULL,
+  `Diesel` DOUBLE NULL,
+  `Gas` DOUBLE NULL,
+  `Coal` DOUBLE NULL,
+  `Fotovoltaic` DOUBLE NULL,
+  `Wind` DOUBLE NULL,
+  `Biofuel` DOUBLE NULL,
   `Country_idCountry` INT NOT NULL,
   PRIMARY KEY (`idGD_ElectricGenerationMix`, `Country_idCountry`),
   CONSTRAINT `fk_GD_ElectricGenerationMix_Country1`
@@ -1451,10 +1451,10 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`FA_GeographicIdentification` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`FA_GeographicIdentification` (
   `idFA_GeographicIdentification` INT NOT NULL AUTO_INCREMENT,
-  `Latitude` FLOAT NULL,
-  `Longitude` FLOAT NULL,
-  `PhreaticLevel` FLOAT NULL,
-  `Area` FLOAT NULL,
+  `Latitude` DOUBLE NULL,
+  `Longitude` DOUBLE NULL,
+  `PhreaticLevel` DOUBLE NULL,
+  `Area` DOUBLE NULL,
   `Community_idCommunity` INT NOT NULL,
   PRIMARY KEY (`idFA_GeographicIdentification`, `Community_idCommunity`),
   CONSTRAINT `fk_FA_GeographicIdentification_Community1`
@@ -1683,9 +1683,9 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`FS_CorralUbication` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`FS_CorralUbication` (
   `idFS_CorralUbication` INT NOT NULL AUTO_INCREMENT,
-  `Latitude` FLOAT NULL,
-  `Longitude` FLOAT NULL,
-  `Altitude` FLOAT NULL,
+  `Latitude` DOUBLE NULL,
+  `Longitude` DOUBLE NULL,
+  `Altitude` DOUBLE NULL,
   `Type` VARCHAR(45) NULL,
   `DrainageSystem` VARCHAR(45) NULL,
   PRIMARY KEY (`idFS_CorralUbication`))
@@ -1965,7 +1965,7 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`SE_Economy` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`SE_Economy` (
   `idSE_Economy` INT NOT NULL AUTO_INCREMENT,
-  `BasicBasketCost` FLOAT NULL,
+  `BasicBasketCost` DOUBLE NULL,
   `Community_idCommunity` INT NOT NULL,
   PRIMARY KEY (`idSE_Economy`, `Community_idCommunity`),
   CONSTRAINT `fk_SE_Economy_Community1`
@@ -1988,7 +1988,7 @@ CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`SE_IncomeType_has_Community` (
   `SE_IncomeType_idSE_IncomeType` INT NOT NULL,
   `Community_idCommunity` INT NOT NULL,
   `Sex` VARCHAR(45) NULL,
-  `IncomeValue` FLOAT NULL,
+  `IncomeValue` DOUBLE NULL,
   PRIMARY KEY (`idSE_IncomeType_has_Community`, `SE_IncomeType_idSE_IncomeType`, `Community_idCommunity`),
   CONSTRAINT `fk_SE_IncomeType_has_Community_SE_IncomeType1`
     FOREIGN KEY (`SE_IncomeType_idSE_IncomeType`)
@@ -2139,9 +2139,9 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`INF_WaterPoint` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`INF_WaterPoint` (
   `idINF_WaterPoint` INT NOT NULL AUTO_INCREMENT,
-  `Latitude` FLOAT NULL,
-  `Longitude` FLOAT NULL,
-  `Altitude` FLOAT NULL,
+  `Latitude` DOUBLE NULL,
+  `Longitude` DOUBLE NULL,
+  `Altitude` DOUBLE NULL,
   `Working` VARCHAR(45) NULL,
   `Community_idCommunity` INT NOT NULL,
   PRIMARY KEY (`idINF_WaterPoint`, `Community_idCommunity`),
@@ -2162,9 +2162,9 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`INF_ColletionPoints` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`INF_ColletionPoints` (
   `idINF_ColletionPoints` INT NOT NULL AUTO_INCREMENT,
-  `Latitude` FLOAT NULL,
-  `Longitude` FLOAT NULL,
-  `Altitude` FLOAT NULL,
+  `Latitude` DOUBLE NULL,
+  `Longitude` DOUBLE NULL,
+  `Altitude` DOUBLE NULL,
   `Community_idCommunity` INT NOT NULL,
   PRIMARY KEY (`idINF_ColletionPoints`, `Community_idCommunity`),
   CONSTRAINT `fk_INF_ColletionPoints_Community1`
@@ -2215,8 +2215,8 @@ CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`INF_GenerationSource_has_Community` 
   `INF_GenerationSource_idINF_GenerationSource` INT NOT NULL,
   `Community_idCommunity` INT NOT NULL,
   `Sector` VARCHAR(45) NULL,
-  `TimeAccessDay` FLOAT NULL,
-  `TimeAccessNight` FLOAT NULL,
+  `TimeAccessDay` DOUBLE NULL,
+  `TimeAccessNight` DOUBLE NULL,
   `Cost` INT NULL,
   PRIMARY KEY (`idINF_GenerationSource_has_Community`, `INF_GenerationSource_idINF_GenerationSource`, `Community_idCommunity`),
   CONSTRAINT `fk_INF_GenerationSource_has_Community_INF_GenerationSource1`
@@ -2246,8 +2246,8 @@ CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`INF_Appliance_has_Community` (
   `INF_Appliance_idINF_Appliance` INT NOT NULL,
   `Community_idCommunity` INT NOT NULL,
   `Sector` VARCHAR(45) NULL,
-  `Power` FLOAT NULL,
-  `TimeUse` FLOAT NULL,
+  `Power` DOUBLE NULL,
+  `TimeUse` DOUBLE NULL,
   PRIMARY KEY (`idINF_Appliance_has_Community`, `INF_Appliance_idINF_Appliance`, `Community_idCommunity`),
   CONSTRAINT `fk_INF_Appliance_has_Community_INF_Appliance1`
     FOREIGN KEY (`INF_Appliance_idINF_Appliance`)
@@ -2555,7 +2555,7 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`Camp_EnergySource_has_Camp` ;
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`Camp_EnergySource_has_Camp` (
   `Camp_EnergySource_idCamp_EnergySource` INT NOT NULL,
   `Camp_idCamp` INT NOT NULL,
-  `Cost` FLOAT NULL,
+  `Cost` DOUBLE NULL,
   PRIMARY KEY (`Camp_EnergySource_idCamp_EnergySource`, `Camp_idCamp`),
   CONSTRAINT `fk_Camp_EnergySource_has_Camp_Camp_EnergySource1`
     FOREIGN KEY (`Camp_EnergySource_idCamp_EnergySource`)
@@ -2775,9 +2775,9 @@ DROP TABLE IF EXISTS `nautiatoolkit`.`FS_CropUbication` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`FS_CropUbication` (
   `idFS_CropUbication` INT NOT NULL AUTO_INCREMENT,
-  `Latitude` FLOAT NULL,
-  `Longitude` FLOAT NULL,
-  `Altitude` FLOAT NULL,
+  `Latitude` DOUBLE NULL,
+  `Longitude` DOUBLE NULL,
+  `Altitude` DOUBLE NULL,
   `Type` VARCHAR(45) NULL,
   `IrrigationSystem` VARCHAR(45) NULL,
   PRIMARY KEY (`idFS_CropUbication`))
@@ -3190,7 +3190,7 @@ CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`FS_FoodSafety` (
   `women` TINYINT(1) NULL,
   `men` TINYINT(1) NULL,
   `senior` TINYINT(1) NULL,
-  `intake` FLOAT NULL,
+  `intake` DOUBLE NULL,
   `Community_idCommunity` INT NOT NULL,
   PRIMARY KEY (`idFS_FoodSafety`, `Community_idCommunity`),
   CONSTRAINT `fk_FS_FoodSafety_Community1`

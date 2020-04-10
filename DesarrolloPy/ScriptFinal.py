@@ -41,9 +41,9 @@ def dropRow(df,i):
 def mkCSV(df,fileName):
     df = df.dropna(how = 'all')
     df *= 1  #Cambia columnas Booleanas por [0,1] y el resto de datos los mantiene igual.
-    #df = df.fillna("\\N")   
+    df = df.fillna(-1)   
     fileName = fileName.lower()
-    df.to_csv('DataSetFinales/'+fileName,header = False, index=False) #Header e index a false para no mostrarlo en el csv
+    df.to_csv('DataSetFinales/'+fileName,sep='\t',header = False, index=False, encoding='utf-8') #Header e index a false para no mostrarlo en el csv
     
 def getPath(mainpath,filename):
     return os.path.join(mainpath, filename)
@@ -216,8 +216,8 @@ mkCSV(GD_Infrastructure,"GD_Infrastructure.csv")
 GD_ElectricGenerationMix = dfFix(Bibliography,"Hydropower (%)","High voltage (kV)") 
 mkCSV(GD_ElectricGenerationMix,"GD_ElectricGenerationMix.csv")
 
-GD_ServiceAcces = dfFix(Bibliography,"Illiteracy rate (%)","Shelter") 
-mkCSV(GD_ServiceAcces,"GD_ServiceAcces.csv")
+GD_ServiceAccess = dfFix(Bibliography,"Illiteracy rate (%)","Shelter") 
+mkCSV(GD_ServiceAccess,"GD_ServiceAccess.csv")
 
 GD_Shelter = dfFix(Bibliography,"Slum population rate (%)","SPECIFIC INFORMATION - SETTLEMENTS LEVEL") 
 mkCSV(GD_Shelter,"GD_Shelter.csv")
@@ -493,9 +493,9 @@ mkCSV(INF_WaterInfrastructure,"INF_WaterInfrastructure.csv")
 INF_TimeSpent = dfFix(HouseHold,"Water:Water_col","health_001:Healthcare")
 mkCSV(INF_TimeSpent,"INF_TimeSpent.csv")
 
-INF_PotabilitationSystem = dfFix(Entities,"Water:Treatment","Water:Comsuption")
-INF_PotabilitationSystem = separateValues(INF_PotabilitationSystem)
-mkCSV(INF_PotabilitationSystem,"INF_PotabilitationSystem.csv")
+INF_Purificationsystem = dfFix(Entities,"Water:Treatment","Water:Comsuption")
+INF_Purificationsystem = separateValues(INF_Purificationsystem)
+mkCSV(INF_Purificationsystem,"INF_Purificationsystem.csv")
 
 df1 = dfFix(WaterInf,"Record_your_current_location:Latitude","Record_your_current_location:Accuracy")
 df2 = dfFix(WaterInf,"Availability","meta:instanceID")
@@ -512,9 +512,9 @@ df2 = dfFix(Entities,"Sanitation:Type_of_Latrine","Sanitation:Individual_Latrine
 INF_SanitationAccess = concatDF(df1,df2)
 mkCSV(INF_SanitationAccess,"INF_SanitationAccess.csv")
 
-INF_SanitationSystmeQuality = dfFix(SanitationInf,"Slab","meta:instanceID")
-INF_SanitationSystmeQuality = INF_SanitationSystmeQuality.isin(["yes"]) #Genera boolean DF. True si elem == "yes"
-mkCSV(INF_SanitationSystmeQuality,"INF_SanitationSystmeQuality.csv")
+inf_sanitationsystemquality = dfFix(SanitationInf,"Slab","meta:instanceID")
+inf_sanitationsystemquality = inf_sanitationsystemquality.isin(["yes"]) #Genera boolean DF. True si elem == "yes"
+mkCSV(inf_sanitationsystemquality,"inf_sanitationsystemquality.csv")
 
 #%%WasteManagement
 
@@ -541,9 +541,9 @@ df5 = dfFix(GeneralForm,"Energy:Distance_ST","Transport:Kind_transport_inside")
 INF_EnergyInfrastructure = concatDF(df1,(concatDF(df2,concatDF(df3,concatDF(df4,df5)))))
 mkCSV(INF_EnergyInfrastructure,"INF_EnergyInfrastructure.csv")
 
-INF_ExpandPlandBeneficiaries = dfFix(Entities,"ENERGY:Covered_services","ENERGY:Power_failure") 
-INF_ExpandPlandBeneficiaries = separateValues(INF_ExpandPlandBeneficiaries)
-mkCSV(INF_ExpandPlandBeneficiaries,"INF_ExpandPlandBeneficiaries.csv") 
+inf_expandplanbeneficiaries = dfFix(Entities,"ENERGY:Covered_services","ENERGY:Power_failure") 
+inf_expandplanbeneficiaries = separateValues(inf_expandplanbeneficiaries)
+mkCSV(inf_expandplanbeneficiaries,"inf_expandplanbeneficiaries.csv") 
 
 INF_GenerationSource = ['electrical grid','diesel genset','solar panel','other']
 INF_GenerationSource = pd.DataFrame(INF_GenerationSource)
@@ -564,8 +564,8 @@ df3 = dfFix(GeneralForm, "Energy:Firewood_weight","Energy:fuel_cooking")
 INF_Kitchen = concatDF(df1,concatDF(df2,df3))
 mkCSV(INF_Kitchen,"INF_Kitchen.csv")
 
-INF_CookWomen = dfFix(WomenGroup,"Cooking_Details:Cooking_Inside","Street_light")
-mkCSV(INF_CookWomen,"INF_CookWomen.csv")
+INF_CookWoman = dfFix(WomenGroup,"Cooking_Details:Cooking_Inside","Street_light")
+mkCSV(INF_CookWoman,"INF_CookWoman.csv")
 
 df1 = dfFix(Entities,"ENERGY:Street_Light","Urban_Planning_001:Urban_Planning")
 df1 = df1.isin(["yes"])
@@ -633,9 +633,9 @@ df1 = dfFix(ComunalServices,"General_Information:Type_of_service","General_Infor
 df1 = df1.isin(["cementary"])
 df2 = dfFix(ComunalServices,"General_Information:Record_your_current_location:Latitude","General_Information:Record_your_current_location:Accuracy")
 df3 = dfFix(ComunalServices,"Cementary_Details:Drainage","Education_level")
-S_Cementary = concatDF(df2,df3)
-S_Cementary = get_valueBySector(df1,S_Cementary)
-mkCSV(S_Cementary,"S_Cementary.csv")
+s_cementery = concatDF(df2,df3)
+s_cementery = get_valueBySector(df1,s_cementery)
+mkCSV(s_cementery,"s_cementery.csv")
 
 df1 = dfFix(ComunalServices,"General_Information:Type_of_service","General_Information:Other_service") 
 df1 = df1.isin(["other"])
