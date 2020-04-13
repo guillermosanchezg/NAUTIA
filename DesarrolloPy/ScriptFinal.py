@@ -41,9 +41,9 @@ def dropRow(df,i):
 def mkCSV(df,fileName):
     df = df.dropna(how = 'all')
     df *= 1  #Cambia columnas Booleanas por [0,1] y el resto de datos los mantiene igual.
-    df = df.fillna(-1)   
+    #df = df.fillna(-1)   
     fileName = fileName.lower()
-    df.to_csv('DataSetFinales/'+fileName,sep='\t',header = False, index=False, encoding='utf-8') #Header e index a false para no mostrarlo en el csv
+    df.to_csv('DataSetFinales/'+fileName,sep=',',header = False, index=False, encoding='utf-8') #Header e index a false para no mostrarlo en el csv
     
 def getPath(mainpath,filename):
     return os.path.join(mainpath, filename)
@@ -277,6 +277,7 @@ Camp_LocalCrop = separateValues(Camp_LocalCrop)
 mkCSV(Camp_LocalCrop,"Camp_LocalCrop.csv") #1:Probar con datos 2:MODIFICAR FOLMULARIO?
 
 df3 = dfFix(Entities,"Enviormental_Issues:High_enviormental_value","Enviormental_Issues:Native_Plant")
+df3 = df3.isin(["yes"])
 df4 = dfFix(Entities,"Enviormental_Issues:Deforestation","Enviormental_Issues:High_enviormental_value")
 Camp_Enviroment = concatDF(df3,df4) #NO DEFINITIVO, controlar tipos de datos (Bool)
 mkCSV(Camp_Enviroment,"Camp_Enviroment.csv")

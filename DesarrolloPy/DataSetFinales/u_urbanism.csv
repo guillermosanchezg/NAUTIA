@@ -1,4 +1,4 @@
--1	-1.0	checkpoint	-1	-1	-1.0	-1	-1	-1.0	-1
-No	-1.0	-1	private	yes	4.0	yes	flood	10.0	no
-No	-1.0	-1	goverment	no	-1.0	yes	-1	-1.0	-1
-No	-1.0	-1	private	yes	20.0	no	-1	100.0	yes
+,,checkpoint,,,,,,,
+No,,,private,yes,4.0,yes,flood,10.0,no
+No,,,goverment,no,,yes,,,
+No,,,private,yes,20.0,no,,100.0,yes

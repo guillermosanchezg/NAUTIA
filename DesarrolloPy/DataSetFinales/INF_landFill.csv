@@ -1,4 +1,4 @@
-800_1000	closer	no
-far_away	closer	yes
-far_away	-1	no
-far_away	far_away	no
+800_1000,closer,no
+far_away,closer,yes
+far_away,,no
+far_away,far_away,no
