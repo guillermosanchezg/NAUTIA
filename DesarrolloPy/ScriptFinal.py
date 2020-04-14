@@ -141,7 +141,25 @@ def separateValues(df):
             corpus = np.append(corpus,[elem])
     X = count_vectorizer.fit_transform(corpus)
     array = count_vectorizer.get_feature_names()
-    return pd.DataFrame(array)  
+    return pd.DataFrame(array)
+
+def vectorizeValue(df):
+    df = separateValues(df)
+    year = np.array(['january','february','march','april','may','june','july','august','september','october','november','december'])
+    result = np.array([],dtype = bool)
+    df = np.array(df)
+    for elem in year:
+        flag = False
+        for column in df:
+            for month in column:
+                if(column == elem):
+                    flag = True
+        if(flag):
+            result = np.append(result,True)
+        else:
+            result = np.append(result,False)
+    return pd.DataFrame(result)
+
 #%% CSV to DataFrame
 Bibliography = pd.read_excel(getPath(mainpath,"Bibliography_120220.xlsx"))
 Bibliography = fixBibliography(Bibliography)
@@ -224,31 +242,31 @@ mkCSV(GD_Shelter,"GD_Shelter.csv")
 
 #%%COMMUN DATA
 
-Commun_Religion = dfFix(Bibliography,"Religion 1","Language")
-df1 = dropRow(Commun_Religion,1)
+Comun_Religion = dfFix(Bibliography,"Religion 1","Language")
+df1 = dropRow(Comun_Religion,1)
 np_array1 = np.array(df1)
-df2 = dropRow(Commun_Religion,0)
+df2 = dropRow(Comun_Religion,0)
 np_array2 = np.array(df2)
 np_array3 = np.concatenate((np_array1,np_array2), axis = 1)
-Commun_Religion = pd.DataFrame(np_array3)
-Commun_Religion = Commun_Religion.transpose()
-Commun_Religion = Commun_Religion[0].unique()
-Commun_Religion = pd.DataFrame(Commun_Religion)
-Commun_Religion = Commun_Religion.dropna()
-mkCSV(Commun_Religion,"Commun_Religion.csv")
+Comun_Religion = pd.DataFrame(np_array3)
+Comun_Religion = Comun_Religion.transpose()
+Comun_Religion = Comun_Religion[0].unique()
+Comun_Religion = pd.DataFrame(Comun_Religion)
+Comun_Religion = Comun_Religion.dropna()
+mkCSV(Comun_Religion,"Comun_Religion.csv")
 
-Commun_Language = dfFix(Bibliography,"Language 1","Economy and well-being")
-df1 = dropRow(Commun_Language,1)
+Comun_Language = dfFix(Bibliography,"Language 1","Economy and well-being")
+df1 = dropRow(Comun_Language,1)
 np_array1 = np.array(df1)
-df2 = dropRow(Commun_Language,0)
+df2 = dropRow(Comun_Language,0)
 np_array2 = np.array(df2)
 np_array3 = np.concatenate((np_array1,np_array2), axis = 1)
-Commun_Language = pd.DataFrame(np_array3)
-Commun_Language = Commun_Language.transpose()
-Commun_Language = Commun_Language[0].unique()
-Commun_Language = pd.DataFrame(Commun_Language)
-Commun_Language = Commun_Language.dropna()
-mkCSV(Commun_Language,"Commun_Language.csv")
+Comun_Language = pd.DataFrame(np_array3)
+Comun_Language = Comun_Language.transpose()
+Comun_Language = Comun_Language[0].unique()
+Comun_Language = pd.DataFrame(Comun_Language)
+Comun_Language = Comun_Language.dropna()
+mkCSV(Comun_Language,"Comun_Language.csv")
 
 #%% Specific DATA CAMP
 
@@ -746,7 +764,9 @@ df2 = dfFix(GeneralCitizen,"Main_food_source:Humanitarian_Aid","meta:instanceID"
 FS_FoodSource = get_FSClaveValor(df1,df2)
 mkCSV(FS_FoodSource,"FS_FoodSource.csv") #Probar con datos en GeneralCitizen
 
-#FS_CultivationSeason #problema PLN
+FS_CultivationSeason = dfFix(LocalLeaders,"Food_security:cultivation_months","Food_security:own_food_months")
+FS_CultivationSeason = vectorizeValue(FS_CultivationSeason)
+mkCSV(FS_CultivationSeason,"FS_CultivationSeason.csv")
 
 #%%Corral and Crop
 
@@ -781,7 +801,9 @@ mkCSV(FS_CropUbication,"FS_CropUbication.csv")
 FS_FoodAccessContinuity = dfFix(LocalLeaders,"Food_security:perishable_food","Costs:basic_basket")
 mkCSV(FS_FoodAccessContinuity,"FS_FoodAccessContinuity.csv")
 
-#FS_SelfSufficiencySeason #Problema PLN
+FS_SelfSufficiencySeason = dfFix(LocalLeaders,"Food_security:own_food_months","Food_security:kind_food")
+FS_SelfSufficiencySeason = vectorizeValue(FS_SelfSufficiencySeason)
+mkCSV(FS_SelfSufficiencySeason,"FS_SelfSufficiencySeason.csv")
 
 FS_OwnCultivationFoodType = dfFix(LocalLeaders,"Food_security:kind_food","Food_security:fertilizers")
 FS_OwnCultivationFoodType = separateValues(FS_OwnCultivationFoodType)
@@ -791,4 +813,10 @@ FS_GrainConservation = dfFix(LocalLeaders,"Food_security:dry_food","Food_securit
 FS_GrainConservation = separateValues(FS_GrainConservation)
 mkCSV(FS_GrainConservation,"FS_GrainConservation.csv")
 
-#FS_GrainMill #No existe el dato
+df1 = dfFix(ComunalServices,"General_Information:Type_of_service","General_Information:Other_service")
+df1 = df1.isin(["gran_mill"])
+df2 = dfFix(ComunalServices,"Grain_Mill_Details:Available","Grain_Mill_Details:Type")
+df3 = dfFix(ComunalServices,"Grain_Mill_Details:Engine","Cementary_Details:Drainage")
+FS_GrainMill = concatDF(df2,df3)
+FS_GrainMill = get_valueBySector(df1,FS_GrainMill)
+mkCSV(FS_GrainMill,"FS_GrainMill.csv")
