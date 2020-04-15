@@ -40,8 +40,7 @@ def dropRow(df,i):
 
 def mkCSV(df,fileName):
     df = df.dropna(how = 'all')
-    df *= 1  #Cambia columnas Booleanas por [0,1] y el resto de datos los mantiene igual.
-    #df = df.fillna(-1)   
+    df *= 1  #Cambia columnas Booleanas por [0,1] y el resto de datos los mantiene igual.  
     fileName = fileName.lower()
     df.to_csv('DataSetFinales/'+fileName,sep=',',header = False, index=False, encoding='utf-8') #Header e index a false para no mostrarlo en el csv
     
@@ -211,7 +210,7 @@ mkCSV(GD_Ethnicgroup,"GD_Ethnicgroup.csv")
 
 df1 = dfFix(Bibliography,"Parliamentary republic","Territorial and Urbanistic")
 GD_Government = df1 
-GD_Government = GD_Government.isin(["Si"]) #Genera boolean DF. True si elem == "Si"
+GD_Government = GD_Government.isin(["Si"])
 GD_Government = GD_Government.any() #Lista con indice de columna y True si un contiene un True o False en caso contrario
 GD_Government = list(GD_Government[GD_Government == True].index) #lista de indices con true
 GD_Government = pd.DataFrame(GD_Government)
@@ -283,16 +282,16 @@ Camp_NaturalHazard = getSubColumnNames(Camp_NaturalHazard,30)
 mkCSV(Camp_NaturalHazard,"Camp_NaturalHazard.csv")
 
 Camp_NaturalHazard_Has_Camp = dfFix(Entities,"Enviormental_Issues:Risk:Risk_Flood","Enviormental_Issues:Deforestation")
-Camp_NaturalHazard_Has_Camp.transpose()
+Camp_NaturalHazard_Has_Camp = Camp_NaturalHazard_Has_Camp.transpose()
 mkCSV(Camp_NaturalHazard_Has_Camp,"Camp_NaturalHazard_Has_Camp.csv") #1:Probar con datos 2:FKs4
 
 Camp_LocalVegetation = dfFix(Entities,"Enviormental_Issues:Native_Plant","Enviormental_Issues:Native_Crops")
 Camp_LocalVegetation = separateValues(Camp_LocalVegetation)
-mkCSV(Camp_LocalVegetation,"Camp_LocalVegetation.csv") #1:Probar con datos ¿2:MODIFICAR FOLMULARIO? 
+mkCSV(Camp_LocalVegetation,"Camp_LocalVegetation.csv") # ¿MODIFICAR FOLMULARIO? 
 
 Camp_LocalCrop = dfFix(Entities,"Enviormental_Issues:Native_Crops","Water_table")
 Camp_LocalCrop = separateValues(Camp_LocalCrop)
-mkCSV(Camp_LocalCrop,"Camp_LocalCrop.csv") #1:Probar con datos 2:MODIFICAR FOLMULARIO?
+mkCSV(Camp_LocalCrop,"Camp_LocalCrop.csv") #MODIFICAR FOLMULARIO?
 
 df3 = dfFix(Entities,"Enviormental_Issues:High_enviormental_value","Enviormental_Issues:Native_Plant")
 df3 = df3.isin(["yes"])
@@ -372,14 +371,14 @@ SE_ConflictArea = separateValues(SE_ConflictArea)
 mkCSV(SE_ConflictArea,"SE_ConflictArea.csv") #IMPORRANTE Los datos entran como string de lugares, pero se quiere guardar coordenadas.
 
 df1 = dfFix(LocalLeaders,"Settlement_security:secur_committees","Food_security:cultivation_months")
-df1 = df1.isin(["yes"]) #Genera boolean DF. True si elem == "yes"
+df1 = df1.isin(["yes"])
 df2 = dfFix(Entities,"Women_Patrol","Education_Issues")
-df2 = df2.isin(["Yes"]) #Genera boolean DF. True si elem == "Yes"
+df2 = df2.isin(["Yes"])
 SE_SafetyCommittee = concatDF(df1,df2)
 mkCSV(SE_SafetyCommittee,"SE_SafetyCommittee.csv") 
 
 SE_SafetyLatrines = dfFix(SanitationInfra, "Public_Latrines:Sex_segregated","Slab")
-SE_SafetyLatrines = SE_SafetyLatrines.isin(["yes"]) #Genera boolean DF. True si elem == "Yes"
+SE_SafetyLatrines = SE_SafetyLatrines.isin(["yes"])
 mkCSV(SE_SafetyLatrines,"SE_SafetyLatrines.csv") 
 
 
@@ -409,11 +408,13 @@ priorities = ['energy','shelter','water access','sanitation','education','health
 priorities = pd.DataFrame(priorities)
 mkCSV(priorities,"SE_Priorities.csv")
 
-#df1 = dfFix(Priorities,"group_yf0yl72:Energy_1","Priority_2:Instruction")
-#df2 = dfFix(Priorities,"Priority_2:Energy_2","Priority_3:Instruction_001")
-#df2 = dfFix(Priorities,"Priority_3:Energy_3","Priority_4:Instruction_002")
-#[...]
-#mkCSV(SE_Priorities_has_Community,"SE_Priorities_has_Community.csv")  continuar cuando se tenga acceso a servidor ODK
+df1 = dfFix(Priorities,"group_yf0yl72:Energy_1","Priority_2:Instruction")
+df2 = dfFix(Priorities,"Priority_2:Energy_2","Priority_3:Instruction_001")
+df3 = dfFix(Priorities,"Priority_3:Energy_3","Priority_4:Instruction_002")
+df4 = dfFix(Priorities,"Priority_4:Energy_4_001","Priority_5:Instruction_003")
+df5 = dfFix(Priorities,"Priority_5:Energy_4","meta:instanceID")
+SE_Priorities_has_Community = concatDF(df1,(concatDF(df2,concatDF(df3,concatDF(df4,df5)))))
+mkCSV(SE_Priorities_has_Community,"SE_Priorities_has_Community.csv")
 
 #%% GenderData
 
@@ -485,9 +486,16 @@ df5 = dfFix(Entities,"Urban_Planning_001:Risk_Managment","Shelter:Housing_Improv
 U_Urbanism = concatDF(df1,concatDF(df2,concatDF(df3,concatDF(df4,df5))))
 mkCSV(U_Urbanism,"U_Urbanism.csv")
 
-#U_Area No está claro el origen de datos
+u_area = np.array(['Shade Area','Urban Furniture','Paved Area','Waste Management'])
+u_area = pd.DataFrame(u_area)
+mkCSV(u_area,"u_area.csv")
 
-#U_LandUse no sé de donde se coge la información del Plano
+df1 = dfFix(PublicSpace,"Details:Shade_Areas","meta:instanceID")
+df1 = df1.isin(["yes"])
+U_Area_has_Community = dfFix(PublicSpace,"Record_your_current_location:Latitude","Record_your_current_location:Accuracy")
+mkCSV(U_Area_has_Community,"U_Area_has_Community.csv")
+
+#U_LandUse Datos GIS, no parte de esta ETL. 2 no se encuentran datos.
 
 U_Road = dfFix(GeneralForm,"Urban_information:Drain_system","Energy:electrical_grid") 
 mkCSV(U_Road,"U_Road.csv") #Falta la información que sale de Plano
@@ -498,7 +506,7 @@ df2 = df2.isin(["yes"]) #Genera boolean DF. True si elem == "yes"
 U_RecreationalArea = concatDF(df1,df2)
 mkCSV(U_RecreationalArea,"U_RecreationalArea.csv")
 
-#U_PublicSpace no se de donde se coge la información del plano
+#U_PublicSpace dato GIS, no corresponde a la ETL
 
 #%%INFRASTRUCTURE DATA
 
@@ -518,7 +526,7 @@ mkCSV(INF_Purificationsystem,"INF_Purificationsystem.csv")
 
 df1 = dfFix(WaterInf,"Record_your_current_location:Latitude","Record_your_current_location:Accuracy")
 df2 = dfFix(WaterInf,"Availability","meta:instanceID")
-df2 = df2.isin(["yes"]) #Genera boolean DF. True si elem == "yes"
+df2 = df2.isin(["yes"])
 INF_WaterPoint = concatDF(df1,df2)
 mkCSV(INF_WaterPoint,"INF_WaterPoint.csv")
 
@@ -526,13 +534,13 @@ mkCSV(INF_WaterPoint,"INF_WaterPoint.csv")
 #%%Sanitation
 
 df1 = dfFix(Entities,"Sanitation:Open_defecation","Sanitation:Type_of_Latrine")
-df1 = df1.isin(["yes"]) #Genera boolean DF. True si elem == "yes"
+df1 = df1.isin(["yes"])
 df2 = dfFix(Entities,"Sanitation:Type_of_Latrine","Sanitation:Individual_Latrines")
 INF_SanitationAccess = concatDF(df1,df2)
 mkCSV(INF_SanitationAccess,"INF_SanitationAccess.csv")
 
 inf_sanitationsystemquality = dfFix(SanitationInf,"Slab","meta:instanceID")
-inf_sanitationsystemquality = inf_sanitationsystemquality.isin(["yes"]) #Genera boolean DF. True si elem == "yes"
+inf_sanitationsystemquality = inf_sanitationsystemquality.isin(["yes"])
 mkCSV(inf_sanitationsystemquality,"inf_sanitationsystemquality.csv")
 
 #%%WasteManagement
@@ -550,12 +558,12 @@ mkCSV(INF_CollectionPoints,"INF_CollectionPoints.csv")
 #%%Energy
 
 df1 = dfFix(GeneralForm,"Energy:electrical_grid","Energy:power_point")
-df1 = df1.isin(["yes"]) #Genera boolean DF. True si elem == "yes"
+df1 = df1.isin(["yes"]) 
 df2 = dfFix(Entities,"ENERGY:Electricity_network","ENERGY:Covered_services")
-df2 = df2.isin(["yes"]) #Genera boolean DF. True si elem == "yes"
+df2 = df2.isin(["yes"])
 df3 = dfFix(Entities,"ENERGY:Power_failure","ENERGY:Street_Light")
 df4 = dfFix(Entities,"ENERGY:Street_Light","Urban_Planning_001:Urban_Planning")
-df4 = df4.isin(["yes"]) #Genera boolean DF. True si elem == "yes"
+df4 = df4.isin(["yes"])
 df5 = dfFix(GeneralForm,"Energy:Distance_ST","Transport:Kind_transport_inside")
 INF_EnergyInfrastructure = concatDF(df1,(concatDF(df2,concatDF(df3,concatDF(df4,df5)))))
 mkCSV(INF_EnergyInfrastructure,"INF_EnergyInfrastructure.csv")
