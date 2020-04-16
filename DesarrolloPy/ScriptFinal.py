@@ -159,6 +159,20 @@ def vectorizeValue(df):
             result = np.append(result,False)
     return pd.DataFrame(result)
 
+def set_sector(df,sect, concat = True):
+    sector = np.array([])
+    df = df.dropna(how = 'all')
+    df = np.array(df)
+    for column in df:
+        sector = np.append(sector,sect)
+    sector = pd.DataFrame(sector)
+    df = pd.DataFrame(df)
+    if(concat):
+        result = concatDF(sector,df)
+    else:
+        result = sector
+    return result 
+
 #%% CSV to DataFrame
 Bibliography = pd.read_excel(getPath(mainpath,"Bibliography_120220.xlsx"))
 Bibliography = fixBibliography(Bibliography)
@@ -502,7 +516,7 @@ mkCSV(U_Road,"U_Road.csv") #Falta la información que sale de Plano
 
 df1 = dfFix(PublicSpace,"Record_your_current_location:Latitude","Record_your_current_location:Accuracy") 
 df2 = dfFix(PublicSpace,"Details:Shade_Areas","meta:instanceID") 
-df2 = df2.isin(["yes"]) #Genera boolean DF. True si elem == "yes"
+df2 = df2.isin(["yes"])
 U_RecreationalArea = concatDF(df1,df2)
 mkCSV(U_RecreationalArea,"U_RecreationalArea.csv")
 
@@ -576,14 +590,29 @@ INF_GenerationSource = ['electrical grid','diesel genset','solar panel','other']
 INF_GenerationSource = pd.DataFrame(INF_GenerationSource)
 mkCSV(INF_GenerationSource,"INF_GenerationSource.csv")
 
-#INF_GenerationSource_has_Community # No se puede guardar la informacion de los requisitos porque no se pregunta la info completa, solo a negocios
+df1 = dfFix(Business,"Energy:hours_morning","Energy:electrical_appliances")
+df2 = dfFix(Business,"Energy:money_electricity","Energy:cost_solar_panel")
+comercial = concatDF(df1,df2)
+comercial = set_sector(comercial,"comercial")
+df1 = dfFix(HouseHold,"Energy:Hours_day","Energy:Appliances")
+df2 = dfFix(HouseHold,"Energy:Elec_expen","Energy:Solar_cost")
+residencial = concatDF(df1,df2)
+residencial = set_sector(residencial,"residencial")
+comunitario = dfFix(ComunalServices,"Energy_Details:Energy_Source","Energy_Details:Type_of_water_supply")
+comunitario = set_sector(comunitario,"comunitario",concat=False)
+INF_GenerationSource_has_Community = concatDF(comercial.T,concatDF(residencial.T,comunitario.T)).T
+mkCSV(INF_GenerationSource_has_Community,"INF_GenerationSource_has_Community") #ojo gestion FK
 
 df1 = dfFix(EnergyINF,"Ofert:Type_of_water_supply","Ofert:Picture")
 df2 = dfFix(EnergyINF,"Ofert:Power_of_generation","Ofert:Power_of_generation_001")
 INF_GenerationSystem = concatDF(df1,df2)
 mkCSV(INF_GenerationSystem,"INF_GenerationSystem.csv")
 
-#INF_Appliance #problema PNL
+INF_Appliance = np.array(["lantern","light bulbs","mobile phone","radio","tv","computer","fridge","electrical stove","others"])
+INF_Appliance = pd.DataFrame(INF_Appliance)
+mkCSV(INF_Appliance,"INF_Appliance.csv")
+
+#INF_Appliance_has_Community Problemon PLN
 
 df1 = dfFix(GeneralForm,"Energy:Stove","Energy:Firewood_weight")
 df2 = dfFix(GeneralForm,"Energy:fuel_cooking","Energy:technology_street_lighting")
@@ -621,7 +650,12 @@ INF_MobilityWay = ['walking','motrocycle','bike','truck','animal','car']
 INF_MobilityWay = pd.DataFrame(INF_MobilityWay)
 mkCSV(INF_MobilityWay,"INF_MobilityWay.csv")
 
-#INF_MobilityWay_has_Community #Pensar durante proceso FK
+internal = dfFix(GeneralForm,"Transport:Kind_transport_inside","Transport:Kind_transport_outside")
+internal = separateValues(internal)
+external = dfFix(GeneralForm,"Transport:Kind_transport_outside","meta:instanceID")
+external = separateValues(external)
+INF_Appliance_has_Community = concatDF(internal,external)
+mkCSV(INF_Appliance_has_Community,"INF_Appliance_has_Community.csv")
 
 #%% SERVICIOS DATA
 #%%Ceneter
@@ -638,9 +672,31 @@ mkCSV(S_EducationalCenter,"S_EducationalCenter.csv")
 df1 = dfFix(ComunalServices,"education_details:Subjects","education_details:Subjects_001")
 df1 = df1.dropna()
 S_Subject = separateValues(df1)
+df2 = dfFix(ComunalServices,"education_details:Subject_needed","education_details:Start_001").dropna()
+S_Subject = np.array(S_Subject)
+df2 = np.array(df2)
+newSubject = np.array([])
+for column in df2:
+    for elem in column:
+        flag = False
+        for column2 in S_Subject:
+            for elem2 in column2:
+                if(elem == elem2):
+                    flag = True
+        if(flag == False):
+            newSubject = np.append(newSubject,elem)
+S_Subject = pd.DataFrame(S_Subject)
+newSubject = pd.DataFrame(newSubject)
+S_Subject = concatDF(S_Subject.T,newSubject.T).T
+S_Subject = pd.DataFrame(np.unique(np.array(S_Subject)))
 mkCSV(S_Subject,"S_Subject.csv")
 
-#S_Subject_has_S_EducationalCenter 
+df1 = dfFix(ComunalServices,"education_details:Subjects","education_details:Subjects_001")
+df1 = df1.dropna()
+S_Subject = separateValues(df1)
+df2 = dfFix(ComunalServices,"education_details:Subject_needed","education_details:Start_001").dropna()
+S_Subject_has_S_EducationalCenter = concatDF(S_Subject,df2)
+mkCSV(S_Subject_has_S_EducationalCenter,"S_Subject_has_S_EducationalCentercsv")
 
 df1 = dfFix(ComunalServices,"Health_Center","Health_Center_details:Capacity")
 df1 = df1.isin(["primary_care"])
@@ -649,12 +705,12 @@ S_PrimaryAttention = get_valueBySector(df1,S_PrimaryAttention)
 mkCSV(S_PrimaryAttention,"S_PrimaryAttention.csv")
 
 df1 = dfFix(ComunalServices,"Health_Center","Health_Center_details:Capacity")
-df1 = df1.isin(["hospital"])                                                  #probar con datos
+df1 = df1.isin(["hospital"])                                                  
 df2 = dfFix(ComunalServices,"General_Information:Record_your_current_location:Latitude","General_Information:Record_your_current_location:Accuracy")
 df3 = dfFix(ComunalServices,"Health_Center_details:Capacity","Associate_infrastructure:Sanitation")
 S_Hospital = concatDF(df2,df3)
 S_Hospital = get_valueBySector(df1,S_Hospital)
-mkCSV(S_Hospital,"S_Hospital.csv")
+mkCSV(S_Hospital,"S_Hospital.csv") #NoAccesArea dato de GIS
 
 df1 = dfFix(ComunalServices,"General_Information:Type_of_service","General_Information:Other_service")
 df1 = df1.isin(["cementary"])
