@@ -63,25 +63,24 @@ def getSubColumnNames(df,x):
         array.append(column)
     return pd.DataFrame(array) 
 
-def addInstitutionAndType(df,array1,array2,instType,index):
-    refugees = dropRow(df,index)
-    refugees = refugees.dropna(axis = 1)
-    refugees = np.array(refugees)
-    for row in refugees:
+def addInstitutionAndType(df,array1,array2,instType):
+    df = df.dropna(axis = 1)
+    df = np.array(df)
+    for row in df:
         for elem in row:
             array1 = np.append(array1,elem)
             array2 = np.append(array2,instType)
     return array1,array2
 
-def politicalActor(df1,df2,df3,df4,df5,index):
+def politicalActor(df1,df2,df3,df4,df5):
     institution = []
     instType = []
 
-    institution, instType  = addInstitutionAndType(df1,institution,instType,'Public Institution',index)
-    institution, instType  = addInstitutionAndType(df2,institution,instType,'Private Institution',index)
-    institution, instType  = addInstitutionAndType(df3,institution,instType,'NGO',index)
-    institution, instType  = addInstitutionAndType(df4,institution,instType,'International Agency',index)
-    institution, instType  = addInstitutionAndType(df5,institution,instType,'Local',index)
+    institution, instType  = addInstitutionAndType(df1,institution,instType,'Public Institution')
+    institution, instType  = addInstitutionAndType(df2,institution,instType,'Private Institution')
+    institution, instType  = addInstitutionAndType(df3,institution,instType,'NGO')
+    institution, instType  = addInstitutionAndType(df4,institution,instType,'International Agency')
+    institution, instType  = addInstitutionAndType(df5,institution,instType,'Local')
 
     institution = pd.DataFrame(institution)
     institution = institution.reset_index(drop = True)
@@ -89,6 +88,7 @@ def politicalActor(df1,df2,df3,df4,df5,index):
     instType = instType.reset_index(drop = True)
     
     return concatDF(institution,instType)
+
 
 def get_claveValor(df1,df2):
     array1 = np.array(df2)
@@ -415,17 +415,17 @@ df2 = dfFix(HouseHold, "Economy:Food","meta:instanceID")
 SE_ExpenseType_has_Community = get_claveValor(df1,df2)
 mkCSV(SE_ExpenseType_has_Community,"SE_ExpenseType_has_Community.csv")
 
-priorities = ['energy','shelter','water access','sanitation','education','health','public space','food','TIC','work','waste management','public transport','religious center','socio cultural center','market']
-priorities = pd.DataFrame(priorities)
-mkCSV(priorities,"SE_Priorities.csv")
+priority = ['energy','shelter','water access','sanitation','education','health','public space','food','TIC','work','waste management','public transport','religious center','socio cultural center','market']
+priority = pd.DataFrame(priority)
+mkCSV(priority,"se_priority.csv")
 
 df1 = dfFix(Priorities,"group_yf0yl72:Energy_1","Priority_2:Instruction")
 df2 = dfFix(Priorities,"Priority_2:Energy_2","Priority_3:Instruction_001")
 df3 = dfFix(Priorities,"Priority_3:Energy_3","Priority_4:Instruction_002")
 df4 = dfFix(Priorities,"Priority_4:Energy_4_001","Priority_5:Instruction_003")
 df5 = dfFix(Priorities,"Priority_5:Energy_4","meta:instanceID")
-SE_Priorities_has_Community = concatDF(df1,(concatDF(df2,concatDF(df3,concatDF(df4,df5)))))
-mkCSV(SE_Priorities_has_Community,"SE_Priorities_has_Community.csv")
+SE_Priority_has_Community = concatDF(df1,(concatDF(df2,concatDF(df3,concatDF(df4,df5)))))
+mkCSV(SE_Priority_has_Community,"SE_Priority_has_Community.csv")
 
 #%% GenderData
 
@@ -454,11 +454,8 @@ dfPrivate = dfFix(Bibliography,"Private institutions","Non-profit organizations/
 dfNonProfit = dfFix(Bibliography,"Non-profit organizations/NGOs","International cooperation agencies")
 dfInternational = dfFix(Bibliography,"International cooperation agencies","Local representatives/local committees/ local liders")
 dfLocal = dfFix(Bibliography,"Local representatives/local committees/ local liders")
-
-G_PoliticalActor1 = politicalActor(dfPublic,dfPrivate,dfNonProfit,dfInternational,dfLocal,0)
-mkCSV(G_PoliticalActor1,"G_PoliticalActor1.csv")
-G_PoliticalActor2 = politicalActor(dfPublic,dfPrivate,dfNonProfit,dfInternational,dfLocal,1)
-mkCSV(G_PoliticalActor2,"G_PoliticalActor2.csv")
+G_PoliticalActor = politicalActor(dfPublic,dfPrivate,dfNonProfit,dfInternational,dfLocal)
+mkCSV(G_PoliticalActor,"G_PoliticalActor.csv")
 
 #%%FISICO AMBIENTALES DATA
 
@@ -517,7 +514,7 @@ df2 = df2.isin(["yes"])
 U_RecreationalArea = concatDF(df1,df2)
 mkCSV(U_RecreationalArea,"U_RecreationalArea.csv")
 
-#U_PublicSpace dato GIS, no corresponde a la ETL
+#U_PublicSpace dato , no corresponde a la ETL
 
 #%%INFRASTRUCTURE DATA
 
@@ -739,9 +736,9 @@ mkCSV(S_BuildingQuality,"S_BuildingQuality.csv")
 #%%Service
 #S_HealthCenterService #información de plano
 
-S_MedicineAcces = dfFix(HouseHold,"health_001:Healthcare","Economy:FamilyHead")
-S_MedicineAcces = S_MedicineAcces.isin(["yes"])
-mkCSV(S_MedicineAcces,"S_MedicineAcces.csv")
+S_MedicineAccess = dfFix(HouseHold,"health_001:Healthcare","Economy:FamilyHead")
+S_MedicineAccess = S_MedicineAccess.isin(["yes"])
+mkCSV(S_MedicineAccess,"S_MedicineAccess.csv")
 
 S_DataAccess = dfFix(Entities,"Data_Access","Antenna")
 S_DataAccess = separateValues(S_DataAccess)

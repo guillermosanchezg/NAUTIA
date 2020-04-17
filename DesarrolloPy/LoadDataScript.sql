@@ -232,9 +232,8 @@ LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUT
 INTO TABLE fs_foodsource
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-    (@Source,@NumberPeople)
-SET Source = NULLIF(@Source,''),
-    NumberPeople = NULLIF(@NumberPeople,'');
+    (@Source)
+SET Source = NULLIF(@Source,'');
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/fs_grainconservation.csv'
 INTO TABLE fs_grainconservation
@@ -247,18 +246,17 @@ LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUT
 INTO TABLE fs_grainmill
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-    (@EnginePower,@Operative,@GoodUbication)
-SET EnginePower = NULLIF(@EnginePower,''),
-    Operative = NULLIF(@Operative,''),
+    (@Operative,@EnginePower,@GoodUbication)
+SET Operative = NULLIF(@Operative,''),
+    EnginePower = NULLIF(@EnginePower,''),
     GoodUbication = NULLIF(@GoodUbication,'');
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/fs_importantmeal.csv'
 INTO TABLE fs_importantmeal
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-    (@meal,@numberPeople)
-SET meal = NULLIF(@meal,''),
-    numberPeople = NULLIF(@numberPeople,'');
+    (@meal)
+SET meal = NULLIF(@meal,'');
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/fs_owncultivationfoodtype.csv'
 INTO TABLE fs_owncultivationfoodtype
@@ -289,17 +287,15 @@ LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUT
 INTO TABLE fs_timesperday
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-    (@times,@numberPeople)
-SET times = NULLIF(@times,''),
-    numberPeople = NULLIF(@numberPeople,'');
+    (@times)
+SET times = NULLIF(@times,'');
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/fs_typicalplate.csv'
 INTO TABLE fs_typicalplate
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-    (@Plate,@Kcal_100g)
-SET Plate = NULLIF(@Plate,''),
-    Kcal_100g = NULLIF(@Kcal_100g,'');
+    (@Plate)
+SET Plate = NULLIF(@Plate,'');
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/g_politicalactor.csv'
 INTO TABLE g_politicalactor
@@ -470,15 +466,6 @@ LINES TERMINATED BY '\n'
 SET SystemType = NULLIF(@SystemType,''),
     Capacity = NULLIF(@Capacity,'');
 
-LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/inf_irrigatonsystem.csv'
-INTO TABLE inf_irrigatonsystem
-FIELDS TERMINATED BY ','
-LINES TERMINATED BY '\n'
-    (@Operating,@WaterPumpPower,@EnergySource)
-SET Operating = NULLIF(@Operating,''),
-    WaterPumpPower = NULLIF(@WaterPumpPower,''),
-    EnergySource = NULLIF(@EnergySource,'');
-
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/inf_kitchen.csv'
 INTO TABLE inf_kitchen
 FIELDS TERMINATED BY ','
@@ -506,13 +493,6 @@ SET TechType = NULLIF(@TechType,''),
     TechPower = NULLIF(@TechPower,''),
     INF_PublicLighting_idINF_PublicLighting = NULLIF(@INF_PublicLighting_idINF_PublicLighting,''),
     INF_PublicLighting_Community_idCommunity = NULLIF(@INF_PublicLighting_Community_idCommunity,'');
-
-LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/inf_mobilityinfrastructure.csv'
-INTO TABLE inf_mobilityinfrastructure
-FIELDS TERMINATED BY ','
-LINES TERMINATED BY '\n'
-    (@DistanceToWorkstation)
-SET DistanceToWorkstation = NULLIF(@DistanceToWorkstation,'');
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/inf_mobilitypoint.csv'
 INTO TABLE inf_mobilitypoint
@@ -609,15 +589,6 @@ SET Latitude = NULLIF(@Latitude,''),
     Altitude = NULLIF(@Altitude,''),
     Working = NULLIF(@Working,'');
 
-LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/inf_womensafety.csv'
-INTO TABLE inf_womensafety
-FIELDS TERMINATED BY ','
-LINES TERMINATED BY '\n'
-    (@Influence,@INF_PublicLighting_idINF_PublicLighting,@INF_PublicLighting_Community_idCommunity)
-SET Influence = NULLIF(@Influence,''),
-    INF_PublicLighting_idINF_PublicLighting = NULLIF(@INF_PublicLighting_idINF_PublicLighting,''),
-    INF_PublicLighting_Community_idCommunity = NULLIF(@INF_PublicLighting_Community_idCommunity,'');
-
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/s_app.csv'
 INTO TABLE s_app
 FIELDS TERMINATED BY ','
@@ -670,14 +641,6 @@ SET Latitude = NULLIF(@Latitude,''),
     TimeStart = NULLIF(@TimeStart,''),
     TimeFinish = NULLIF(@TimeFinish,''),
     S_BuildingQuality_idS_BuildingQuality = NULLIF(@S_BuildingQuality_idS_BuildingQuality,'');
-
-LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/s_healthcenterservice.csv'
-INTO TABLE s_healthcenterservice
-FIELDS TERMINATED BY ','
-LINES TERMINATED BY '\n'
-    (@PrimaryAttention2kms,@Hospital5kms)
-SET PrimaryAttention2kms = NULLIF(@PrimaryAttention2kms,''),
-    Hospital5kms = NULLIF(@Hospital5kms,'');
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/s_hospital.csv'
 INTO TABLE s_hospital
@@ -760,10 +723,8 @@ LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUT
 INTO TABLE se_conflictarea
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-    (@Latitude,@Longitude,@Altitude)
-SET Latitude = NULLIF(@Latitude,''),
-    Longitude = NULLIF(@Longitude,''),
-    Altitude = NULLIF(@Altitude,'');
+    (@place)
+SET place = NULLIF(@place,'');
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/se_economy.csv'
 INTO TABLE se_economy
@@ -778,13 +739,6 @@ FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
     (@Type)
 SET Type = NULLIF(@Type,'');
-
-LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/se_genderdata.csv'
-INTO TABLE se_genderdata
-FIELDS TERMINATED BY ','
-LINES TERMINATED BY '\n'
-    (@LeadingWomen)
-SET LeadingWomen = NULLIF(@LeadingWomen,'');
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/se_householdcomposition.csv'
 INTO TABLE se_householdcomposition
@@ -895,27 +849,8 @@ LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUT
 INTO TABLE u_area
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-    (@AreaType,@Latitude,@Longitude,@Altitude)
-SET AreaType = NULLIF(@AreaType,''),
-    Latitude = NULLIF(@Latitude,''),
-    Longitude = NULLIF(@Longitude,''),
-    Altitude = NULLIF(@Altitude,'');
-
-LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/u_landuse.csv'
-INTO TABLE u_landuse
-FIELDS TERMINATED BY ','
-LINES TERMINATED BY '\n'
-    (@PrivateLandArea,@UrbanFloodingArea,@UrbanSlopeRiskAre)
-SET PrivateLandArea = NULLIF(@PrivateLandArea,''),
-    UrbanFloodingArea = NULLIF(@UrbanFloodingArea,''),
-    UrbanSlopeRiskAre = NULLIF(@UrbanSlopeRiskAre,'');
-
-LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/u_publicspace.csv'
-INTO TABLE u_publicspace
-FIELDS TERMINATED BY ','
-LINES TERMINATED BY '\n'
-    (@TotalArea)
-SET TotalArea = NULLIF(@TotalArea,'');
+    (@AreaType)
+SET AreaType = NULLIF(@AreaType,'');
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/u_recreationalarea.csv'
 INTO TABLE u_recreationalarea
@@ -1020,17 +955,25 @@ UPDATE fs_foodsafety SET Community_idCommunity = (SELECT @CommunityID);
 
 UPDATE fs_foodsource_has_community SET Community_idCommunity = (SELECT @CommunityID);
 
+UPDATE fs_foodsource_has_community SET Community_idCommunity = (SELECT @CommunityID);
+
 UPDATE fs_grainconservation SET Community_idCommunity = (SELECT @CommunityID);
 
 UPDATE fs_grainmill SET Community_idCommunity = (SELECT @CommunityID);
 
-UPDATE fs_importantmeal SET Community_idCommunity = (SELECT @CommunityID);
+UPDATE fs_importantmeal_has_community SET Community_idCommunity = (SELECT @CommunityID);
+
+UPDATE fs_importantmeal_has_community SET Community_idCommunity = (SELECT @CommunityID);
 
 UPDATE fs_owncultivationfoodtype_has_community SET Community_idCommunity = (SELECT @CommunityID);
 
 UPDATE fs_selfsufficiencyseason SET Community_idCommunity = (SELECT @CommunityID);
 
-UPDATE fs_timesperday SET Community_idCommunity = (SELECT @CommunityID);
+UPDATE fs_timesperday_has_community SET Community_idCommunity = (SELECT @CommunityID);
+
+UPDATE fs_timesperday_has_community SET Community_idCommunity = (SELECT @CommunityID);
+
+UPDATE fs_typicalplate_has_community SET Community_idCommunity = (SELECT @CommunityID);
 
 UPDATE fs_typicalplate_has_community SET Community_idCommunity = (SELECT @CommunityID);
 
@@ -1090,7 +1033,7 @@ UPDATE inf_generationsource_has_community SET Community_idCommunity = (SELECT @C
 
 UPDATE inf_generationsystem SET Community_idCommunity = (SELECT @CommunityID);
 
-UPDATE inf_irrigatonsystem_has_community SET Community_idCommunity = (SELECT @CommunityID);
+UPDATE inf_irrigationsystem_has_community SET Community_idCommunity = (SELECT @CommunityID);
 
 UPDATE inf_kitchen SET Community_idCommunity = (SELECT @CommunityID);
 
@@ -1150,7 +1093,7 @@ UPDATE s_tecknowlege_has_community SET Community_idCommunity = (SELECT @Communit
 
 UPDATE se_cleaningmaterial_has_community SET Community_idCommunity = (SELECT @CommunityID);
 
-UPDATE se_conflictarea SET Community_idCommunity = (SELECT @CommunityID);
+UPDATE se_conflictarea_has_community SET Community_idCommunity = (SELECT @CommunityID);
 
 UPDATE se_economy SET Community_idCommunity = (SELECT @CommunityID);
 
@@ -1159,8 +1102,6 @@ UPDATE se_expensetype_has_community SET Community_idCommunity = (SELECT @Communi
 UPDATE se_expensetype_has_community SET Community_idCommunity = (SELECT @CommunityID);
 
 UPDATE se_expensetype_has_community SET Community_idCommunity = (SELECT @CommunityID);
-
-UPDATE se_genderdata SET Community_idCommunity = (SELECT @CommunityID);
 
 UPDATE se_householdcomposition SET Community_idCommunity = (SELECT @CommunityID);
 
@@ -1202,7 +1143,13 @@ UPDATE sh_house SET Community_idCommunity = (SELECT @CommunityID);
 
 UPDATE sh_shelter SET Community_idCommunity = (SELECT @CommunityID);
 
-UPDATE u_area SET Community_idCommunity = (SELECT @CommunityID);
+UPDATE u_area_has_community SET Community_idCommunity = (SELECT @CommunityID);
+
+UPDATE u_area_has_community SET Community_idCommunity = (SELECT @CommunityID);
+
+UPDATE u_area_has_community SET Community_idCommunity = (SELECT @CommunityID);
+
+UPDATE u_area_has_community SET Community_idCommunity = (SELECT @CommunityID);
 
 UPDATE u_landuse SET Community_idCommunity = (SELECT @CommunityID);
 

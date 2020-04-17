@@ -16,7 +16,12 @@ def validElem(elem):
                 if(elem.find("_has_") == -1):
                     if(elem != "hostcommunity"):
                         if(elem != "g_publicpolitic"):
-                            result = True
+                            if(elem != "inf_irrigationsystem"):
+                                if(elem!= "inf_mobilityinfrastructure"):
+                                    if(elem != "s_healthcenterservice"):
+                                        if(elem != "u_landuse"):
+                                            if(elem != "u_publicspace"):
+                                                result = True
     return result
 
 def validColumn(column):
