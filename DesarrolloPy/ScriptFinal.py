@@ -40,9 +40,9 @@ def dropRow(df,i):
 
 def mkCSV(df,fileName):
     df = df.dropna(how = 'all')
-    df *= 1  #Cambia columnas Booleanas por [0,1] y el resto de datos los mantiene igual.  
+    df *= 1   
     fileName = fileName.lower()
-    df.to_csv('DataSetFinales/'+fileName,sep=',',header = False, index=False, encoding='utf-8') #Header e index a false para no mostrarlo en el csv
+    df.to_csv('DataSetFinales/'+fileName,sep=',',header = False, index=False, encoding='utf-8')
     
 def getPath(mainpath,filename):
     return os.path.join(mainpath, filename)
@@ -108,17 +108,13 @@ def get_claveValor(df1,df2):
     result1 = result1.reset_index(drop = True)
     return concatDF(result2,result1)
 
-def get_FSClaveValor(df1,df2):
-    df2 = df2.transpose()
-    array = np.array(df2)
-    array2 =[]
-    i = 0
-    for row in array:
-        for elem in row:
-            array2 = np.append(array2,elem)
-        i+=1  
-    df2 = pd.DataFrame(array2)
-    return concatDF(df1,df2)
+def get_number(df):
+    df = np.array(df)
+    array = np.array([])
+    for column in df:
+        for elem in column:
+            array = np.append(array,elem)
+    return (pd.DataFrame(array)).fillna(0) 
 
 def get_valueBySector(df1,df2):
     df2 = df2.reset_index()
@@ -296,8 +292,8 @@ Camp_NaturalHazard = getSubColumnNames(Camp_NaturalHazard,30)
 mkCSV(Camp_NaturalHazard,"Camp_NaturalHazard.csv")
 
 Camp_NaturalHazard_Has_Camp = dfFix(Entities,"Enviormental_Issues:Risk:Risk_Flood","Enviormental_Issues:Deforestation")
-Camp_NaturalHazard_Has_Camp = Camp_NaturalHazard_Has_Camp.transpose()
-mkCSV(Camp_NaturalHazard_Has_Camp,"Camp_NaturalHazard_Has_Camp.csv") #1:Probar con datos 2:FKs4
+Camp_NaturalHazard_Has_Camp = get_number(Camp_NaturalHazard_Has_Camp)
+mkCSV(Camp_NaturalHazard_Has_Camp,"Camp_NaturalHazard_Has_Camp.csv")
 
 Camp_LocalVegetation = dfFix(Entities,"Enviormental_Issues:Native_Plant","Enviormental_Issues:Native_Crops")
 Camp_LocalVegetation = separateValues(Camp_LocalVegetation)
@@ -310,7 +306,7 @@ mkCSV(Camp_LocalCrop,"Camp_LocalCrop.csv") #MODIFICAR FOLMULARIO?
 df3 = dfFix(Entities,"Enviormental_Issues:High_enviormental_value","Enviormental_Issues:Native_Plant")
 df3 = df3.isin(["yes"])
 df4 = dfFix(Entities,"Enviormental_Issues:Deforestation","Enviormental_Issues:High_enviormental_value")
-Camp_Enviroment = concatDF(df3,df4) #NO DEFINITIVO, controlar tipos de datos (Bool)
+Camp_Enviroment = concatDF(df3,df4)
 mkCSV(Camp_Enviroment,"Camp_Enviroment.csv")
 
 df1 = dfFix(Bibliography,"Tropical (Write one: Af, Aw or Am)","Temperature")
@@ -332,7 +328,8 @@ mkCSV(Camp_EnergySource,"Camp_EnergySource.csv")
 df1 = dfFix(Entities,"Fuel_Cost:Fuel_Cost_Diesel","ENERGY:Electricity_network")
 df2 = dfFix(LocalLeaders,"Costs:cost_firewood","meta:instanceID")
 Camp_EnergySource_Has_Camp = concatDF(df1,df2)
-mkCSV(Camp_EnergySource_Has_Camp,"Camp_EnergySource_Has_Camp.csv") #ESTA MAL. Comprobar con datos reales
+Camp_EnergySource_Has_Camp = get_number(Camp_EnergySource_Has_Camp)
+mkCSV(Camp_EnergySource_Has_Camp,"Camp_EnergySource_Has_Camp.csv")
 
 Camp_Mobility = dfFix(Entities,"GENERAL_INFORMATION:Movement_outside","Population:Women:Infants")
 mkCSV(Camp_Mobility,"Camp_Mobility.csv")
@@ -407,7 +404,7 @@ mkCSV(SE_Incometype,"SE_Incometype.csv")
 df1 = dfFix(HouseHold, "General:Gender","General:Settlement")
 df2 = dfFix(HouseHold, "Economy:Money","Economy:Food")
 SE_IncomeTtype_has_Community = concatDF(df1,df2)
-mkCSV(SE_IncomeTtype_has_Community,"SE_IncomeTtype_has_Community.csv") #mucho ojo con las PKs y FKs
+mkCSV(SE_IncomeTtype_has_Community,"SE_IncomeTtype_has_Community.csv")
 
 SE_ExpenseType = ['food','clothes','water','education','transport','health','energy']
 SE_ExpenseType = pd.DataFrame(SE_ExpenseType)
@@ -544,7 +541,7 @@ df2 = df2.isin(["yes"])
 INF_WaterPoint = concatDF(df1,df2)
 mkCSV(INF_WaterPoint,"INF_WaterPoint.csv")
 
-#INF_IrrigationSystem No se encuentra el origen de datos.
+#INF_IrrigationSystem No se encuentra el origen de datos. COMPROBADO 17/04/2020
 #%%Sanitation
 
 df1 = dfFix(Entities,"Sanitation:Open_defecation","Sanitation:Type_of_Latrine")
@@ -601,7 +598,7 @@ residencial = set_sector(residencial,"residencial")
 comunitario = dfFix(ComunalServices,"Energy_Details:Energy_Source","Energy_Details:Type_of_water_supply")
 comunitario = set_sector(comunitario,"comunitario",concat=False)
 INF_GenerationSource_has_Community = concatDF(comercial.T,concatDF(residencial.T,comunitario.T)).T
-mkCSV(INF_GenerationSource_has_Community,"INF_GenerationSource_has_Community") #ojo gestion FK
+mkCSV(INF_GenerationSource_has_Community,"INF_GenerationSource_has_Community")
 
 df1 = dfFix(EnergyINF,"Ofert:Type_of_water_supply","Ofert:Picture")
 df2 = dfFix(EnergyINF,"Ofert:Power_of_generation","Ofert:Power_of_generation_001")
@@ -612,7 +609,14 @@ INF_Appliance = np.array(["lantern","light bulbs","mobile phone","radio","tv","c
 INF_Appliance = pd.DataFrame(INF_Appliance)
 mkCSV(INF_Appliance,"INF_Appliance.csv")
 
-#INF_Appliance_has_Community Problemon PLN
+comercial = dfFix(Business,"Energy:electrical_appliances","Energy:money_electricity")
+comercial = set_sector(comercial,"comercial")
+residencial = dfFix(HouseHold,"Energy:Appliances","Energy:Elec_expen")
+residencial = set_sector(residencial,"residencial")
+comunitario = dfFix(ComunalServices,"Energy_Details:Electrical_Appliances:Devices","Construction_Details:Appropiate_Roof")
+comunitario = set_sector(comunitario,"comunitario")
+INF_Appliance_has_Community = concatDF(comercial.T,concatDF(residencial.T,comunitario.T)).T
+mkCSV(INF_Appliance_has_Community,"INF_Appliance_has_Community.csv")
 
 df1 = dfFix(GeneralForm,"Energy:Stove","Energy:Firewood_weight")
 df2 = dfFix(GeneralForm,"Energy:fuel_cooking","Energy:technology_street_lighting")
@@ -641,7 +645,7 @@ INF_StreetLamp = get_valueBySector(df1,INF_StreetLamp)
 mkCSV(INF_StreetLamp,"INF_StreetLamp.csv")  #Necesario probar con datos
 
 #%%Mobility Infrastructure
-#INF_MobilityInfrasctucture = dfFix(Entities,"","") #no se encuentra el dato en origen
+#INF_MobilityInfrasctucture = dfFix(Entities,"","") #no se encuentra el dato en origen COMPROBADO 17/04/2020
 
 INF_MobilityPoint = dfFix(MobilityINF,"Record_your_current_location:Latitude","Record_your_current_location:Accuracy")
 mkCSV(INF_MobilityPoint,"INF_MobilityPoint.csv")
@@ -735,7 +739,9 @@ mkCSV(S_BuildingQuality,"S_BuildingQuality.csv")
 #%%Service
 #S_HealthCenterService #información de plano
 
-#S_MedicineAcces #No se encuentra el origen del dato
+S_MedicineAcces = dfFix(HouseHold,"health_001:Healthcare","Economy:FamilyHead")
+S_MedicineAcces = S_MedicineAcces.isin(["yes"])
+mkCSV(S_MedicineAcces,"S_MedicineAcces.csv")
 
 S_DataAccess = dfFix(Entities,"Data_Access","Antenna")
 S_DataAccess = separateValues(S_DataAccess)
@@ -761,7 +767,8 @@ S_App = ["WhatsApp","Facebook","Skype","Instagram","Google","Youtube","Email","W
 S_App = pd.DataFrame(S_App)
 mkCSV(S_App,"S_App.csv")
 
-#S_App_has_Community
+S_App_has_Community = dfFix(GeneralCitizen,"App_USED","Type_Food:Meat")
+mkCSV(S_App_has_Community,"S_App_has_Community.csv")
 
 #%% SHELTER DATA 
 
@@ -800,33 +807,38 @@ FS_FoodAccess_has_Community = dfFix(GeneralCitizen,"Type_Food:Meat","times:One_t
 FS_FoodAccess_has_Community = FS_FoodAccess_has_Community.transpose()
 mkCSV(FS_FoodAccess_has_Community,"FS_FoodAccess_has_Community.csv")
 
-df1 = ["one","two","three","Greater than three"]
-df1 = pd.DataFrame(df1)
-df2 = dfFix(GeneralCitizen,"times:One_time","main_food:Breakfast")
-df2 = df2.transpose()
-FS_TimesPerDay = get_FSClaveValor(df1,df2)
-mkCSV(FS_TimesPerDay,"FS_TimesPerDay.csv") #probar con datos
+FS_TimesPerDay = ["one","two","three","Greater than three"]
+FS_TimesPerDay = pd.DataFrame(FS_TimesPerDay)
+mkCSV(FS_TimesPerDay,"FS_TimesPerDay.csv")
 
-df1 = ["Breakfast","lunch","coffe time","dinner"]
-df1 = pd.DataFrame(df1)
-df2 = dfFix(GeneralCitizen,"main_food:Breakfast","typical_dish:Pork")
-df2 = df2.transpose()
-FS_ImportantMeal = get_FSClaveValor(df1,df2)
-mkCSV(FS_ImportantMeal,"FS_ImportantMeal.csv") #probar con datos
+df1 = dfFix(GeneralCitizen,"times:One_time","main_food:Breakfast")
+FS_TimesPerDay_has_Community = get_number(df1)
+mkCSV(FS_TimesPerDay_has_Community,"FS_TimesPerDay_has_Community.csv")
 
-df1 = ["pork","beef","chicken","lamp","cereals","legumes","fruits"]
-df1 = pd.DataFrame(df1)
-df2 = dfFix(Bibliography,"Pork (200 kcal/100g)","Intake (g) - default value 70g-")
-df2 = dropRow(df2,1)
-FS_TypicalPlate = get_FSClaveValor(df1,df2)
+FS_ImportantMeal = ["Breakfast","lunch","coffe time","dinner"]
+FS_ImportantMeal = pd.DataFrame(FS_ImportantMeal)
+mkCSV(FS_ImportantMeal,"FS_ImportantMeal.csv")
+
+df1 = dfFix(GeneralCitizen,"main_food:Breakfast","typical_dish:Pork")
+FS_ImportantMeal_has_Community = get_number(df1)
+mkCSV(FS_ImportantMeal_has_Community,"FS_ImportantMeal_has_Community.csv")
+
+FS_TypicalPlate = ["pork","beef","chicken","lamp","cereals","legumes","fruits"]
+FS_TypicalPlate = pd.DataFrame(FS_TypicalPlate)
 mkCSV(FS_TypicalPlate,"FS_TypicalPlate.csv")
+
+df1 = dfFix(Bibliography,"Pork (200 kcal/100g)","Intake (g) - default value 70g-")
+FS_TypicalPlate_has_Community = get_number(df1)
+mkCSV(FS_TypicalPlate_has_Community,"FS_TypicalPlate_has_Community.csv")
 #%%Source
 
-df1 = ["Humanitarian Aid","Crops","Market"]
-df1 = pd.DataFrame(df1)
-df2 = dfFix(GeneralCitizen,"Main_food_source:Humanitarian_Aid","meta:instanceID")
-FS_FoodSource = get_FSClaveValor(df1,df2)
-mkCSV(FS_FoodSource,"FS_FoodSource.csv") #Probar con datos en GeneralCitizen
+FS_FoodSource = ["Humanitarian Aid","Crops","Market"]
+FS_FoodSource = pd.DataFrame(FS_FoodSource)
+mkCSV(FS_FoodSource,"FS_FoodSource.csv")
+
+df1 = dfFix(GeneralCitizen,"Main_food_source:Humanitarian_Aid","meta:instanceID")
+FS_FoodSource_has_Community = get_number(df1)
+mkCSV(FS_FoodSource_has_Community,"FS_FoodSource_has_Community.csv")
 
 FS_CultivationSeason = dfFix(LocalLeaders,"Food_security:cultivation_months","Food_security:own_food_months")
 FS_CultivationSeason = vectorizeValue(FS_CultivationSeason)
@@ -840,12 +852,12 @@ df2 = df2.isin(["yes"])
 FS_CorralCropData = concatDF(df1,df2)
 mkCSV(FS_CorralCropData,"FS_CorralCropData.csv")
 
-df1 = dfFix(FarmyardCrop,"Item","Property") #probar con datos
-df1 = df1.isin(["crop_area"])                                                  #probar con datos
+df1 = dfFix(FarmyardCrop,"Item","Property")
+df1 = df1.isin(["crop_area"])
 df2 = dfFix(FarmyardCrop,"Record_your_current_location:Latitude","Record_your_current_location:Accuracy")
 df3 = dfFix(FarmyardCrop,"Property","Drainage")
-df4 = dfFix(FarmyardCrop,"Drainage","Irrigation")
-df4 = df4.isin(["yes"]) #NaN != no. Revisar
+df4 = dfFix(FarmyardCrop,"Drainage","Irrigation") #No se ajusta dato a Requisitos
+df4 = df4.isin(["yes"])
 FS_CorralUbication = concatDF(df2,concatDF(df3,df4))
 FS_CorralUbication = get_valueBySector(df1,FS_CorralUbication)
 mkCSV(FS_CorralUbication,"FS_CorralUbication.csv")
@@ -855,7 +867,7 @@ df1 = df1.isin(["farmyard"])
 df2 = dfFix(FarmyardCrop,"Record_your_current_location:Latitude","Record_your_current_location:Accuracy")
 df3 = dfFix(FarmyardCrop,"Property","Drainage")
 df4 = dfFix(FarmyardCrop,"Irrigation","Irrigation_details:Water_pump")
-df4 = df4.isin(["yes"]) #NaN != no. Revisar
+df4 = df4.isin(["yes"]) #No se ajusta dato a Requisitos
 FS_CropUbication = concatDF(df2,concatDF(df3,df4))
 FS_CropUbication =get_valueBySector(df1,FS_CropUbication)
 mkCSV(FS_CropUbication,"FS_CropUbication.csv")

@@ -309,14 +309,6 @@ LINES TERMINATED BY '\n'
 SET ActorName = NULLIF(@ActorName,''),
     ActorType = NULLIF(@ActorType,'');
 
-LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/g_publicpolitic.csv'
-INTO TABLE g_publicpolitic
-FIELDS TERMINATED BY ','
-LINES TERMINATED BY '\n'
-    (@DocumentTittle,@Path)
-SET DocumentTittle = NULLIF(@DocumentTittle,''),
-    Path = NULLIF(@Path,'');
-
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/gd_demography.csv'
 INTO TABLE gd_demography
 FIELDS TERMINATED BY ','

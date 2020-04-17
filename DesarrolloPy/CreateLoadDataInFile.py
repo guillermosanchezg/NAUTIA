@@ -8,6 +8,26 @@ Created on Thu Apr  2 10:47:28 2020
 import mysql.connector
 import numpy as np
 
+def validElem(elem):
+    result = False
+    if(elem != "community"):
+        if(elem != "camp"):
+            if(elem != "country"):
+                if(elem.find("_has_") == -1):
+                    if(elem != "hostcommunity"):
+                        if(elem != "g_publicpolitic"):
+                            result = True
+    return result
+
+def validColumn(column):
+    result = False
+    if(column[0] != "Community_idCommunity"):
+        if(column[0] != "Camp_idCamp"):
+            if(column[0] != "Country_idCountry"):
+                result = True
+    return result
+    
+    
 mydb = mysql.connector.connect(
   port = 3309,
   host="127.0.0.1",
@@ -16,8 +36,6 @@ mydb = mysql.connector.connect(
   database = 'nautiatoolkit'
 )
 cursor = mydb.cursor()
-
-
 
 query1 = "LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/"
 query2 = "INTO TABLE" 
@@ -50,7 +68,7 @@ tablesList = np.array(tablesList)
 
 for row in tablesList:
     for elem in row:
-        if(elem != "community" and elem != "camp" and elem != "country" and elem.find("_has_") == -1 and elem != 'hostcommunity'):
+        if(validElem(elem)):
             f.write(query1+elem+".csv'\n"+query2+" "+elem+"\n"+query3+"\n"+query4+"\n")
             cursor.execute("SHOW columns FROM "+elem)
             columnList = cursor.fetchall()
@@ -60,7 +78,7 @@ for row in tablesList:
                 if(pk):
                    pk = False
                 else:
-                    if(column[0] != "Community_idCommunity" and column[0] != "Camp_idCamp" and column[0] != "Country_idCountry"):
+                    if(validColumn(column)):
                         string = np.append(string,column[0])
             f.write("    (")
             for column in string:
