@@ -32,6 +32,76 @@ def dfFix(df,col1 = False,col2 = False):
         result.drop(result.columns[y:],axis = 1, inplace = True)
     return result
 
+def validColumn(cad):
+    result = False
+    if(cad == "index"):
+        result = True
+    else:
+        if(cad == "Type_of_settlement"):
+            result = True
+        else:
+            if(cad == "General:settlement"):
+                result = True
+            else:
+                if(cad == "general_info:_1_1_Choose_the_settlement"):
+                    result = True
+                else:
+                    if(cad == "General_Information:Type_of_setlement"):
+                        result = True
+                    else:
+                        if(cad == "General:Settlement"):
+                            result = True
+                        else:
+                            if(cad == "Type_of_setlement"):
+                                result = True
+    return result
+
+def setDataByIndex(df,communityType):
+    array = df.columns
+    i = 0
+    while(validColumn(array[i]) == False):
+        i += 1
+    if(array[i] == "index"):
+        df = df.set_index([array[i]])
+        if(communityType == 1):
+            result = df.loc['RefugeeCountry'].copy()
+        else:
+            result = df.loc['CommunityCountry'].copy()
+    else:
+        df[array[i]].loc[(df[array[i]] == "refugee")] = "refugee_camp"
+        df[array[i]].loc[(df[array[i]] == "host_comunity")] = "host_community"
+        df = df.set_index([array[i]])
+        if(communityType == 1):
+            result = df.loc['refugee_camp'].copy()
+        else:
+            result = df.loc['host_community'].copy()
+    return result
+
+
+def set_AllCSVtoDF(communityType):
+    Bibliography = pd.read_excel(getPath(mainpath,"Bibliography_120220.xlsx"))
+    Bibliography = fixBibliography(Bibliography)
+    Bibliography = pd.DataFrame([setDataByIndex(Bibliography,communityType)]).T
+    Entities = setDataByIndex(pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Entities_Interview_results.csv")),communityType)
+    LocalLeaders = setDataByIndex(pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Local_leaders_v3_results.csv")),communityType)
+    HouseHold = setDataByIndex(pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Survey_household_v6_results.csv")),communityType)
+    WomenGroup = setDataByIndex(pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Women_Focus_Group2_results.csv")),communityType)
+    SanitationInfra = setDataByIndex(pd.read_csv(getPath(mainpath,"NAUTIA_V1_0_Sanitation_Infrastructre_results.csv")),communityType)
+    Priorities = setDataByIndex(pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Priorities_v3_results.csv")),communityType)
+    GeneralForm = setDataByIndex(pd.read_csv(getPath(mainpath,"NAUTIA_1_0_General_form_v3_results.csv")),communityType)
+    PublicSpace = setDataByIndex(pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Public_Space_results.csv")),communityType)
+    WaterInf = setDataByIndex(pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Water_Infrastructure_results.csv")),communityType)
+    SanitationInf = setDataByIndex(pd.read_csv(getPath(mainpath,"NAUTIA_V1_0_Sanitation_Infrastructre_results.csv")),communityType)
+    WasteManagementInf = setDataByIndex(pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Waste_Management_Infrastructure_results.csv")),communityType)
+    EnergyINF = setDataByIndex(pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Energy_Infrastructure_results.csv")),communityType)
+    Business = setDataByIndex(pd.read_csv(getPath(mainpath,"NAUTIA1_0_Business_surveys_v3_results.csv")),communityType)
+    MobilityINF = setDataByIndex(pd.read_csv(getPath(mainpath,"NAUTIA_1_0__Transport_servicesaccess_points_results.csv")),communityType) 
+    ComunalServices = setDataByIndex(pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Communal_Services_results.csv")),communityType) 
+    GeneralCitizen = setDataByIndex(pd.read_csv(getPath(mainpath,"NAUTIA_1_0_General_Citizen_Focus_Group_results.csv")),communityType)
+    Shelter = setDataByIndex(pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Shelter_results.csv")),communityType)
+    FarmyardCrop = setDataByIndex(pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Farmyard_and_Crops_results.csv")),communityType)
+    return Bibliography,Entities,LocalLeaders,HouseHold,WomenGroup,SanitationInfra,Priorities,GeneralForm,PublicSpace,WaterInf,EnergyINF,SanitationInf,WasteManagementInf,EnergyINF,Business,MobilityINF,ComunalServices,GeneralCitizen,Shelter,FarmyardCrop
+
 def concatDF(df1,df2):
     return  pd.concat([df1,df2],axis = 1, ignore_index = True, sort = True)
 
@@ -170,26 +240,7 @@ def set_sector(df,sect, concat = True):
     return result 
 
 #%% CSV to DataFrame
-Bibliography = pd.read_excel(getPath(mainpath,"Bibliography_120220.xlsx"))
-Bibliography = fixBibliography(Bibliography)
-Entities = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Entities_Interview_results.csv"))
-LocalLeaders = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Local_leaders_v3_results.csv"))
-HouseHold = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Survey_household_v6_results.csv"))
-WomenGroup = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Women_Focus_Group2_results.csv"))
-SanitationInfra = pd.read_csv(getPath(mainpath,"NAUTIA_V1_0_Sanitation_Infrastructre_results.csv"))
-Priorities = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Priorities_v3_results.csv"))
-GeneralForm = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_General_form_v3_results.csv"))
-PublicSpace = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Public_Space_results.csv"))
-WaterInf = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Water_Infrastructure_results.csv"))
-SanitationInf = pd.read_csv(getPath(mainpath,"NAUTIA_V1_0_Sanitation_Infrastructre_results.csv"))
-WasteManagementInf = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Waste_Management_Infrastructure_results.csv"))
-EnergyINF = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Energy_Infrastructure_results.csv"))
-Business = pd.read_csv(getPath(mainpath,"NAUTIA1_0_Business_surveys_v3_results.csv"))
-MobilityINF = pd.read_csv(getPath(mainpath,"NAUTIA_1_0__Transport_servicesaccess_points_results.csv")) 
-ComunalServices = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Communal_Services_results.csv")) 
-GeneralCitizen = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_General_Citizen_Focus_Group_results.csv"))
-Shelter = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Shelter_results.csv"))
-FarmyardCrop = pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Farmyard_and_Crops_results.csv"))
+Bibliography,Entities,LocalLeaders,HouseHold,WomenGroup,SanitationInfra,Priorities,GeneralForm,PublicSpace,WaterInf,EnergyINF,SanitationInf,WasteManagementInf,EnergyINF,Business,MobilityINF,ComunalServices,GeneralCitizen,Shelter,FarmyardCrop = set_AllCSVtoDF(0)
 #%%Community
 
 community = ["Shimelba"]
