@@ -46,7 +46,7 @@ query1 = "LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefug
 query2 = "INTO TABLE" 
 query3 = "FIELDS TERMINATED BY ','"
 query4 = "LINES TERMINATED BY '\\n'"
-f = open('LoadDataScript.sql','w+')
+f = open('LoadDataCamp.sql','w+')
 
 f.write("SET FOREIGN_KEY_CHECKS=0;\n")
 f.write("SET SQL_SAFE_UPDATES = 0;\n")
@@ -121,13 +121,13 @@ for row in tablesList:
                 string = np.append(string,column[0])
             for column in string:
                 if(column == "Community_idCommunity"):
-                    f.write("UPDATE "+elem+" SET Community_idCommunity = (SELECT @CommunityID);\n\n")  
+                    f.write("UPDATE "+elem+" SET Community_idCommunity = (SELECT @CommunityID)\nWHERE "+elem+".Community_idCommunity = 0;\n\n")  
                 else:
                     if(column == "Camp_idCamp"):
-                        f.write("UPDATE "+elem+" SET Camp_idCamp = (SELECT @campID);\n\n")
+                        f.write("UPDATE "+elem+" SET Camp_idCamp = (SELECT @campID)\nWHERE "+elem+".Camp_idCamp = 0;\n\n")
                     else:
                         if(column == "Country_idCountry"):
-                            f.write("UPDATE "+elem+" SET Country_idCountry = (SELECT @CountryID);\n\n")
+                            f.write("UPDATE "+elem+" SET Country_idCountry = (SELECT @CountryID)\nWHERE "+elem+".Country_idCountry = 0;\n\n")
 
 f.write("SET SQL_MODE=@OLD_SQL_MODE;\n")
 f.write("SET FOREIGN_KEY_CHECKS = 1;\n")

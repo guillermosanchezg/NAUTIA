@@ -10,15 +10,6 @@ LINES TERMINATED BY '\n'
 SET Name = NULLIF(@Name,'');
 SET @CommunityID = (SELECT idCommunity FROM community ORDER BY idCommunity DESC LIMIT 1);
 
-LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/camp.csv'
-INTO TABLE camp
-FIELDS TERMINATED BY ','
-LINES TERMINATED BY '\n'
-    (@StabilisationDate,@MigrationRate)
-SET StabilisationDate = NULLIF(@StabilisationDate,''),
-    MigrationRate = NULLIF(@MigrationRate,'');
-SET @campID = (SELECT idCamp FROM camp ORDER BY idCamp DESC LIMIT 1);
-
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/Country.csv'
 INTO TABLE Country
 FIELDS TERMINATED BY ','
@@ -26,86 +17,6 @@ LINES TERMINATED BY '\n'
     (@CountryName)
 SET CountryName = NULLIF(@CountryName,'');
 SET @CountryID = (SELECT idCountry FROM Country ORDER BY idCountry DESC LIMIT 1);
-
-LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/camp_climaticregion.csv'
-INTO TABLE camp_climaticregion
-FIELDS TERMINATED BY ','
-LINES TERMINATED BY '\n'
-    (@Region,@MaxTemp,@MinTemp,@AVGTemp,@RelativeHumidity,@MaxRainfall,@MinRainfall,@Irradiance,@WindSpeed)
-SET Region = NULLIF(@Region,''),
-    MaxTemp = NULLIF(@MaxTemp,''),
-    MinTemp = NULLIF(@MinTemp,''),
-    AVGTemp = NULLIF(@AVGTemp,''),
-    RelativeHumidity = NULLIF(@RelativeHumidity,''),
-    MaxRainfall = NULLIF(@MaxRainfall,''),
-    MinRainfall = NULLIF(@MinRainfall,''),
-    Irradiance = NULLIF(@Irradiance,''),
-    WindSpeed = NULLIF(@WindSpeed,'');
-
-LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/camp_energysource.csv'
-INTO TABLE camp_energysource
-FIELDS TERMINATED BY ','
-LINES TERMINATED BY '\n'
-    (@Source)
-SET Source = NULLIF(@Source,'');
-
-LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/camp_enviroment.csv'
-INTO TABLE camp_enviroment
-FIELDS TERMINATED BY ','
-LINES TERMINATED BY '\n'
-    (@EnviromentValueArea,@DeforestedArea)
-SET EnviromentValueArea = NULLIF(@EnviromentValueArea,''),
-    DeforestedArea = NULLIF(@DeforestedArea,'');
-
-LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/camp_integration.csv'
-INTO TABLE camp_integration
-FIELDS TERMINATED BY ','
-LINES TERMINATED BY '\n'
-    (@RelationshipCause)
-SET RelationshipCause = NULLIF(@RelationshipCause,'');
-
-LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/camp_localcrop.csv'
-INTO TABLE camp_localcrop
-FIELDS TERMINATED BY ','
-LINES TERMINATED BY '\n'
-    (@Type)
-SET Type = NULLIF(@Type,'');
-
-LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/camp_localvegetation.csv'
-INTO TABLE camp_localvegetation
-FIELDS TERMINATED BY ','
-LINES TERMINATED BY '\n'
-    (@Species)
-SET Species = NULLIF(@Species,'');
-
-LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/camp_mobility.csv'
-INTO TABLE camp_mobility
-FIELDS TERMINATED BY ','
-LINES TERMINATED BY '\n'
-    (@ConstentOutCamp,@MaxDistance)
-SET ConstentOutCamp = NULLIF(@ConstentOutCamp,''),
-    MaxDistance = NULLIF(@MaxDistance,'');
-
-LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/camp_movementreason.csv'
-INTO TABLE camp_movementreason
-FIELDS TERMINATED BY ','
-LINES TERMINATED BY '\n'
-    (@Reason)
-SET Reason = NULLIF(@Reason,'');
-
-LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/camp_naturalhazard.csv'
-INTO TABLE camp_naturalhazard
-FIELDS TERMINATED BY ','
-LINES TERMINATED BY '\n'
-    (@HazardType)
-SET HazardType = NULLIF(@HazardType,'');
-
-LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/camp_shelter.csv'
-INTO TABLE camp_shelter
-FIELDS TERMINATED BY ','
-LINES TERMINATED BY '\n'
-    (@UpgradingPosibility)
-SET UpgradingPosibility = NULLIF(@UpgradingPosibility,'');
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/comun_language.csv'
 INTO TABLE comun_language
@@ -894,53 +805,11 @@ SET UrbanPlan = NULLIF(@UrbanPlan,''),
 UPDATE camp SET Community_idCommunity = (SELECT @CommunityID)
 WHERE camp.Community_idCommunity = 0;
 
-UPDATE camp_climaticregion SET Camp_idCamp = (SELECT @campID)
-WHERE camp_climaticregion.Camp_idCamp = 0;
-
-UPDATE camp_energysource_has_camp SET Camp_idCamp = (SELECT @campID)
-WHERE camp_energysource_has_camp.Camp_idCamp = 0;
-
-UPDATE camp_energysource_has_camp SET Camp_idCamp = (SELECT @campID)
-WHERE camp_energysource_has_camp.Camp_idCamp = 0;
-
-UPDATE camp_enviroment SET Camp_idCamp = (SELECT @campID)
-WHERE camp_enviroment.Camp_idCamp = 0;
-
 UPDATE camp_has_country SET Country_idCountry = (SELECT @CountryID)
 WHERE camp_has_country.Country_idCountry = 0;
 
-UPDATE camp_integration_has_camp SET Camp_idCamp = (SELECT @campID)
-WHERE camp_integration_has_camp.Camp_idCamp = 0;
-
-UPDATE camp_localcrop_has_camp SET Camp_idCamp = (SELECT @campID)
-WHERE camp_localcrop_has_camp.Camp_idCamp = 0;
-
-UPDATE camp_localvegetation_has_camp SET Camp_idCamp = (SELECT @campID)
-WHERE camp_localvegetation_has_camp.Camp_idCamp = 0;
-
-UPDATE camp_mobility SET Camp_idCamp = (SELECT @campID)
-WHERE camp_mobility.Camp_idCamp = 0;
-
-UPDATE camp_movementreason_has_camp SET Camp_idCamp = (SELECT @campID)
-WHERE camp_movementreason_has_camp.Camp_idCamp = 0;
-
-UPDATE camp_naturalhazard_has_camp SET Camp_idCamp = (SELECT @campID)
-WHERE camp_naturalhazard_has_camp.Camp_idCamp = 0;
-
-UPDATE camp_naturalhazard_has_camp SET Camp_idCamp = (SELECT @campID)
-WHERE camp_naturalhazard_has_camp.Camp_idCamp = 0;
-
-UPDATE camp_shelter SET Camp_idCamp = (SELECT @campID)
-WHERE camp_shelter.Camp_idCamp = 0;
-
-UPDATE comun_language_has_camp SET Camp_idCamp = (SELECT @campID)
-WHERE comun_language_has_camp.Camp_idCamp = 0;
-
 UPDATE comun_language_has_country SET Country_idCountry = (SELECT @CountryID)
 WHERE comun_language_has_country.Country_idCountry = 0;
-
-UPDATE comun_religion_has_camp SET Camp_idCamp = (SELECT @campID)
-WHERE comun_religion_has_camp.Camp_idCamp = 0;
 
 UPDATE comun_religion_has_country SET Country_idCountry = (SELECT @CountryID)
 WHERE comun_religion_has_country.Country_idCountry = 0;
@@ -1061,9 +930,6 @@ WHERE hostcommunity.Community_idCommunity = 0;
 
 UPDATE hostcommunity SET Country_idCountry = (SELECT @CountryID)
 WHERE hostcommunity.Country_idCountry = 0;
-
-UPDATE hostcommunity_has_camp SET Camp_idCamp = (SELECT @campID)
-WHERE hostcommunity_has_camp.Camp_idCamp = 0;
 
 UPDATE inf_appliance_has_community SET Community_idCommunity = (SELECT @CommunityID)
 WHERE inf_appliance_has_community.Community_idCommunity = 0;

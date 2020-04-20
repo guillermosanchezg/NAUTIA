@@ -4,11 +4,19 @@ Created on Mon Feb 10 17:34:18 2020
 
 @author: Guillermo Sánchez Gutiérrez-Cabello
 """
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Feb 10 17:34:18 2020
+
+@author: Guillermo Sánchez Gutiérrez-Cabello
+"""
 #%%
 import numpy as np
 import pandas as pd
 import os
 import sklearn
+#pd.options.mode.chained_assignment = None  # default='warn'
+
 
 from sklearn.feature_extraction.text import CountVectorizer
 count_vectorizer = CountVectorizer()
@@ -22,6 +30,14 @@ english_stopwords = stopwords.words('english')
 #%%
 mainpath = "C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetOriginales"
 
+def fixBibliography(df):
+    df = dfFix(df,"GENERAL INFORMATION - COUNTRY LEVEL")
+    df.columns = ['GeneralInfo', 'CommunityCountry', 'RefugeeCountry']
+    df.set_index('GeneralInfo', inplace = True)
+    df = df.transpose()
+    df = df.reset_index()
+    return df
+
 def dfFix(df,col1 = False,col2 = False):
     result = df.copy()
     if(col1):
@@ -34,7 +50,7 @@ def dfFix(df,col1 = False,col2 = False):
 
 def validColumn(cad):
     result = False
-    if(cad == "index"):
+    if(cad == "index"):#Population
         result = True
     else:
         if(cad == "Type_of_settlement"):
@@ -56,32 +72,36 @@ def validColumn(cad):
                                 result = True
     return result
 
+def dropRow(df,i):
+    return df.drop(index = i)
+
+def get_communityRows(df,cad,communityType): #la función pd.loc[] tiene un bug indiscriminado (https://github.com/pandas-dev/pandas/issues/8555)
+    result = df
+    if(communityType == 0):
+        comm = "host_community"
+    else:
+        comm = "refugee_camp"
+    for index, row in df.iterrows():
+        if(row[cad] != comm):
+            result = dropRow(result,index)
+    return result
+
 def setDataByIndex(df,communityType):
     array = df.columns
     i = 0
+    df = df.replace("refugee","refugee_camp")
+    df = df.replace("host_comunity","host_community")
+    df = df.replace("RefugeeCountry","refugee_camp")
+    df = df.replace("CommunityCountry","host_community")
     while(validColumn(array[i]) == False):
         i += 1
-    if(array[i] == "index"):
-        df = df.set_index([array[i]])
-        if(communityType == 1):
-            result = df.loc['RefugeeCountry'].copy()
-        else:
-            result = df.loc['CommunityCountry'].copy()
-    else:
-        df[array[i]].loc[(df[array[i]] == "refugee")] = "refugee_camp"
-        df[array[i]].loc[(df[array[i]] == "host_comunity")] = "host_community"
-        df = df.set_index([array[i]])
-        if(communityType == 1):
-            result = df.loc['refugee_camp'].copy()
-        else:
-            result = df.loc['host_community'].copy()
-    return result
-
+    df = get_communityRows(df,array[i],communityType)
+    return df
 
 def set_AllCSVtoDF(communityType):
     Bibliography = pd.read_excel(getPath(mainpath,"Bibliography_120220.xlsx"))
     Bibliography = fixBibliography(Bibliography)
-    Bibliography = pd.DataFrame([setDataByIndex(Bibliography,communityType)]).T
+    Bibliography = setDataByIndex(Bibliography,communityType)
     Entities = setDataByIndex(pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Entities_Interview_results.csv")),communityType)
     LocalLeaders = setDataByIndex(pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Local_leaders_v3_results.csv")),communityType)
     HouseHold = setDataByIndex(pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Survey_household_v6_results.csv")),communityType)
@@ -105,9 +125,6 @@ def set_AllCSVtoDF(communityType):
 def concatDF(df1,df2):
     return  pd.concat([df1,df2],axis = 1, ignore_index = True, sort = True)
 
-def dropRow(df,i):
-    return df.drop(index = i)
-
 def mkCSV(df,fileName):
     df = df.dropna(how = 'all')
     df *= 1   
@@ -116,14 +133,6 @@ def mkCSV(df,fileName):
     
 def getPath(mainpath,filename):
     return os.path.join(mainpath, filename)
-
-def fixBibliography(df):
-    df = dfFix(df,"GENERAL INFORMATION - COUNTRY LEVEL")
-    df.columns = ['GeneralInfo', 'CommunityCountry', 'RefugeeCountry']
-    df.set_index('GeneralInfo', inplace = True)
-    df = df.transpose()
-    df.reset_index(inplace = True)
-    return df
 
 def getSubColumnNames(df,x):
     columns = df.columns
@@ -199,14 +208,19 @@ def get_valueBySector(df1,df2):
     return df2
 
 def separateValues(df):
-    array = np.array(df)
-    corpus = []
-    for row in array:
-        for elem in row:
-            corpus = np.append(corpus,[elem])
-    X = count_vectorizer.fit_transform(corpus)
-    array = count_vectorizer.get_feature_names()
-    return pd.DataFrame(array)
+    if(df.isnull().values.all(axis=0)):
+        result = df
+    else:
+        array = np.array(df)
+        count_vectorizer = CountVectorizer(stop_words = spanish_stopwords+english_stopwords)
+        corpus = []
+        for row in array:
+            for elem in row:
+                corpus = np.append(corpus,[elem])
+        X = count_vectorizer.fit_transform(corpus)
+        array = count_vectorizer.get_feature_names()
+        result = pd.DataFrame(array)
+    return result
 
 def vectorizeValue(df):
     df = separateValues(df)
@@ -301,8 +315,10 @@ GD_Shelter = dfFix(Bibliography,"Slum population rate (%)","SPECIFIC INFORMATION
 mkCSV(GD_Shelter,"GD_Shelter.csv")
 
 #%%COMMUN DATA
+Comun = pd.read_excel(getPath(mainpath,"Bibliography_120220.xlsx"))
+Comun = fixBibliography(Comun)
 
-Comun_Religion = dfFix(Bibliography,"Religion 1","Language")
+Comun_Religion = dfFix(Comun,"Religion 1","Language")
 df1 = dropRow(Comun_Religion,1)
 np_array1 = np.array(df1)
 df2 = dropRow(Comun_Religion,0)
@@ -315,7 +331,7 @@ Comun_Religion = pd.DataFrame(Comun_Religion)
 Comun_Religion = Comun_Religion.dropna()
 mkCSV(Comun_Religion,"Comun_Religion.csv")
 
-Comun_Language = dfFix(Bibliography,"Language 1","Economy and well-being")
+Comun_Language = dfFix(Comun,"Language 1","Economy and well-being")
 df1 = dropRow(Comun_Language,1)
 np_array1 = np.array(df1)
 df2 = dropRow(Comun_Language,0)
@@ -331,7 +347,6 @@ mkCSV(Comun_Language,"Comun_Language.csv")
 #%% Specific DATA CAMP
 
 Camp_MovementReason = dfFix(Bibliography,"Reason 1","Climate")
-Camp_MovementReason = dropRow(Camp_MovementReason,0).dropna(axis = 1)
 Camp_MovementReason = Camp_MovementReason.transpose()
 mkCSV(Camp_MovementReason,"Camp_MovementReason.csv")
 
@@ -361,14 +376,11 @@ Camp_Enviroment = concatDF(df3,df4)
 mkCSV(Camp_Enviroment,"Camp_Enviroment.csv")
 
 df1 = dfFix(Bibliography,"Tropical (Write one: Af, Aw or Am)","Temperature")
-df1 = dropRow(df1,0)
 df1 = df1.transpose()
 df1 = df1.dropna()
 df1 = df1.transpose()
 df2 = dfFix(Bibliography,"Max (ºC)","Annual precipitation")
-df2 = dropRow(df2,0)
 df3 = dfFix(Bibliography,"Max (mm)","Additional information")
-df3 = dropRow(df3,0)
 Camp_ClimaticRegion = concatDF(df1,concatDF(df2,df3))
 mkCSV(Camp_ClimaticRegion,"Camp_ClimaticRegion.csv")
 
@@ -519,7 +531,6 @@ FA_Topography = dfFix(Bibliography,"Upper bound (m)","FOOD SECURITY")
 mkCSV(FA_Topography,"FA_Topography.csv")
 
 FA_NaturalResource = dfFix(Bibliography,"r.1","ACTORS (PARTNERS) IDENTIFICATION")
-FA_NaturalResource = dropRow(FA_NaturalResource,0)
 FA_NaturalResource = FA_NaturalResource.dropna(axis = 1)
 FA_NaturalResource = np.array(FA_NaturalResource)
 bound = []
