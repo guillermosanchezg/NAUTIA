@@ -24,6 +24,15 @@ def validElem(elem):
                                                 result = True
     return result
 
+def validNMTable(elem):
+    result = False
+    if(elem.find("_has_") != -1):
+        if(elem != "hostcommunity_has_camp"):
+            if(elem != "s_subject_has_s_educationalcenter"):
+                if(elem != "inf_expandplanbeneficiaries_has_inf_energyinfrastructure"):
+                    result = True
+    return result
+
 def validColumn(column):
     result = False
     if(column[0] != "Community_idCommunity"):
@@ -47,6 +56,7 @@ query2 = "INTO TABLE"
 query3 = "FIELDS TERMINATED BY ','"
 query4 = "LINES TERMINATED BY '\\n'"
 f = open('LoadDataCamp.sql','w+')
+g = open('NMtablesCamp.csv','w+')
 
 f.write("SET FOREIGN_KEY_CHECKS=0;\n")
 f.write("SET SQL_SAFE_UPDATES = 0;\n")
@@ -103,6 +113,9 @@ for row in tablesList:
                         f.write(column+" = NULLIF(@"+column+",'');\n\n")
                     else:
                         f.write("    "+column+" = NULLIF(@"+column+",'');\n\n")
+        else:
+            if(validNMTable(elem)):
+                g.write(elem+"\n")                
 
 cursor.execute("SHOW TABLES")
 tablesList = cursor.fetchall()
