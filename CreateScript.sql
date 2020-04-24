@@ -466,9 +466,9 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `mydb`.`SE_ConflictArea` ;
 
 CREATE TABLE IF NOT EXISTS `mydb`.`SE_ConflictArea` (
-  `idEonflictArea` INT NOT NULL AUTO_INCREMENT,
+  `idSE_ConflictArea` INT NOT NULL AUTO_INCREMENT,
   `place` VARCHAR(45) NULL,
-  PRIMARY KEY (`idEonflictArea`))
+  PRIMARY KEY (`idSE_ConflictArea`))
 ENGINE = InnoDB;
 
 
@@ -3157,7 +3157,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`SE_ConflictArea_has_Community` (
   PRIMARY KEY (`SE_ConflictArea_idEonflictArea`, `Community_idCommunity`),
   CONSTRAINT `fk_SE_ConflictArea_has_Community_SE_ConflictArea1`
     FOREIGN KEY (`SE_ConflictArea_idEonflictArea`)
-    REFERENCES `mydb`.`SE_ConflictArea` (`idEonflictArea`)
+    REFERENCES `mydb`.`SE_ConflictArea` (`idSE_ConflictArea`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_SE_ConflictArea_has_Community_Community1`

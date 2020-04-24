@@ -28,8 +28,6 @@ def mkCSV(df,fileName):
     df.to_csv('DataSetFinales/'+fileName,sep=',',header = False, index=False, encoding='utf-8')
 
 def is_non_zero_file(fpath):
-    print(fpath)
-    print(os.path.isfile(fpath) and os.path.getsize(fpath))
     return os.path.isfile(fpath) and os.path.getsize(fpath)
 
 def getTableName(elem):
@@ -71,10 +69,12 @@ for column in tablesNM:
         x = getTableName(elem)
         if(is_non_zero_file(getPath(mainpath,x+".csv"))):
             table = pd.read_csv(getPath(mainpath,x+".csv"))
-            tableFK = get_tableFK(x)
             communityFK = get_communityFK(elem)
+            print(elem)
             for index, row in table.iterrows():
-                tables = np.append(tables,[tableFK,communityFK])
+               # print(tableFK[0][0],communityFK[0][0])
+                #tableFK = get_tableFK(x)
+                tables = np.append(tables,[tableFK[0][0],communityFK[0][0]])
             tables = pd.DataFrame(tables)
             mkCSV(tables,elem+".csv")
             
