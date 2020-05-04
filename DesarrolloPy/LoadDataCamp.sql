@@ -107,20 +107,6 @@ LINES TERMINATED BY '\n'
     (@UpgradingPosibility)
 SET UpgradingPosibility = NULLIF(@UpgradingPosibility,'');
 
-LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/comun_language.csv'
-INTO TABLE comun_language
-FIELDS TERMINATED BY ','
-LINES TERMINATED BY '\n'
-    (@Language)
-SET Language = NULLIF(@Language,'');
-
-LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/comun_religion.csv'
-INTO TABLE comun_religion
-FIELDS TERMINATED BY ','
-LINES TERMINATED BY '\n'
-    (@Religion)
-SET Religion = NULLIF(@Religion,'');
-
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/fa_geographicidentification.csv'
 INTO TABLE fa_geographicidentification
 FIELDS TERMINATED BY ','
@@ -378,6 +364,20 @@ SET RuralWaterAccess = NULLIF(@RuralWaterAccess,''),
     RuralElectricityAccess = NULLIF(@RuralElectricityAccess,''),
     UrbanElectricityAccess = NULLIF(@UrbanElectricityAccess,''),
     NationalElectricityTariff = NULLIF(@NationalElectricityTariff,'');
+
+LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/gd_language.csv'
+INTO TABLE gd_language
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n'
+    (@Language)
+SET Language = NULLIF(@Language,'');
+
+LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/gd_religion.csv'
+INTO TABLE gd_religion
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n'
+    (@Religion)
+SET Religion = NULLIF(@Religion,'');
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/gd_serviceaccess.csv'
 INTO TABLE gd_serviceaccess
@@ -906,9 +906,6 @@ WHERE camp_energysource_has_camp.Camp_idCamp = 0;
 UPDATE camp_enviroment SET Camp_idCamp = (SELECT @campID)
 WHERE camp_enviroment.Camp_idCamp = 0;
 
-UPDATE camp_has_country SET Country_idCountry = (SELECT @CountryID)
-WHERE camp_has_country.Country_idCountry = 0;
-
 UPDATE camp_integration_has_camp SET Camp_idCamp = (SELECT @campID)
 WHERE camp_integration_has_camp.Camp_idCamp = 0;
 
@@ -932,18 +929,6 @@ WHERE camp_naturalhazard_has_camp.Camp_idCamp = 0;
 
 UPDATE camp_shelter SET Camp_idCamp = (SELECT @campID)
 WHERE camp_shelter.Camp_idCamp = 0;
-
-UPDATE comun_language_has_camp SET Camp_idCamp = (SELECT @campID)
-WHERE comun_language_has_camp.Camp_idCamp = 0;
-
-UPDATE comun_language_has_country SET Country_idCountry = (SELECT @CountryID)
-WHERE comun_language_has_country.Country_idCountry = 0;
-
-UPDATE comun_religion_has_camp SET Camp_idCamp = (SELECT @campID)
-WHERE comun_religion_has_camp.Camp_idCamp = 0;
-
-UPDATE comun_religion_has_country SET Country_idCountry = (SELECT @CountryID)
-WHERE comun_religion_has_country.Country_idCountry = 0;
 
 UPDATE fa_geographicidentification SET Community_idCommunity = (SELECT @CommunityID)
 WHERE fa_geographicidentification.Community_idCommunity = 0;
@@ -1043,6 +1028,12 @@ WHERE gd_government.Country_idCountry = 0;
 
 UPDATE gd_infrastructure SET Country_idCountry = (SELECT @CountryID)
 WHERE gd_infrastructure.Country_idCountry = 0;
+
+UPDATE gd_language_has_country SET Country_idCountry = (SELECT @CountryID)
+WHERE gd_language_has_country.Country_idCountry = 0;
+
+UPDATE gd_religion_has_country SET Country_idCountry = (SELECT @CountryID)
+WHERE gd_religion_has_country.Country_idCountry = 0;
 
 UPDATE gd_serviceaccess SET Country_idCountry = (SELECT @CountryID)
 WHERE gd_serviceaccess.Country_idCountry = 0;

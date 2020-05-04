@@ -1672,14 +1672,14 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Comun_Religion`
+-- Table `mydb`.`GD_Religion`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`Comun_Religion` ;
+DROP TABLE IF EXISTS `mydb`.`GD_Religion` ;
 
-CREATE TABLE IF NOT EXISTS `mydb`.`Comun_Religion` (
-  `idComun_Religion` INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `mydb`.`GD_Religion` (
+  `idGD_Religion` INT NOT NULL AUTO_INCREMENT,
   `Religion` VARCHAR(45) NULL,
-  PRIMARY KEY (`idComun_Religion`))
+  PRIMARY KEY (`idGD_Religion`))
 ENGINE = InnoDB;
 
 
@@ -1707,32 +1707,6 @@ ENGINE = InnoDB;
 CREATE INDEX `fk_HostCommunity_has_Camp_Camp1_idx` ON `mydb`.`HostCommunity_has_Camp` (`Camp_idCamp` ASC);
 
 CREATE INDEX `fk_HostCommunity_has_Camp_HostCommunity1_idx` ON `mydb`.`HostCommunity_has_Camp` (`HostCommunity_idHostCommunity` ASC);
-
-
--- -----------------------------------------------------
--- Table `mydb`.`Camp_has_Country`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`Camp_has_Country` ;
-
-CREATE TABLE IF NOT EXISTS `mydb`.`Camp_has_Country` (
-  `Camp_idCamp` INT NOT NULL,
-  `Country_idCountry` INT NOT NULL,
-  PRIMARY KEY (`Camp_idCamp`, `Country_idCountry`),
-  CONSTRAINT `fk_Camp_has_Country_Camp1`
-    FOREIGN KEY (`Camp_idCamp`)
-    REFERENCES `mydb`.`Camp` (`idCamp`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Camp_has_Country_Country1`
-    FOREIGN KEY (`Country_idCountry`)
-    REFERENCES `mydb`.`Country` (`idCountry`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-CREATE INDEX `fk_Camp_has_Country_Country1_idx` ON `mydb`.`Camp_has_Country` (`Country_idCountry` ASC);
-
-CREATE INDEX `fk_Camp_has_Country_Camp1_idx` ON `mydb`.`Camp_has_Country` (`Camp_idCamp` ASC);
 
 
 -- -----------------------------------------------------
@@ -2606,93 +2580,15 @@ CREATE INDEX `fk_FS_OwnCultivationFoodType_has_Community_FS_OwnCultivatio_idx` O
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`Comun_Language`
+-- Table `mydb`.`GD_Language`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`Comun_Language` ;
+DROP TABLE IF EXISTS `mydb`.`GD_Language` ;
 
-CREATE TABLE IF NOT EXISTS `mydb`.`Comun_Language` (
-  `idComun_Language` INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `mydb`.`GD_Language` (
+  `idGD_Language` INT NOT NULL AUTO_INCREMENT,
   `Language` VARCHAR(45) NULL,
-  PRIMARY KEY (`idComun_Language`))
+  PRIMARY KEY (`idGD_Language`))
 ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `mydb`.`Comun_Religion_has_Country`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`Comun_Religion_has_Country` ;
-
-CREATE TABLE IF NOT EXISTS `mydb`.`Comun_Religion_has_Country` (
-  `Comun_Religion_idGD_Religion` INT NOT NULL,
-  `Country_idCountry` INT NOT NULL,
-  PRIMARY KEY (`Comun_Religion_idGD_Religion`, `Country_idCountry`),
-  CONSTRAINT `fk_Comun_Religion_has_Country_Comun_Religion1`
-    FOREIGN KEY (`Comun_Religion_idGD_Religion`)
-    REFERENCES `mydb`.`Comun_Religion` (`idComun_Religion`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Comun_Religion_has_Country_Country1`
-    FOREIGN KEY (`Country_idCountry`)
-    REFERENCES `mydb`.`Country` (`idCountry`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-CREATE INDEX `fk_Comun_Religion_has_Country_Country1_idx` ON `mydb`.`Comun_Religion_has_Country` (`Country_idCountry` ASC);
-
-CREATE INDEX `fk_Comun_Religion_has_Country_Comun_Religion1_idx` ON `mydb`.`Comun_Religion_has_Country` (`Comun_Religion_idGD_Religion` ASC);
-
-
--- -----------------------------------------------------
--- Table `mydb`.`Comun_Language_has_Country`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`Comun_Language_has_Country` ;
-
-CREATE TABLE IF NOT EXISTS `mydb`.`Comun_Language_has_Country` (
-  `Comun_Language_idComun_Language` INT NOT NULL,
-  `Country_idCountry` INT NOT NULL,
-  PRIMARY KEY (`Comun_Language_idComun_Language`, `Country_idCountry`),
-  CONSTRAINT `fk_Comun_Laguage_has_Country_Comun_Laguage1`
-    FOREIGN KEY (`Comun_Language_idComun_Language`)
-    REFERENCES `mydb`.`Comun_Language` (`idComun_Language`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Comun_Laguage_has_Country_Country1`
-    FOREIGN KEY (`Country_idCountry`)
-    REFERENCES `mydb`.`Country` (`idCountry`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-CREATE INDEX `fk_Comun_Laguage_has_Country_Country1_idx` ON `mydb`.`Comun_Language_has_Country` (`Country_idCountry` ASC);
-
-CREATE INDEX `fk_Comun_Laguage_has_Country_Comun_Laguage1_idx` ON `mydb`.`Comun_Language_has_Country` (`Comun_Language_idComun_Language` ASC);
-
-
--- -----------------------------------------------------
--- Table `mydb`.`Comun_Language_has_Camp`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`Comun_Language_has_Camp` ;
-
-CREATE TABLE IF NOT EXISTS `mydb`.`Comun_Language_has_Camp` (
-  `Comun_Language_idComun_Language` INT NOT NULL,
-  `Camp_idCamp` INT NOT NULL,
-  PRIMARY KEY (`Comun_Language_idComun_Language`, `Camp_idCamp`),
-  CONSTRAINT `fk_Comun_Laguage_has_Camp_Comun_Laguage1`
-    FOREIGN KEY (`Comun_Language_idComun_Language`)
-    REFERENCES `mydb`.`Comun_Language` (`idComun_Language`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Comun_Laguage_has_Camp_Camp1`
-    FOREIGN KEY (`Camp_idCamp`)
-    REFERENCES `mydb`.`Camp` (`idCamp`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-CREATE INDEX `fk_Comun_Laguage_has_Camp_Camp1_idx` ON `mydb`.`Comun_Language_has_Camp` (`Camp_idCamp` ASC);
-
-CREATE INDEX `fk_Comun_Laguage_has_Camp_Comun_Laguage1_idx` ON `mydb`.`Comun_Language_has_Camp` (`Comun_Language_idComun_Language` ASC);
 
 
 -- -----------------------------------------------------
@@ -2709,32 +2605,6 @@ CREATE TABLE IF NOT EXISTS `mydb`.`FS_CropUbication` (
   `IrrigationSystem` TINYINT(1) NULL,
   PRIMARY KEY (`idFS_CropUbication`))
 ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `mydb`.`Comun_Religion_has_Camp`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`Comun_Religion_has_Camp` ;
-
-CREATE TABLE IF NOT EXISTS `mydb`.`Comun_Religion_has_Camp` (
-  `Comun_Religion_idComun_Religion` INT NOT NULL,
-  `Camp_idCamp` INT NOT NULL,
-  PRIMARY KEY (`Comun_Religion_idComun_Religion`, `Camp_idCamp`),
-  CONSTRAINT `fk_Comun_Religion_has_Camp_Comun_Religion1`
-    FOREIGN KEY (`Comun_Religion_idComun_Religion`)
-    REFERENCES `mydb`.`Comun_Religion` (`idComun_Religion`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Comun_Religion_has_Camp_Camp1`
-    FOREIGN KEY (`Camp_idCamp`)
-    REFERENCES `mydb`.`Camp` (`idCamp`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-CREATE INDEX `fk_Comun_Religion_has_Camp_Camp1_idx` ON `mydb`.`Comun_Religion_has_Camp` (`Camp_idCamp` ASC);
-
-CREATE INDEX `fk_Comun_Religion_has_Camp_Comun_Religion1_idx` ON `mydb`.`Comun_Religion_has_Camp` (`Comun_Religion_idComun_Religion` ASC);
 
 
 -- -----------------------------------------------------
@@ -3281,6 +3151,58 @@ ENGINE = InnoDB;
 CREATE INDEX `fk_INF_IrrigationSystem_has_Community_Community1_idx` ON `mydb`.`INF_IrrigationSystem_has_Community` (`Community_idCommunity` ASC);
 
 CREATE INDEX `fk_INF_IrrigationSystem_has_Community_INF_IrrigationSystem1_idx` ON `mydb`.`INF_IrrigationSystem_has_Community` (`INF_IrrigationSystem_idIrrigatonSystem` ASC);
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`GD_Religion_has_Country`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `mydb`.`GD_Religion_has_Country` ;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`GD_Religion_has_Country` (
+  `GD_Religion_idGD_Religion` INT NOT NULL,
+  `Country_idCountry` INT NOT NULL,
+  PRIMARY KEY (`GD_Religion_idGD_Religion`, `Country_idCountry`),
+  CONSTRAINT `fk_GD_Religion_has_Country_GD_Religion1`
+    FOREIGN KEY (`GD_Religion_idGD_Religion`)
+    REFERENCES `mydb`.`GD_Religion` (`idGD_Religion`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_GD_Religion_has_Country_Country1`
+    FOREIGN KEY (`Country_idCountry`)
+    REFERENCES `mydb`.`Country` (`idCountry`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+CREATE INDEX `fk_GD_Religion_has_Country_Country1_idx` ON `mydb`.`GD_Religion_has_Country` (`Country_idCountry` ASC);
+
+CREATE INDEX `fk_GD_Religion_has_Country_GD_Religion1_idx` ON `mydb`.`GD_Religion_has_Country` (`GD_Religion_idGD_Religion` ASC);
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`GD_Language_has_Country`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `mydb`.`GD_Language_has_Country` ;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`GD_Language_has_Country` (
+  `GD_Language_idGD_Language` INT NOT NULL,
+  `Country_idCountry` INT NOT NULL,
+  PRIMARY KEY (`GD_Language_idGD_Language`, `Country_idCountry`),
+  CONSTRAINT `fk_GD_Language_has_Country_GD_Language1`
+    FOREIGN KEY (`GD_Language_idGD_Language`)
+    REFERENCES `mydb`.`GD_Language` (`idGD_Language`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_GD_Language_has_Country_Country1`
+    FOREIGN KEY (`Country_idCountry`)
+    REFERENCES `mydb`.`Country` (`idCountry`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+CREATE INDEX `fk_GD_Language_has_Country_Country1_idx` ON `mydb`.`GD_Language_has_Country` (`Country_idCountry` ASC);
+
+CREATE INDEX `fk_GD_Language_has_Country_GD_Language1_idx` ON `mydb`.`GD_Language_has_Country` (`GD_Language_idGD_Language` ASC);
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
