@@ -1629,9 +1629,9 @@ DROP TABLE IF EXISTS `mydb`.`FS_CorralUbication` ;
 
 CREATE TABLE IF NOT EXISTS `mydb`.`FS_CorralUbication` (
   `idFS_CorralUbication` INT NOT NULL AUTO_INCREMENT,
-  `Latitude` FLOAT NULL,
-  `Longitude` FLOAT NULL,
-  `Altitude` FLOAT NULL,
+  `Latitude` DOUBLE NULL,
+  `Longitude` DOUBLE NULL,
+  `Altitude` DOUBLE NULL,
   `Type` VARCHAR(45) NULL,
   `DrainageSystem` TINYINT(1) NULL,
   PRIMARY KEY (`idFS_CorralUbication`))
@@ -2598,9 +2598,9 @@ DROP TABLE IF EXISTS `mydb`.`FS_CropUbication` ;
 
 CREATE TABLE IF NOT EXISTS `mydb`.`FS_CropUbication` (
   `idFS_CropUbication` INT NOT NULL AUTO_INCREMENT,
-  `Latitude` FLOAT NULL,
-  `Longitude` FLOAT NULL,
-  `Altitude` FLOAT NULL,
+  `Latitude` DOUBLE NULL,
+  `Longitude` DOUBLE NULL,
+  `Altitude` DOUBLE NULL,
   `Type` VARCHAR(45) NULL,
   `IrrigationSystem` TINYINT(1) NULL,
   PRIMARY KEY (`idFS_CropUbication`))
@@ -3203,6 +3203,32 @@ ENGINE = InnoDB;
 CREATE INDEX `fk_GD_Language_has_Country_Country1_idx` ON `mydb`.`GD_Language_has_Country` (`Country_idCountry` ASC);
 
 CREATE INDEX `fk_GD_Language_has_Country_GD_Language1_idx` ON `mydb`.`GD_Language_has_Country` (`GD_Language_idGD_Language` ASC);
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`Country_has_Camp`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `mydb`.`Country_has_Camp` ;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`Country_has_Camp` (
+  `Country_idCountry` INT NOT NULL,
+  `Camp_idCamp` INT NOT NULL,
+  PRIMARY KEY (`Country_idCountry`, `Camp_idCamp`),
+  CONSTRAINT `fk_Country_has_Camp_Country1`
+    FOREIGN KEY (`Country_idCountry`)
+    REFERENCES `mydb`.`Country` (`idCountry`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Country_has_Camp_Camp1`
+    FOREIGN KEY (`Camp_idCamp`)
+    REFERENCES `mydb`.`Camp` (`idCamp`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+CREATE INDEX `fk_Country_has_Camp_Camp1_idx` ON `mydb`.`Country_has_Camp` (`Camp_idCamp` ASC);
+
+CREATE INDEX `fk_Country_has_Camp_Country1_idx` ON `mydb`.`Country_has_Camp` (`Country_idCountry` ASC);
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

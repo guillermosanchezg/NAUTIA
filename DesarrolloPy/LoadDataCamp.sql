@@ -930,6 +930,9 @@ WHERE camp_naturalhazard_has_camp.Camp_idCamp = 0;
 UPDATE camp_shelter SET Camp_idCamp = (SELECT @campID)
 WHERE camp_shelter.Camp_idCamp = 0;
 
+UPDATE country_has_camp SET Camp_idCamp = (SELECT @campID)
+WHERE country_has_camp.Camp_idCamp = 0;
+
 UPDATE fa_geographicidentification SET Community_idCommunity = (SELECT @CommunityID)
 WHERE fa_geographicidentification.Community_idCommunity = 0;
 
