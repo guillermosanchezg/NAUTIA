@@ -610,13 +610,12 @@ LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUT
 INTO TABLE s_cementery
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-    (@Latitude,@Longitude,@Altitude,@Drainage,@UpperBound,@NoAccessArea)
+    (@Latitude,@Longitude,@Altitude,@Drainage,@UpperBound)
 SET Latitude = NULLIF(@Latitude,''),
     Longitude = NULLIF(@Longitude,''),
     Altitude = NULLIF(@Altitude,''),
     Drainage = NULLIF(@Drainage,''),
-    UpperBound = NULLIF(@UpperBound,''),
-    NoAccessArea = NULLIF(@NoAccessArea,'');
+    UpperBound = NULLIF(@UpperBound,'');
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/s_dataaccess.csv'
 INTO TABLE s_dataaccess

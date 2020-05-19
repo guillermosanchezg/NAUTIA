@@ -207,6 +207,13 @@ def get_valueBySector(df1,df2):
     df2 = df2.set_index('index')
     return df2
 
+def set_defaultColumn(df):
+    default = np.array([])
+    for row in df:
+        default = np.append(default,np.nan)
+    default = pd.DataFrame(default)
+    return concatDF(df,default)        
+        
 def separateValues(df):
     if(df.isnull().values.all(axis=0)):
         result = df
@@ -658,7 +665,7 @@ residencial = set_sector(residencial,"residencial")
 comunitario = dfFix(ComunalServices,"Energy_Details:Energy_Source","Energy_Details:Type_of_water_supply")
 comunitario = set_sector(comunitario,"comunitario",concat=False)
 INF_GenerationSource_has_Community = concatDF(comercial.T,concatDF(residencial.T,comunitario.T)).T
-mkCSV(INF_GenerationSource_has_Community,"INF_GenerationSource_has_Community")
+mkCSV(INF_GenerationSource_has_Community,"INF_GenerationSource_has_Community.csv")
 
 df1 = dfFix(EnergyINF,"Ofert:Type_of_water_supply","Ofert:Picture")
 df2 = dfFix(EnergyINF,"Ofert:Power_of_generation","Ofert:Power_of_generation_001")
@@ -718,8 +725,8 @@ internal = dfFix(GeneralForm,"Transport:Kind_transport_inside","Transport:Kind_t
 internal = separateValues(internal)
 external = dfFix(GeneralForm,"Transport:Kind_transport_outside","meta:instanceID")
 external = separateValues(external)
-INF_Appliance_has_Community = concatDF(internal,external)
-mkCSV(INF_Appliance_has_Community,"INF_Appliance_has_Community.csv")
+INF_MobilityWay_has_Community = concatDF(internal,external)
+mkCSV(INF_MobilityWay_has_Community,"INF_MobilityWay_has_Community.csv")
 
 #%% SERVICIOS DATA
 #%%Ceneter
@@ -766,6 +773,7 @@ df1 = dfFix(ComunalServices,"Health_Center","Health_Center_details:Capacity")
 df1 = df1.isin(["primary_care"])
 S_PrimaryAttention = dfFix(ComunalServices,"General_Information:Record_your_current_location:Latitude","General_Information:Record_your_current_location:Accuracy")
 S_PrimaryAttention = get_valueBySector(df1,S_PrimaryAttention)
+S_PrimaryAttention = set_defaultColumn(S_PrimaryAttention)
 mkCSV(S_PrimaryAttention,"S_PrimaryAttention.csv")
 
 df1 = dfFix(ComunalServices,"Health_Center","Health_Center_details:Capacity")
@@ -774,7 +782,8 @@ df2 = dfFix(ComunalServices,"General_Information:Record_your_current_location:La
 df3 = dfFix(ComunalServices,"Health_Center_details:Capacity","Associate_infrastructure:Sanitation")
 S_Hospital = concatDF(df2,df3)
 S_Hospital = get_valueBySector(df1,S_Hospital)
-mkCSV(S_Hospital,"S_Hospital.csv") #NoAccesArea dato de GIS
+S_Hospital = set_defaultColumn(S_Hospital)
+mkCSV(S_Hospital,"S_Hospital.csv")
 
 df1 = dfFix(ComunalServices,"General_Information:Type_of_service","General_Information:Other_service")
 df1 = df1.isin(["cementary"])
@@ -790,6 +799,7 @@ df2 = dfFix(ComunalServices,"General_Information:Record_your_current_location:La
 df3 = dfFix(ComunalServices,"General_Information:Other_service","General_Information:Sharing_Services")
 S_OtherCenter = concatDF(df2,df3)
 S_OtherCenter = get_valueBySector(df1,S_OtherCenter)
+S_OtherCenter = set_defaultColumn(S_OtherCenter)
 mkCSV(S_OtherCenter,"S_OtherCenter.csv")
 
 S_BuildingQuality = dfFix(ComunalServices,"Construction_Details:Appropiate_Roof","meta:instanceID") 

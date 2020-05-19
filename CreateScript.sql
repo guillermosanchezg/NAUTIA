@@ -608,9 +608,9 @@ DROP TABLE IF EXISTS `mydb`.`U_RecreationalArea` ;
 CREATE TABLE IF NOT EXISTS `mydb`.`U_RecreationalArea` (
   `idRecreationalArea` INT NOT NULL AUTO_INCREMENT,
   `AreaName` VARCHAR(45) NULL,
-  `Latitude` FLOAT NULL,
-  `Longitude` FLOAT NULL,
-  `Altitude` FLOAT NULL,
+  `Latitude` DOUBLE NULL,
+  `Longitude` DOUBLE NULL,
+  `Altitude` DOUBLE NULL,
   `Woodland_ShadedArea` TINYINT(1) NULL,
   `UrbanFurniture` TINYINT(1) NULL,
   `Floor_DrainageSystem` TINYINT(1) NULL,
@@ -897,9 +897,9 @@ DROP TABLE IF EXISTS `mydb`.`INF_StreetLamp` ;
 
 CREATE TABLE IF NOT EXISTS `mydb`.`INF_StreetLamp` (
   `idINF_StreetLamp` INT NOT NULL AUTO_INCREMENT,
-  `Latitude` FLOAT NULL,
-  `Longitude` FLOAT NULL,
-  `Altitude` FLOAT NULL,
+  `Latitude` DOUBLE NULL,
+  `Longitude` DOUBLE NULL,
+  `Altitude` DOUBLE NULL,
   `Community_idCommunity` INT NOT NULL,
   PRIMARY KEY (`idINF_StreetLamp`, `Community_idCommunity`),
   CONSTRAINT `fk_INF_StreetLamp_Community1`
@@ -951,9 +951,9 @@ DROP TABLE IF EXISTS `mydb`.`INF_MobilityPoint` ;
 
 CREATE TABLE IF NOT EXISTS `mydb`.`INF_MobilityPoint` (
   `idINF_MobilityPoint` INT NOT NULL AUTO_INCREMENT,
-  `Latitude` FLOAT NULL,
-  `Longitude` FLOAT NULL,
-  `Altitude` FLOAT NULL,
+  `Latitude` DOUBLE NULL,
+  `Longitude` DOUBLE NULL,
+  `Altitude` DOUBLE NULL,
   `Community_idCommunity` INT NOT NULL,
   PRIMARY KEY (`idINF_MobilityPoint`, `Community_idCommunity`),
   CONSTRAINT `fk_INF_MobillityPoint_Community1`
@@ -988,9 +988,9 @@ DROP TABLE IF EXISTS `mydb`.`S_EducationalCenter` ;
 
 CREATE TABLE IF NOT EXISTS `mydb`.`S_EducationalCenter` (
   `idS_EducationalCenter` INT NOT NULL AUTO_INCREMENT,
-  `Latitude` VARCHAR(45) NULL,
-  `Longitude` VARCHAR(45) NULL,
-  `Altitude` INT NULL,
+  `Latitude` DOUBLE NULL,
+  `Longitude` DOUBLE NULL,
+  `Altitude` DOUBLE NULL,
   `EducationType` VARCHAR(45) NULL,
   `Students` INT NULL,
   `Workingpoints` INT NULL,
@@ -1062,9 +1062,9 @@ DROP TABLE IF EXISTS `mydb`.`S_PrimaryAttention` ;
 
 CREATE TABLE IF NOT EXISTS `mydb`.`S_PrimaryAttention` (
   `idS_PrimaryAttention` INT NOT NULL AUTO_INCREMENT,
-  `Latitude` FLOAT NULL,
-  `Longitude` FLOAT NULL,
-  `Altitude` FLOAT NULL,
+  `Latitude` DOUBLE NULL,
+  `Longitude` DOUBLE NULL,
+  `Altitude` DOUBLE NULL,
   `NoAccesArea` FLOAT NULL,
   `S_BuildingQuality_idS_BuildingQuality` INT NOT NULL,
   PRIMARY KEY (`idS_PrimaryAttention`),
@@ -1085,9 +1085,9 @@ DROP TABLE IF EXISTS `mydb`.`S_Hospital` ;
 
 CREATE TABLE IF NOT EXISTS `mydb`.`S_Hospital` (
   `idS_Hospital` INT NOT NULL AUTO_INCREMENT,
-  `Latitude` FLOAT NULL,
-  `Longitude` FLOAT NULL,
-  `Altitude` FLOAT NULL,
+  `Latitude` DOUBLE NULL,
+  `Longitude` DOUBLE NULL,
+  `Altitude` DOUBLE NULL,
   `Beds` INT NULL,
   `NoAccessArea` FLOAT NULL,
   `S_BuildingQuality_idS_BuildingQuality` INT NOT NULL,
@@ -1109,12 +1109,11 @@ DROP TABLE IF EXISTS `mydb`.`S_Cementery` ;
 
 CREATE TABLE IF NOT EXISTS `mydb`.`S_Cementery` (
   `idS_Cementery` INT NOT NULL AUTO_INCREMENT,
-  `Latitude` FLOAT NULL,
-  `Longitude` FLOAT NULL,
-  `Altitude` FLOAT NULL,
+  `Latitude` DOUBLE NULL,
+  `Longitude` DOUBLE NULL,
+  `Altitude` DOUBLE NULL,
   `Drainage` VARCHAR(45) NULL,
-  `UpperBound` INT NULL,
-  `NoAccessArea` FLOAT NULL,
+  `UpperBound` VARCHAR(45) NULL,
   PRIMARY KEY (`idS_Cementery`))
 ENGINE = InnoDB;
 
@@ -1126,9 +1125,9 @@ DROP TABLE IF EXISTS `mydb`.`S_OtherCenter` ;
 
 CREATE TABLE IF NOT EXISTS `mydb`.`S_OtherCenter` (
   `idS_OtherCenter` INT NOT NULL AUTO_INCREMENT,
-  `Latitude` FLOAT NULL,
-  `Longitude` FLOAT NULL,
-  `Altitude` FLOAT NULL,
+  `Latitude` DOUBLE NULL,
+  `Longitude` DOUBLE NULL,
+  `Altitude` DOUBLE NULL,
   `CenterType` VARCHAR(45) NULL,
   `CenterName` VARCHAR(45) NULL,
   `NoAccessArea` FLOAT NULL,
@@ -1201,9 +1200,9 @@ DROP TABLE IF EXISTS `mydb`.`SH_Building` ;
 
 CREATE TABLE IF NOT EXISTS `mydb`.`SH_Building` (
   `idSH_House` INT NOT NULL AUTO_INCREMENT,
-  `Latitude` FLOAT NULL,
-  `Longitude` FLOAT NULL,
-  `Altitude` FLOAT NULL,
+  `Latitude` DOUBLE NULL,
+  `Longitude` DOUBLE NULL,
+  `Altitude` DOUBLE NULL,
   `ApropiateRoof` TINYINT(1) NULL,
   `SecureStructured` TINYINT(1) NULL,
   `ClimateThreatProtect` TINYINT(1) NULL,
@@ -1397,9 +1396,9 @@ DROP TABLE IF EXISTS `mydb`.`FA_GeographicIdentification` ;
 
 CREATE TABLE IF NOT EXISTS `mydb`.`FA_GeographicIdentification` (
   `idFA_GeographicIdentification` INT NOT NULL AUTO_INCREMENT,
-  `Latitude` FLOAT NULL,
-  `Longitude` FLOAT NULL,
-  `PhreaticLevel` FLOAT NULL,
+  `Latitude` DOUBLE NULL,
+  `Longitude` DOUBLE NULL,
+  `PhreaticLevel` DOUBLE NULL,
   `Area` FLOAT NULL,
   `Community_idCommunity` INT NOT NULL,
   PRIMARY KEY (`idFA_GeographicIdentification`, `Community_idCommunity`),
@@ -2059,9 +2058,9 @@ DROP TABLE IF EXISTS `mydb`.`INF_WaterPoint` ;
 
 CREATE TABLE IF NOT EXISTS `mydb`.`INF_WaterPoint` (
   `idINF_WaterPoint` INT NOT NULL AUTO_INCREMENT,
-  `Latitude` FLOAT NULL,
-  `Longitude` FLOAT NULL,
-  `Altitude` FLOAT NULL,
+  `Latitude` DOUBLE NULL,
+  `Longitude` DOUBLE NULL,
+  `Altitude` DOUBLE NULL,
   `Working` VARCHAR(45) NULL,
   `Community_idCommunity` INT NOT NULL,
   PRIMARY KEY (`idINF_WaterPoint`, `Community_idCommunity`),
@@ -2082,9 +2081,9 @@ DROP TABLE IF EXISTS `mydb`.`INF_CollectionPoints` ;
 
 CREATE TABLE IF NOT EXISTS `mydb`.`INF_CollectionPoints` (
   `idINF_CollectionPoints` INT NOT NULL AUTO_INCREMENT,
-  `Latitude` FLOAT NULL,
-  `Longitude` FLOAT NULL,
-  `Altitude` FLOAT NULL,
+  `Latitude` DOUBLE NULL,
+  `Longitude` DOUBLE NULL,
+  `Altitude` DOUBLE NULL,
   `Community_idCommunity` INT NOT NULL,
   PRIMARY KEY (`idINF_CollectionPoints`, `Community_idCommunity`),
   CONSTRAINT `fk_INF_ColletionPoints_Community1`

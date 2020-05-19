@@ -1,4 +1,68 @@
-bike,animals
-motorcycle,motorcycle
-walking,truck_lorry_va
-,walking
+comercial,mobile_phone,,1.0,,,,,,,,,,,,,,,,
+comercial,light_bulbs mobile_phone others,9.0,4.0,,,,,,6.0,,,,,,,,,,
+comercial,lantern light_bulbs mobile_phone fridge others,13.0,4.0,,,,24.0,,4.0,,,,,,,,,,
+comercial,lantern mobile_phone radio_music_pl others,,4.0,10.0,,,,,9.0,,,,,,,,,,
+comercial,light_bulbs mobile_phone others,12.0,2.0,,,,,,12.0,,,,,,,,,,
+comercial,light_bulbs mobile_phone tv_dvd others,8.0,1.0,,8.0,,,,1.0,,,,,,,,,,
+comercial,light_bulbs mobile_phone others,4.0,1.0,,,,,,24.0,,,,,,,,,,
+comercial,light_bulbs mobile_phone tv_dvd,8.0,1.0,,8.0,,,,,,,,,,,,,,
+comercial,light_bulbs others,9.0,,,,,,,24.0,,,,,,,,,,
+comercial,light_bulbs mobile_phone fridge electrical_sto,10.0,1.0,,,,12.0,10.0,,,,,,,,,,,
+comercial,lantern light_bulbs mobile_phone tv_dvd laptop_tablet_ others,6.0,4.0,,2.0,2.0,,,12.0,,,,,,,,,,
+comercial,lantern light_bulbs mobile_phone tv_dvd laptop_tablet_ fridge others,10.0,1.0,,12.0,10.0,24.0,,8.0,,,,,,,,,,
+comercial,lantern light_bulbs radio_music_pl mobile_phone tv_dvd laptop_tablet_ fridge electrical_sto others,7.0,8.0,0.0,2.0,0.0,12.0,5.0,6.0,,,,,,,,,,
+comercial,lantern light_bulbs mobile_phone radio_music_pl tv_dvd laptop_tablet_ fridge electrical_sto others,5.0,8.0,1.0,1.0,1.0,12.0,2.0,2.0,,,,,,,,,,
+comercial,electrical_sto,,,,,,,2.0,,,,,,,,,,,
+residencial,lantern light_bulbs mobile_phone tv/dvd fridge others,4.0,4.0,,1.0,,24.0,,7.0,,,,,,,,,,
+residencial,light_bulbs mobile_phone tv/dvd fridge,4.0,2.0,,5.0,,24.0,,,,,,,,,,,,
+residencial,lantern light_bulbs mobile_phone fridge,4.0,2.0,,,,24.0,,,,,,,,,,,,
+residencial,lantern light_bulbs mobile_phone tv/dvd fridge,3.0,1.0,,1.0,,24.0,,,,,,,,,,,,
+residencial,lantern light_bulbs mobile_phone tv/dvd fridge,4.0,1.0,,2.0,,24.0,,,,,,,,,,,,
+residencial,lantern light_bulbs mobile_phone radio/music_p tv/dvd,4.0,1.0,2.0,1.0,,,,,,,,,,,,,,
+residencial,lantern light_bulbs mobile_phone radio/music_p tv/dvd fridge,6.0,2.0,3.0,10.0,,24.0,,,,,,,,,,,,
+residencial,lantern light_bulbs mobile_phone tv/dvd fridge,4.0,1.0,,4.0,,24.0,,,,,,,,,,,,
+residencial,lantern light_bulbs tv/dvd fridge,4.0,,,3.0,,24.0,,,,,,,,,,,,
+residencial,lantern light_bulbs mobile_phone tv/dvd fridge,4.0,1.0,,1.0,,24.0,,,,,,,,,,,,
+residencial,light_bulbs mobile_phone radio/music_p,1.0,2.0,8.0,,,,,,,,,,,,,,,
+residencial,lantern light_bulbs mobile_phone tv/dvd laptop_tablet/ fridge,24.0,3.0,,3.0,3.0,24.0,,,,,,,,,,,,
+residencial,lantern light_bulbs mobile_phone fridge,4.0,2.0,,,,24.0,,,,,,,,,,,,
+residencial,lantern light_bulbs mobile_phone,4.0,1.0,,,,,,,,,,,,,,,,
+residencial,light_bulbs mobile_phone fridge,4.0,2.0,,,,24.0,,,,,,,,,,,,
+residencial,lantern light_bulbs fridge,4.0,,,,,24.0,,,,,,,,,,,,
+residencial,light_bulbs mobile_phone tv/dvd,4.0,2.0,,2.0,,,,,,,,,,,,,,
+residencial,lantern light_bulbs radio/music_p mobile_phone tv/dvd fridge,7.0,2.0,5.0,6.0,,24.0,,,,,,,,,,,,
+residencial,light_bulbs mobile_phone tv/dvd fridge,4.0,2.0,,4.0,,24.0,,,,,,,,,,,,
+residencial,light_bulbs mobile_phone tv/dvd laptop_tablet/ fridge,4.0,2.0,,4.0,4.0,24.0,,,,,,,,,,,,
+residencial,lantern light_bulbs mobile_phone,4.0,2.0,,,,,,,,,,,,,,,,
+residencial,lantern light_bulbs mobile_phone radio/music_p tv/dvd laptop_tablet/ fridge electrical_sto others,5.0,4.0,1.0,2.0,1.0,24.0,4.0,4.0,,,,,,,,,,
+comunitario,lamp pc_or_tablet other,,,64.0,50.0,,,,,20.0,350.0,,,,,,,4.0,2000.0
+comunitario,lamp,,,16.0,50.0,,,,,,,,,,,,,,
+comunitario,lamp tv_or_dvd fridge,,,40.0,50.0,,,1.0,50.0,,,,,,,1.0,885.0,,
+comunitario,lamp fridge other,,,15.0,50.0,,,,,,,,,,,1.0,300.0,2.0,1240.0
+comunitario,lamp mobile,,,15.0,50.0,,,,,,,1.0,250.0,,,,,,
+comunitario,other lamp mobile,,,50.0,50.0,,,,,,,8.0,250.0,,,,,19.0,
+comunitario,lamp fridge,,,20.0,50.0,,,,,,,,,,,1.0,1411.0,,
+comunitario,lamp pc_or_tablet other,,,110.0,50.0,,,,,11.0,300.0,,,,,,,2.0,900.0
+comunitario,lamp fridge other,,,2.0,25.0,,,,,,,,,,,1.0,11500.0,4.0,2100.0
+comunitario,lamp other,,,28.0,150.0,,,,,,,,,,,,,1.0,2100.0
+comunitario,lamp tv_or_dvd fridge,,,2.0,50.0,,,1.0,160.0,,,,,,,1.0,,,
+comunitario,lamp,,,20.0,50.0,,,,,,,,,,,,,,
+comunitario,lamp fridge,,,10.0,50.0,,,,,,,,,,,1.0,161.0,,
+comunitario,lamp fridge,,,8.0,50.0,,,,,,,,,,,1.0,80.0,,
+comunitario,lantern lamp radio tv_or_dvd pc_or_tablet mobile electric_cooke fridge other,1.0,9.0,3.0,9.0,1.0,20.0,1.0,150.0,1.0,10.0,2.0,15.0,1.0,2000.0,1.0,1200.0,1.0,900.0
+comunitario,lantern lamp radio tv_or_dvd pc_or_tablet,3.0,11.0,6.0,13.0,2.0,40.0,1.0,200.0,1.0,100.0,,,,,,,,
+comunitario,lantern lamp radio tv_or_dvd pc_or_tablet mobile electric_cooke fridge,5.0,15.0,9.0,18.0,3.0,60.0,1.0,250.0,1.0,200.0,6.0,35.0,1.0,2500.0,1.0,1500.0,,
+comunitario,lantern lamp radio tv_or_dvd pc_or_tablet electric_cooke mobile fridge other,5.0,15.0,9.0,18.0,3.0,60.0,1.0,250.0,1.0,200.0,6.0,25.0,1.0,2200.0,1.0,1300.0,1.0,900.0
+comunitario,lantern lamp radio tv_or_dvd pc_or_tablet mobile electric_cooke fridge other,3.0,11.0,6.0,13.0,2.0,40.0,1.0,200.0,1.0,100.0,4.0,25.0,1.0,2200.0,1.0,1300.0,1.0,1000.0
+comunitario,lantern lamp radio tv_or_dvd pc_or_tablet mobile electric_cooke fridge other,5.0,15.0,9.0,18.0,3.0,60.0,1.0,250.0,1.0,250.0,6.0,35.0,1.0,2500.0,1.0,1500.0,1.0,1000.0
+comunitario,lantern lamp radio tv_or_dvd pc_or_tablet mobile electric_cooke fridge other,5.0,15.0,9.0,18.0,3.0,60.0,1.0,250.0,1.0,200.0,6.0,35.0,1.0,2500.0,1.0,1300.0,1.0,1000.0
+comunitario,lantern lamp radio tv_or_dvd pc_or_tablet mobile electric_cooke fridge other,3.0,11.0,6.0,13.0,2.0,40.0,2.0,200.0,2.0,100.0,4.0,25.0,1.0,2200.0,1.0,1300.0,1.0,900.0
+comunitario,lantern lamp radio tv_or_dvd pc_or_tablet mobile electric_cooke fridge other,5.0,15.0,9.0,18.0,3.0,60.0,3.0,250.0,3.0,100.0,6.0,35.0,1.0,2500.0,1.0,1500.0,3.0,1000.0
+comunitario,lantern lamp radio tv_or_dvd pc_or_tablet mobile electric_cooke fridge other,3.0,11.0,6.0,13.0,2.0,40.0,2.0,200.0,2.0,100.0,4.0,25.0,1.0,2200.0,1.0,1300.0,2.0,1000.0
+comunitario,lantern lamp radio tv_or_dvd pc_or_tablet mobile electric_cooke fridge other,5.0,15.0,9.0,18.0,3.0,60.0,2.0,200.0,2.0,100.0,6.0,35.0,1.0,2500.0,1.0,1500.0,3.0,1000.0
+comunitario,lantern lamp radio tv_or_dvd pc_or_tablet mobile electric_cooke fridge other,1.0,9.0,3.0,10.0,1.0,20.0,1.0,150.0,1.0,10.0,2.0,15.0,1.0,2000.0,1.0,2000.0,1.0,900.0
+comunitario,lantern lamp radio tv_or_dvd pc_or_tablet mobile electric_cooke fridge other,1.0,9.0,3.0,10.0,1.0,20.0,1.0,150.0,1.0,100.0,2.0,15.0,1.0,2000.0,1.0,1200.0,1.0,900.0
+comunitario,lantern,3.0,9.0,,,,,,,,,,,,,,,,
+comunitario,lantern mobile pc_or_tablet lamp radio,1.0,9.0,3.0,10.0,1.0,20.0,,,1.0,10.0,2.0,15.0,,,,,,
+comunitario,lantern lamp radio tv_or_dvd pc_or_tablet mobile electric_cooke fridge other,3.0,9.0,6.0,10.0,1.0,40.0,1.0,150.0,1.0,100.0,8.0,15.0,1.0,2000.0,1.0,1200.0,1.0,900.0
+comunitario,lantern lamp radio tv_or_dvd pc_or_tablet mobile electric_cooke fridge other,3.0,9.0,9.0,10.0,1.0,20.0,1.0,150.0,2.0,100.0,6.0,25.0,1.0,2000.0,1.0,1200.0,2.0,900.0
