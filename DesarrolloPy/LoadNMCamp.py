@@ -95,7 +95,7 @@ def uniFormatDF(df):
     df = replacestr(df,"None","nan")
     return df
 
-def get_tablePK(table,community):
+def get_tablePK(table):
     cursor.execute("SELECT * FROM "+table)
     df1 = uniFormatTable(pd.DataFrame(cursor.fetchall()))
     df2 = pd.read_csv(getPath(finalpath,table+".csv"),header = None, float_precision = "high")
@@ -125,7 +125,7 @@ for column in tablesNM:
     for elem in column:
         x = getTableName(elem)
         if(is_non_zero_file(getPath(finalpath,x+".csv"))):
-            tablePK = pd.DataFrame(get_tablePK(x,elem))
+            tablePK = pd.DataFrame(get_tablePK(x))
             communityPK = get_communityPK(elem)
             arrayCommunity = np.array([])
             for index, row in tablePK.iterrows():
