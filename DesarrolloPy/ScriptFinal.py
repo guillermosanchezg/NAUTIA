@@ -260,6 +260,36 @@ def set_sector(df,sect, concat = True):
         result = sector
     return result 
 
+def dropNaAndResetIndex(df):
+    df = df.dropna(how = 'all')
+    df = np.array(df)
+    return pd.DataFrame(df)
+    
+
+def get_applianceDF(df):
+    df1 = dfFix(df,0,1)
+    df2 = dfFix(df,1)
+    array = np.array([])
+    appliance = np.array([])
+    for row in np.array(df1):
+        corpus = np.array([])
+        for elem in row:
+            corpus = np.append(corpus,[elem])
+        count_vectorizer = CountVectorizer(stop_words = spanish_stopwords+english_stopwords, vocabulary = ['light_bulbs','mobile_phone','radio_music_pl','tv_dvd','laptop_tablet_','fridge','electrical_sto','others'])
+        X = count_vectorizer.fit_transform(corpus)
+        array = count_vectorizer.get_feature_names()
+        for elem in array:
+            appliance = np.append(appliance,elem)
+    appliance = pd.DataFrame(appliance)
+    hours = np.array([])
+    for row in np.array(df2):
+        for elem in row:
+            hours = np.append(hours,elem)
+    hours = pd.DataFrame(hours)
+    hours = (hours.dropna())
+    return concatDF(appliance,hours)
+    
+
 #%% CSV to DataFrame
 Bibliography,Entities,LocalLeaders,HouseHold,WomenGroup,SanitationInfra,Priorities,GeneralForm,PublicSpace,WaterInf,EnergyINF,SanitationInf,WasteManagementInf,EnergyINF,Business,MobilityINF,ComunalServices,GeneralCitizen,Shelter,FarmyardCrop = set_AllCSVtoDF(1)
 #%%Community
@@ -677,12 +707,19 @@ INF_Appliance = pd.DataFrame(INF_Appliance)
 mkCSV(INF_Appliance,"INF_Appliance.csv")
 
 comercial = dfFix(Business,"Energy:electrical_appliances","Energy:money_electricity")
+comercial = dropNaAndResetIndex(comercial)
+comercial = get_applianceDF(comercial)
 comercial = set_sector(comercial,"comercial")
 residencial = dfFix(HouseHold,"Energy:Appliances","Energy:Elec_expen")
+residencial = dropNaAndResetIndex(residencial)
+residencial = get_applianceDF(residencial)
 residencial = set_sector(residencial,"residencial")
 comunitario = dfFix(ComunalServices,"Energy_Details:Electrical_Appliances:Devices","Construction_Details:Appropiate_Roof")
+comunitario = dropNaAndResetIndex(comunitario)
+comunitario = get_applianceDF(comunitario)
 comunitario = set_sector(comunitario,"comunitario")
 INF_Appliance_has_Community = concatDF(comercial.T,concatDF(residencial.T,comunitario.T)).T
+INF_Appliance_has_Community = INF_Appliance_has_Community[INF_Appliance_has_Community[1].notna()]
 mkCSV(INF_Appliance_has_Community,"INF_Appliance_has_Community.csv")
 
 df1 = dfFix(GeneralForm,"Energy:Stove","Energy:Firewood_weight")
@@ -723,9 +760,11 @@ mkCSV(INF_MobilityWay,"INF_MobilityWay.csv")
 
 internal = dfFix(GeneralForm,"Transport:Kind_transport_inside","Transport:Kind_transport_outside")
 internal = separateValues(internal)
+internal = set_sector(internal,"internal")
 external = dfFix(GeneralForm,"Transport:Kind_transport_outside","meta:instanceID")
 external = separateValues(external)
-INF_MobilityWay_has_Community = concatDF(internal,external)
+external = set_sector(external,"external")
+INF_MobilityWay_has_Community = concatDF(internal.T,external.T).T
 mkCSV(INF_MobilityWay_has_Community,"INF_MobilityWay_has_Community.csv")
 
 #%% SERVICIOS DATA
@@ -837,7 +876,11 @@ S_App = ["WhatsApp","Facebook","Skype","Instagram","Google","Youtube","Email","W
 S_App = pd.DataFrame(S_App)
 mkCSV(S_App,"S_App.csv")
 
-S_App_has_Community = dfFix(GeneralCitizen,"App_USED","Type_Food:Meat")
+df1 = dfFix(GeneralCitizen,"App_USED","App_needed")
+df1 = set_sector(df1,"Used")
+df2 = dfFix(GeneralCitizen,"App_needed","Type_Food:Meat")
+df2 = set_sector(df2,"Necesity")
+S_App_has_Community = concatDF(df1.T,df2.T).T
 mkCSV(S_App_has_Community,"S_App_has_Community.csv")
 
 #%% SHELTER DATA 

@@ -2165,7 +2165,6 @@ CREATE TABLE IF NOT EXISTS `mydb`.`INF_Appliance_has_Community` (
   `INF_Appliance_idINF_Appliance` INT NOT NULL,
   `Community_idCommunity` INT NOT NULL,
   `Sector` VARCHAR(45) NULL,
-  `Power` FLOAT NULL,
   `TimeUse` FLOAT NULL,
   PRIMARY KEY (`idINF_Appliance_has_Community`, `INF_Appliance_idINF_Appliance`, `Community_idCommunity`),
   CONSTRAINT `fk_INF_Appliance_has_Community_INF_Appliance1`
@@ -2262,7 +2261,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`S_App_has_Community` (
   `idS_App_has_Community` INT NOT NULL AUTO_INCREMENT,
   `S_App_idS_App` INT NOT NULL,
   `Community_idCommunity` INT NOT NULL,
-  `Use_Necesity` VARCHAR(45) NULL,
+  `Use_Necessity` VARCHAR(45) NULL,
   PRIMARY KEY (`idS_App_has_Community`, `S_App_idS_App`, `Community_idCommunity`),
   CONSTRAINT `fk_S_App_has_Community_S_App1`
     FOREIGN KEY (`S_App_idS_App`)
@@ -3050,9 +3049,9 @@ CREATE TABLE IF NOT EXISTS `mydb`.`U_Area_has_Community` (
   `idU_Area_has_Communitycol` INT NOT NULL AUTO_INCREMENT,
   `U_Area_idU_Area` INT NOT NULL,
   `Community_idCommunity` INT NOT NULL,
-  `Latitude` FLOAT NULL,
-  `longitude` FLOAT NULL,
-  `altitude` FLOAT NULL,
+  `Latitude` DOUBLE NULL,
+  `longitude` DOUBLE NULL,
+  `altitude` DOUBLE NULL,
   PRIMARY KEY (`idU_Area_has_Communitycol`, `U_Area_idU_Area`, `Community_idCommunity`),
   CONSTRAINT `fk_U_Area_has_Community_U_Area1`
     FOREIGN KEY (`U_Area_idU_Area`)
