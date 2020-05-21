@@ -2395,32 +2395,6 @@ CREATE INDEX `fk_FS_CultivationSeason_Community1_idx` ON `mydb`.`FS_CultivationS
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`FS_CultivationSeason_has_Community`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`FS_CultivationSeason_has_Community` ;
-
-CREATE TABLE IF NOT EXISTS `mydb`.`FS_CultivationSeason_has_Community` (
-  `FS_CultivationSeason_idFS_CultivationSeason` INT NOT NULL,
-  `Community_idCommunity` INT NOT NULL,
-  PRIMARY KEY (`FS_CultivationSeason_idFS_CultivationSeason`, `Community_idCommunity`),
-  CONSTRAINT `fk_FS_CultivationSeason_has_Community_FS_CultivationSeason1`
-    FOREIGN KEY (`FS_CultivationSeason_idFS_CultivationSeason`)
-    REFERENCES `mydb`.`FS_CultivationSeason` (`idFS_CultivationSeason`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_FS_CultivationSeason_has_Community_Community1`
-    FOREIGN KEY (`Community_idCommunity`)
-    REFERENCES `mydb`.`Community` (`idCommunity`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-CREATE INDEX `fk_FS_CultivationSeason_has_Community_Community1_idx` ON `mydb`.`FS_CultivationSeason_has_Community` (`Community_idCommunity` ASC);
-
-CREATE INDEX `fk_FS_CultivationSeason_has_Community_FS_CultivationSeason1_idx` ON `mydb`.`FS_CultivationSeason_has_Community` (`FS_CultivationSeason_idFS_CultivationSeason` ASC);
-
-
--- -----------------------------------------------------
 -- Table `mydb`.`Camp_Integration_has_Camp`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `mydb`.`Camp_Integration_has_Camp` ;

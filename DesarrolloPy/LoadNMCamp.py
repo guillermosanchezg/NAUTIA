@@ -18,7 +18,6 @@ mydb = mysql.connector.connect(
 )
 cursor = mydb.cursor()
 
-mainpath = "C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales"
 finalpath = "C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales"
 
 def getPath(mainpath,filename):
@@ -32,6 +31,12 @@ def mkCSV(df,fileName):
     
 def concatDF(df1,df2):
     return  pd.concat([df1,df2],axis = 1, ignore_index = True, sort = True)
+
+def mkCSV(df,fileName):
+    df = df.dropna(how = 'all')
+    df *= 1   
+    fileName = fileName.lower()
+    df.to_csv('DataSetFinales/'+fileName,sep=',',header = False, index=False, encoding='utf-8')
 
 def is_non_zero_file(fpath):
     return os.path.isfile(fpath) and os.path.getsize(fpath)
@@ -56,7 +61,23 @@ def specialTable(cad):
         else:
             if(cad == "s_hospital"):
                 result = True
+            else:
+                if(cad == "s_othercenter"):
+                    result = True
     return result
+
+def isEducationalCenter(cad):
+    result = False
+    if(cad == "s_educationalcenter"):
+        result = True           
+    return result
+
+def isOtherCenter(cad):
+    result = False
+    if(cad == "s_othercenter"):
+        result = True           
+    return result
+
 def get_communityPK(elem):
     if(elem.find("_has_camp") != -1):
         cursor.execute("SELECT idCamp FROM camp ORDER BY idCamp DESC LIMIT 1")
@@ -71,12 +92,6 @@ def get_communityPK(elem):
 def get_tableFK(table):
     cursor.execute("SELECT id"+table+" FROM "+table+" ORDER BY id"+table+" DESC LIMIT 1")
     return cursor.fetchall()
-
-def isEducationalCenter(cad):
-    result = False
-    if(cad == "s_educationalcenter"):
-        result = True
-    return result
 
 def replacestr(df,cad1,cad2):
     cols=list(df.columns)
@@ -107,13 +122,18 @@ def get_tablePK(table):
             if((np.equal(np.array(row),df1[index][1:])).all()):
                 pk = np.append(pk,df1[index][0])
         else:
-            if(isEducationalCenter(table) == False):
-                if((np.equal(np.array(row),df1[index][1:-1])).all()):
+            if(isEducationalCenter(table)):
+                if((np.equal(np.array(row[:-2]),df1[index][1:-3])).all()):
                     pk = np.append(pk,df1[index][0])
             else:
-                if((np.equal(np.array(row[:-2]),df1[index][1:-3])).all()):
-                    pk = np.append(pk,df1[index][0])            
-    return pd.DataFrame(pk)
+                if(isOtherCenter(table) == False):
+                    if((np.equal(np.array(row[:-1]),df1[index][1:-2])).all()):
+                        pk = np.append(pk,df1[index][0])
+                else:
+                    if((np.equal(np.array(row[:-1]),df1[index][1:-1])).all()):
+                        pk = np.append(pk,df1[index][0])                    
+
+    return pd.DataFrame(pk)                     
 
 #f = open('LoadDataCamp.sql','w+')
 
@@ -125,14 +145,16 @@ for column in tablesNM:
     for elem in column:
         x = getTableName(elem)
         if(is_non_zero_file(getPath(finalpath,x+".csv"))):
-            tablePK = pd.DataFrame(get_tablePK(x))
+            tablePK = get_tablePK(x)
             communityPK = get_communityPK(elem)
             arrayCommunity = np.array([])
             for index, row in tablePK.iterrows():
                 arrayCommunity = np.append(arrayCommunity,communityPK[0][0])
             nmTableFK = concatDF(tablePK,pd.DataFrame(arrayCommunity))
-            print(nmTableFK)
-            
+            if(os.path.isfile(finalpath+"/"+elem+".csv")):
+                df = pd.read_csv(finalpath+"/"+elem+".csv")
+                nmTableFK = concatDF(nmTableFK,df)
+            mkCSV(nmTableFK,elem+".csv")
 
                     
         

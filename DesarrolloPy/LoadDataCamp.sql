@@ -956,9 +956,6 @@ WHERE fs_cropubication_has_community.Community_idCommunity = 0;
 UPDATE fs_cultivationseason SET Community_idCommunity = (SELECT @CommunityID)
 WHERE fs_cultivationseason.Community_idCommunity = 0;
 
-UPDATE fs_cultivationseason_has_community SET Community_idCommunity = (SELECT @CommunityID)
-WHERE fs_cultivationseason_has_community.Community_idCommunity = 0;
-
 UPDATE fs_foodaccess_has_community SET Community_idCommunity = (SELECT @CommunityID)
 WHERE fs_foodaccess_has_community.Community_idCommunity = 0;
 
@@ -1057,9 +1054,6 @@ WHERE hostcommunity.Country_idCountry = 0;
 
 UPDATE hostcommunity_has_camp SET Camp_idCamp = (SELECT @campID)
 WHERE hostcommunity_has_camp.Camp_idCamp = 0;
-
-UPDATE inf_appliance_has_community SET Community_idCommunity = (SELECT @CommunityID)
-WHERE inf_appliance_has_community.Community_idCommunity = 0;
 
 UPDATE inf_appliance_has_community SET Community_idCommunity = (SELECT @CommunityID)
 WHERE inf_appliance_has_community.Community_idCommunity = 0;

@@ -230,21 +230,31 @@ def separateValues(df):
     return result
 
 def vectorizeValue(df):
-    df = separateValues(df)
-    year = np.array(['january','february','march','april','may','june','july','august','september','october','november','december'])
-    result = np.array([],dtype = bool)
-    df = np.array(df)
-    for elem in year:
-        flag = False
-        for column in df:
-            for month in column:
-                if(column == elem):
+    season = pd.DataFrame()
+    year = ['january','february','march','april','may','june','july','august','september','october','november','december']
+    for row in np.array(df):
+        corpus = np.array([])
+        count_vectorizer = CountVectorizer(stop_words = spanish_stopwords+english_stopwords)
+        for elem in row:
+            corpus = np.append(corpus,[elem])
+        X = count_vectorizer.fit_transform(corpus)
+        array = count_vectorizer.get_feature_names()
+        season = concatDF(season,pd.DataFrame(array))
+    season = season.T
+    result = pd.DataFrame()
+    for row in np.array(season):
+        vect = np.array([],dtype = bool)
+        for elem in year:
+            flag = False
+            for month in row:
+                if(month == elem):
                     flag = True
-        if(flag):
-            result = np.append(result,True)
-        else:
-            result = np.append(result,False)
-    return pd.DataFrame(result)
+            if(flag):
+                vect = np.append(vect,True)
+            else:
+                vect = np.append(vect,False)
+        result = concatDF(result, pd.DataFrame(vect))
+    return result.T
 
 def set_sector(df,sect, concat = True):
     sector = np.array([])
@@ -317,7 +327,7 @@ df2 = dfFix(Bibliography,"Growth rate of populatoin (%)","Culture")
 GD_Demography = concatDF(df1,df2) 
 mkCSV(GD_Demography,"GD_Demography.csv")
 
-GD_Ethnicgroup = dfFix(Bibliography,"Ethnich group 1","Religion") 
+GD_Ethnicgroup = dfFix(Bibliography,"Ethnich group 1","Religion").T 
 mkCSV(GD_Ethnicgroup,"GD_Ethnicgroup.csv")
 
 df1 = dfFix(Bibliography,"Parliamentary republic","Territorial and Urbanistic")
@@ -822,6 +832,8 @@ df3 = dfFix(ComunalServices,"Health_Center_details:Capacity","Associate_infrastr
 S_Hospital = concatDF(df2,df3)
 S_Hospital = get_valueBySector(df1,S_Hospital)
 S_Hospital = set_defaultColumn(S_Hospital)
+S_Hospital = S_Hospital.dropna(how = 'all')
+S_Hospital[3] = S_Hospital[3].apply(np.int64)
 mkCSV(S_Hospital,"S_Hospital.csv")
 
 df1 = dfFix(ComunalServices,"General_Information:Type_of_service","General_Information:Other_service")
