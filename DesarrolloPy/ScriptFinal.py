@@ -593,8 +593,9 @@ df1 = df1.transpose()
 df2 = df2.transpose()
 df1 = df1.reset_index(drop = True)
 df2 = df2.reset_index(drop = True)
-SE_WorkType_has_Community = concatDF(df1,df2)
-SE_WorkType_has_Community = SE_WorkType_has_Community.transpose()
+SE_WorkType_has_Community = concatDF(df1,df2).T
+SE_WorkType = ["Firewood Collection", "Cooking"]
+SE_WorkType_has_Community = concatDF(SE_WorkType_has_Community,pd.DataFrame(SE_WorkType))
 mkCSV(SE_WorkType_has_Community,"SE_WorkType_has_Community.csv")
 
 #%%GOVERNMENT_DATA
@@ -644,14 +645,32 @@ df5 = dfFix(Entities,"Urban_Planning_001:Risk_Managment","Shelter:Housing_Improv
 U_Urbanism = concatDF(df1,concatDF(df2,concatDF(df3,concatDF(df4,df5))))
 mkCSV(U_Urbanism,"U_Urbanism.csv")
 
-u_area = np.array(['Shade Area','Urban Furniture','Paved Area','Waste Management'])
+u_area = dfFix(PublicSpace,"Details:Shade_Areas","meta:instanceID")
+u_area = getSubColumnNames(u_area,8)
 u_area = pd.DataFrame(u_area)
 mkCSV(u_area,"u_area.csv")
 
 df1 = dfFix(PublicSpace,"Details:Shade_Areas","meta:instanceID")
 df1 = df1.isin(["yes"])
+u_area = getSubColumnNames(df1,8)
+df = pd.DataFrame()
 U_Area_has_Community = dfFix(PublicSpace,"Record_your_current_location:Latitude","Record_your_current_location:Accuracy")
+j = 0
+for row in np.array(df1):
+    i = 0
+    array = np.array([],dtype = int)
+    array2 = np.array([])
+    for elem in row:
+        if(elem == True):
+            array = np.append(array,i)
+        i += 1
+    for i in array:
+        array2 = np.append(array2,np.array(u_area)[i])
+    df = concatDF(df,pd.DataFrame(array2))
+    j += 1
+U_Area_has_Community = concatDF(U_Area_has_Community,df.T)
 mkCSV(U_Area_has_Community,"U_Area_has_Community.csv")
+
 
 #U_LandUse Datos GIS, no parte de esta ETL. 2 no se encuentran datos.
 
