@@ -75,6 +75,12 @@ def validColumn(cad):
 def dropRow(df,i):
     return df.drop(index = i)
 
+def replacestr(df,cad1,cad2):
+    cols=list(df.columns)
+    for col in cols:
+        df[col] = df[col].astype(str).str.replace(cad1,cad2)
+    return df
+
 def get_communityRows(df,cad,communityType): #la función pd.loc[] tiene un bug indiscriminado (https://github.com/pandas-dev/pandas/issues/8555)
     result = df
     if(communityType == 0):
@@ -169,31 +175,44 @@ def politicalActor(df1,df2,df3,df4,df5):
     return concatDF(institution,instType)
 
 
-def get_claveValor(df1,df2):
+def get_claveValor(df1,df2,df3):
     array1 = np.array(df2)
     array2 = np.array(df1)
     result1 = []
     result2 = []
+    result3 = []
     i = 0
     for row in array1:
         var = array2[i]
         for elem in row:
             result1 = np.append(result1,elem)
             result2 = np.append(result2,var)
+        for r in np.array(df3):
+            for l in r:
+                result3 = np.append(result3,l)
         i+=1
     result2 = pd.DataFrame(result2)
     result2 = result2.reset_index(drop = True)
     result1 = pd.DataFrame(result1)
     result1 = result1.reset_index(drop = True)
-    return concatDF(result2,result1)
+    result3 = pd.DataFrame(result3)
+    result3 = result3.reset_index(drop = True)
+    return concatDF(result2,concatDF(result1,result3))
 
-def get_number(df):
+def get_number(df,df2):
     df = np.array(df)
+    df2 = np.array(df2)
     array = np.array([])
-    for column in df:
-        for elem in column:
+    array2 = np.array([])
+    for row in df:
+        for elem in row:
             array = np.append(array,elem)
-    return (pd.DataFrame(array)).fillna(0) 
+        for row2 in df2:
+            for elem2 in row2:
+                array2 = np.append(array2,elem2)
+    array = (pd.DataFrame(array)).fillna(0) 
+    array2 = pd.DataFrame(array2)
+    return concatDF(array,array2) 
 
 def get_valueBySector(df1,df2):
     df2 = df2.reset_index()
@@ -406,7 +425,8 @@ Camp_NaturalHazard = getSubColumnNames(Camp_NaturalHazard,30)
 mkCSV(Camp_NaturalHazard,"Camp_NaturalHazard.csv")
 
 Camp_NaturalHazard_Has_Camp = dfFix(Entities,"Enviormental_Issues:Risk:Risk_Flood","Enviormental_Issues:Deforestation")
-Camp_NaturalHazard_Has_Camp = get_number(Camp_NaturalHazard_Has_Camp)
+hazards = getSubColumnNames(Camp_NaturalHazard_Has_Camp,30)
+Camp_NaturalHazard_Has_Camp = get_number(Camp_NaturalHazard_Has_Camp,hazards)
 mkCSV(Camp_NaturalHazard_Has_Camp,"Camp_NaturalHazard_Has_Camp.csv")
 
 Camp_LocalVegetation = dfFix(Entities,"Enviormental_Issues:Native_Plant","Enviormental_Issues:Native_Crops")
@@ -439,7 +459,8 @@ mkCSV(Camp_EnergySource,"Camp_EnergySource.csv")
 df1 = dfFix(Entities,"Fuel_Cost:Fuel_Cost_Diesel","ENERGY:Electricity_network")
 df2 = dfFix(LocalLeaders,"Costs:cost_firewood","meta:instanceID")
 Camp_EnergySource_Has_Camp = concatDF(df1,df2)
-Camp_EnergySource_Has_Camp = get_number(Camp_EnergySource_Has_Camp)
+source = pd.DataFrame(['diesel','Kerosene','Ethanol','gas','firewood','diesel genset','electricity','solar panel'])
+Camp_EnergySource_Has_Camp = get_number(Camp_EnergySource_Has_Camp,source)
 mkCSV(Camp_EnergySource_Has_Camp,"Camp_EnergySource_Has_Camp.csv")
 
 Camp_Mobility = dfFix(Entities,"GENERAL_INFORMATION:Movement_outside","Population:Women:Infants")
@@ -485,6 +506,15 @@ SE_SafetyPlace = getSubColumnNames(SE_SafetyPlace,10)
 mkCSV(SE_SafetyPlace,"SE_SafetyPlace.csv") 
 
 SE_SafetyPlace_has_Community = dfFix(WomenGroup,"Feel_Safe:Street_morning","Feel_Safe:Firewood_collection_001")
+SE_SafetyPlace = pd.DataFrame()
+SE_SafetyPlace = getSubColumnNames(SE_SafetyPlace_has_Community,10)
+array1 = np.array([])
+for row in np.array(SE_SafetyPlace_has_Community):
+    for row2 in np.array(SE_SafetyPlace):
+        for elem2 in row2:
+            array1 = np.append(array1,elem2)
+SE_SafetyPlace_has_Community = pd.DataFrame(np.array(SE_SafetyPlace_has_Community))
+SE_SafetyPlace_has_Community = concatDF(SE_SafetyPlace_has_Community.T,pd.DataFrame(array1))
 mkCSV(SE_SafetyPlace_has_Community,"SE_SafetyPlace_has_Community.csv") 
 
 SE_ConflictArea = dfFix(WomenGroup,"Trouble_Spots","Cooking_Details:INSTRUCTION_001")
@@ -523,7 +553,8 @@ mkCSV(SE_ExpenseType,"SE_ExpenseType.csv")
 
 df1 = dfFix(HouseHold, "General:Gender","General:Settlement")
 df2 = dfFix(HouseHold, "Economy:Food","meta:instanceID")
-SE_ExpenseType_has_Community = get_claveValor(df1,df2)
+df3 = pd.DataFrame(['food','clothes','water','education','transport','health','energy'])
+SE_ExpenseType_has_Community = get_claveValor(df1,df2,df3)
 mkCSV(SE_ExpenseType_has_Community,"SE_ExpenseType_has_Community.csv")
 
 priority = ['energy','shelter','water access','sanitation','education','health','public space','food','TIC','work','waste management','public transport','religious center','socio cultural center','market']
@@ -536,6 +567,15 @@ df3 = dfFix(Priorities,"Priority_3:Energy_3","Priority_4:Instruction_002")
 df4 = dfFix(Priorities,"Priority_4:Energy_4_001","Priority_5:Instruction_003")
 df5 = dfFix(Priorities,"Priority_5:Energy_4","meta:instanceID")
 SE_Priority_has_Community = concatDF(df1,(concatDF(df2,concatDF(df3,concatDF(df4,df5)))))
+SE_Priority_has_Community = pd.DataFrame(SE_Priority_has_Community.sum())
+priority = np.array(['energy','shelter','water access','sanitation','education','health','public space','food','TIC','work','waste management','public transport','religious center','socio cultural center','market'])
+array1 = np.array([])
+array2 = np.array([])
+for i in range(5):
+    for elem in priority:
+        array1 = np.append(array1,elem)
+        array2 = np.append(array2,i+1)
+SE_Priority_has_Community = concatDF(SE_Priority_has_Community,concatDF(pd.DataFrame(array1),pd.DataFrame(array2)))
 mkCSV(SE_Priority_has_Community,"SE_Priority_has_Community.csv")
 
 #%% GenderData
@@ -690,20 +730,22 @@ inf_expandplanbeneficiaries = dfFix(Entities,"ENERGY:Covered_services","ENERGY:P
 inf_expandplanbeneficiaries = separateValues(inf_expandplanbeneficiaries)
 mkCSV(inf_expandplanbeneficiaries,"inf_expandplanbeneficiaries.csv") 
 
-INF_GenerationSource = ['electrical grid','diesel genset','solar panel','other']
+INF_GenerationSource = ['electrical_gri','diesel_genset','solar_energy','other']
 INF_GenerationSource = pd.DataFrame(INF_GenerationSource)
 mkCSV(INF_GenerationSource,"INF_GenerationSource.csv")
 
-df1 = dfFix(Business,"Energy:hours_morning","Energy:electrical_appliances")
+df1 = dfFix(Business,"Energy:access_by","Energy:electrical_appliances")
 df2 = dfFix(Business,"Energy:money_electricity","Energy:cost_solar_panel")
 comercial = concatDF(df1,df2)
 comercial = set_sector(comercial,"comercial")
-df1 = dfFix(HouseHold,"Energy:Hours_day","Energy:Appliances")
+df1 = dfFix(HouseHold,"Energy:Access_electric","Energy:Appliances")
 df2 = dfFix(HouseHold,"Energy:Elec_expen","Energy:Solar_cost")
 residencial = concatDF(df1,df2)
 residencial = set_sector(residencial,"residencial")
+residencial = replacestr(residencial,"electrical_gri_1","electrical_gri")#REVISAR OTRAS OPCIONES
 comunitario = dfFix(ComunalServices,"Energy_Details:Energy_Source","Energy_Details:Type_of_water_supply")
-comunitario = set_sector(comunitario,"comunitario",concat=False)
+comunitario = set_sector(comunitario,"comunitario")
+comunitario = replacestr(comunitario,"thermal_genera","diesel_genset")
 INF_GenerationSource_has_Community = concatDF(comercial.T,concatDF(residencial.T,comunitario.T)).T
 mkCSV(INF_GenerationSource_has_Community,"INF_GenerationSource_has_Community.csv")
 
@@ -712,9 +754,9 @@ df2 = dfFix(EnergyINF,"Ofert:Power_of_generation","Ofert:Power_of_generation_001
 INF_GenerationSystem = concatDF(df1,df2)
 mkCSV(INF_GenerationSystem,"INF_GenerationSystem.csv")
 
-INF_Appliance = np.array(["lantern","light bulbs","mobile phone","radio","tv","computer","fridge","electrical stove","others"])
+INF_Appliance = np.array(["lantern","light_bulbs","mobile_phone","radio_music_pl","tv_dvd","laptop_tablet_","fridge","electrical_sto","others"])
 INF_Appliance = pd.DataFrame(INF_Appliance)
-mkCSV(INF_Appliance,"INF_Appliance.csv")
+mkCSV(INF_Appliance,"INF_Appliance.csv") 
 
 comercial = dfFix(Business,"Energy:electrical_appliances","Energy:money_electricity")
 comercial = dropNaAndResetIndex(comercial)
@@ -764,7 +806,7 @@ mkCSV(INF_StreetLamp,"INF_StreetLamp.csv")  #Necesario probar con datos
 INF_MobilityPoint = dfFix(MobilityINF,"Record_your_current_location:Latitude","Record_your_current_location:Accuracy")
 mkCSV(INF_MobilityPoint,"INF_MobilityPoint.csv")
 
-INF_MobilityWay = ['walking','motrocycle','bike','truck','animal','car']
+INF_MobilityWay = ['walking','motorcycle','bike','truck_lorry_va','animals','car']
 INF_MobilityWay = pd.DataFrame(INF_MobilityWay)
 mkCSV(INF_MobilityWay,"INF_MobilityWay.csv")
 
@@ -776,7 +818,6 @@ external = separateValues(external)
 external = set_sector(external,"external")
 INF_MobilityWay_has_Community = concatDF(internal.T,external.T).T
 mkCSV(INF_MobilityWay_has_Community,"INF_MobilityWay_has_Community.csv")
-
 #%% SERVICIOS DATA
 #%%Ceneter
 
@@ -884,7 +925,7 @@ S_Tecknowlege_has_Community = dfFix(GeneralCitizen,"TICs_Knowledge:Phone_Call","
 S_Tecknowlege_has_Community = S_Tecknowlege_has_Community.transpose()
 mkCSV(S_Tecknowlege_has_Community,"S_Tecknowlege_has_Community.csv")
 
-S_App = ["WhatsApp","Facebook","Skype","Instagram","Google","Youtube","Email","Word","Excel","Otra"]
+S_App = ["whatsapp","facebook","skype","instagram","google","youtube","email","word","excel","otra"]
 S_App = pd.DataFrame(S_App)
 mkCSV(S_App,"S_App.csv")
 
@@ -937,7 +978,8 @@ FS_TimesPerDay = pd.DataFrame(FS_TimesPerDay)
 mkCSV(FS_TimesPerDay,"FS_TimesPerDay.csv")
 
 df1 = dfFix(GeneralCitizen,"times:One_time","main_food:Breakfast")
-FS_TimesPerDay_has_Community = get_number(df1)
+times = pd.DataFrame([["one","two","three","Greater than three"]])
+FS_TimesPerDay_has_Community = get_number(df1,times)
 mkCSV(FS_TimesPerDay_has_Community,"FS_TimesPerDay_has_Community.csv")
 
 FS_ImportantMeal = ["Breakfast","lunch","coffe time","dinner"]
@@ -945,7 +987,8 @@ FS_ImportantMeal = pd.DataFrame(FS_ImportantMeal)
 mkCSV(FS_ImportantMeal,"FS_ImportantMeal.csv")
 
 df1 = dfFix(GeneralCitizen,"main_food:Breakfast","typical_dish:Pork")
-FS_ImportantMeal_has_Community = get_number(df1)
+meal = pd.DataFrame(["Breakfast","lunch","coffe time","dinner"])
+FS_ImportantMeal_has_Community = get_number(df1,meal)
 mkCSV(FS_ImportantMeal_has_Community,"FS_ImportantMeal_has_Community.csv")
 
 FS_TypicalPlate = ["pork","beef","chicken","lamp","cereals","legumes","fruits"]
@@ -953,7 +996,8 @@ FS_TypicalPlate = pd.DataFrame(FS_TypicalPlate)
 mkCSV(FS_TypicalPlate,"FS_TypicalPlate.csv")
 
 df1 = dfFix(Bibliography,"Pork (200 kcal/100g)","Intake (g) - default value 70g-")
-FS_TypicalPlate_has_Community = get_number(df1)
+plate = pd.DataFrame(["pork","beef","chicken","lamp","cereals","legumes","fruits"])
+FS_TypicalPlate_has_Community = get_number(df1,plate)
 mkCSV(FS_TypicalPlate_has_Community,"FS_TypicalPlate_has_Community.csv")
 #%%Source
 
@@ -962,7 +1006,8 @@ FS_FoodSource = pd.DataFrame(FS_FoodSource)
 mkCSV(FS_FoodSource,"FS_FoodSource.csv")
 
 df1 = dfFix(GeneralCitizen,"Main_food_source:Humanitarian_Aid","meta:instanceID")
-FS_FoodSource_has_Community = get_number(df1)
+source = pd.DataFrame(["Humanitarian Aid","Crops","Market"])
+FS_FoodSource_has_Community = get_number(df1,source)
 mkCSV(FS_FoodSource_has_Community,"FS_FoodSource_has_Community.csv")
 
 FS_CultivationSeason = dfFix(LocalLeaders,"Food_security:cultivation_months","Food_security:own_food_months")
