@@ -669,7 +669,19 @@ for row in np.array(df1):
     df = concatDF(df,pd.DataFrame(array2))
     j += 1
 U_Area_has_Community = concatDF(U_Area_has_Community,df.T)
+df = pd.DataFrame()
+for row in np.array(U_Area_has_Community):
+    array = np.array([])
+    for elem in row[3:]:
+        if(str(elem) != 'nan'):
+            array = np.append(array,elem)
+    for elem in array:
+        array2 = row[:3]
+        array2 = np.append(array2,elem)
+        df = concatDF(df,pd.DataFrame(array2))
+U_Area_has_Community = df.T
 mkCSV(U_Area_has_Community,"U_Area_has_Community.csv")
+
 
 
 #U_LandUse Datos GIS, no parte de esta ETL. 2 no se encuentran datos.

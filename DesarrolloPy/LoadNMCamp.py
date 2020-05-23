@@ -51,7 +51,7 @@ def getTableName(elem):
             if(elem.find("_has_community") != -1):
                 x = elem.replace("_has_community","")
     return x
-def specialTable(cad):
+def serviceTable(cad):
     result = False
     if(cad == "s_educationalcenter"):
         result = True
@@ -110,6 +110,84 @@ def uniFormatDF(df):
     df = replacestr(df,"None","nan")
     return df
 
+def get_specialTableFKs(table,tableHas,x,y):
+    cursor.execute("SELECT * FROM "+table)
+    df1 = uniFormatTable(pd.DataFrame(cursor.fetchall()))
+    df2 = pd.read_csv(getPath(finalpath,tableHas+".csv"),header = None, float_precision = "high")
+    df2 = uniFormatDF(df2)
+    df1 = np.array(df1)
+    pk = np.array([])
+    arrayCommunity = np.array([])
+    communityPK = get_communityPK(elem)
+    for index, row in df2.iterrows():
+        for row2 in df1:
+            if(row[x] == row2[1]):
+                pk = np.append(pk,row2[0])
+    pk = pd.DataFrame(pk)
+    for index, row in pk.iterrows():
+        arrayCommunity = np.append(arrayCommunity,communityPK[0][0])
+    arrayCommunity = pd.DataFrame(arrayCommunity)
+    result = concatDF(pk,concatDF(arrayCommunity,df2))
+    result = result.drop(result.columns[[y]], axis = 1)
+    return result
+
+    
+def get_specialTable(table,tableHas):
+    communityPK = get_communityPK(elem)
+    result = pd.DataFrame()
+    if(tableHas == 'se_expensetype_has_community'):
+        result = get_specialTableFKs(table,tableHas,2,4)
+    else:
+        if(tableHas == 'se_worktype_has_community' or tableHas == 'u_area_has_community'):
+            result = get_specialTableFKs(table,tableHas,3,5)
+    return result
+
+
+def specialTable(cad):
+    result = False
+    if(cad == "camp_naturalhazard_has_camp"):
+        result = True
+    else:
+        if(cad == "inf_appliance_has_community"):
+            result = True
+        else:
+            if(cad == "inf_generationsource_has_community"):
+                result = True
+            else:
+                if(cad == "se_expensetype_has_community"):
+                    result = True
+                else:
+                    if(cad == "fs_foodsource_has_community"):
+                        result = True
+                    else:
+                        if(cad == "fs_importantmeal_has_community"):
+                            result = True
+                        else:
+                            if(cad == "fs_timesperday_has_community"):
+                                result = True
+                            else:
+                                if(cad == "fs_typicalplate_has_community"):
+                                    result = True
+                                else:
+                                    if(cad == "inf_mobilityway_has_community"):
+                                        result = True
+                                    else:
+                                        if(cad == "s_app_has_community"):
+                                            result = True
+                                        else:
+                                            if(cad == "se_priority_has_community"):
+                                                result = True
+                                            else:
+                                                if(cad == "se_safetyplace_has_community"):
+                                                    result = True
+                                                else:
+                                                    if(cad == "se_worktype_has_community"):
+                                                        result = True
+                                                    else:
+                                                        if(cad == "u_area_has_community"):
+                                                            result = True
+    return result
+
 def get_tablePK(table):
     cursor.execute("SELECT * FROM "+table)
     df1 = uniFormatTable(pd.DataFrame(cursor.fetchall()))
@@ -118,22 +196,25 @@ def get_tablePK(table):
     df1 = np.array(df1)
     pk = np.array([])
     for index, row in df2.iterrows():
-        if(specialTable(table) == False):
-            if((np.equal(np.array(row),df1[index][1:])).all()):
-                pk = np.append(pk,df1[index][0])
+        if(serviceTable(table) == False):
+            for row2 in df1:
+                if((np.equal(np.array(row),np.array(row2[1:]))).all()):
+                    pk = np.append(pk,row2[0])
         else:
             if(isEducationalCenter(table)):
-                if((np.equal(np.array(row[:-2]),df1[index][1:-3])).all()):
-                    pk = np.append(pk,df1[index][0])
+                for row2 in df1:
+                    if((np.equal(np.array(row[:-2]),row2[1:-3])).all()):
+                        pk = np.append(pk,row2[0])
             else:
                 if(isOtherCenter(table) == False):
-                    if((np.equal(np.array(row[:-1]),df1[index][1:-2])).all()):
-                        pk = np.append(pk,df1[index][0])
+                    for row2 in df1:
+                        if((np.equal(np.array(row[:-1]),row2[1:-2])).all()):
+                            pk = np.append(pk,row2[0])
                 else:
-                    if((np.equal(np.array(row[:-1]),df1[index][1:-1])).all()):
-                        pk = np.append(pk,df1[index][0])                    
-
-    return pd.DataFrame(pk)                     
+                    for row2 in df1:
+                        if((np.equal(np.array(row[:-1]),row2[1:-1])).all()):
+                            pk = np.append(pk,row2[0])
+    return pd.DataFrame(pk)
 
 #f = open('LoadDataCamp.sql','w+')
 
@@ -145,16 +226,19 @@ for column in tablesNM:
     for elem in column:
         x = getTableName(elem)
         if(is_non_zero_file(getPath(finalpath,x+".csv"))):
-            tablePK = get_tablePK(x)
-            communityPK = get_communityPK(elem)
-            arrayCommunity = np.array([])
-            for index, row in tablePK.iterrows():
-                arrayCommunity = np.append(arrayCommunity,communityPK[0][0])
-            nmTableFK = concatDF(tablePK,pd.DataFrame(arrayCommunity))
-            if(os.path.isfile(finalpath+"/"+elem+".csv")):
-                df = pd.read_csv(finalpath+"/"+elem+".csv")
-                nmTableFK = concatDF(nmTableFK,df)
+            if(specialTable(elem) == False):
+                tablePK = get_tablePK(x)
+                communityPK = get_communityPK(elem)
+                arrayCommunity = np.array([])
+                for index, row in tablePK.iterrows():
+                    arrayCommunity = np.append(arrayCommunity,communityPK[0][0])
+                nmTableFK = concatDF(tablePK,pd.DataFrame(arrayCommunity))
+                if(os.path.isfile(finalpath+"/"+elem+".csv")):
+                    if(is_non_zero_file(getPath(finalpath,elem+".csv"))):
+                        df = np.array(pd.read_csv(finalpath+"/"+elem+".csv"))
+                        df = pd.DataFrame(df)
+                        nmTableFK = concatDF(nmTableFK,df)
+            else:
+                nmTableFK = get_specialTable(x,elem)
             mkCSV(nmTableFK,elem+".csv")
-
-                    
-        
+                     
