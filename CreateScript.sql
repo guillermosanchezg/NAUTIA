@@ -1714,10 +1714,11 @@ CREATE INDEX `fk_HostCommunity_has_Camp_HostCommunity1_idx` ON `nautiatoolkit`.`
 DROP TABLE IF EXISTS `nautiatoolkit`.`Camp_NaturalHazard_has_Camp` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`Camp_NaturalHazard_has_Camp` (
+  `idCamp_NaturalHazard_has_Campcol` INT NOT NULL AUTO_INCREMENT,
   `Camp_NaturalHazard_idCamp_NaturalHazard` INT NOT NULL,
   `Camp_idCamp` INT NOT NULL,
   `Times10Year` VARCHAR(45) NULL,
-  PRIMARY KEY (`Camp_NaturalHazard_idCamp_NaturalHazard`, `Camp_idCamp`),
+  PRIMARY KEY (`idCamp_NaturalHazard_has_Campcol`, `Camp_NaturalHazard_idCamp_NaturalHazard`, `Camp_idCamp`),
   CONSTRAINT `fk_Camp_NaturalHazard_has_Camp_Camp_NaturalHazard1`
     FOREIGN KEY (`Camp_NaturalHazard_idCamp_NaturalHazard`)
     REFERENCES `nautiatoolkit`.`Camp_NaturalHazard` (`idCamp_NaturalHazard`)
@@ -2002,12 +2003,13 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `nautiatoolkit`.`SE_WorkType_has_Community` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`SE_WorkType_has_Community` (
+  `idSE_WorkType_has_Communitycol` INT NOT NULL AUTO_INCREMENT,
   `SE_WorkType_idSE_WorkType` INT NOT NULL,
   `Community_idCommunity` INT NOT NULL,
   `childNumber` INT NULL,
   `womenNumber` INT NULL,
   `menNumber` INT NULL,
-  PRIMARY KEY (`SE_WorkType_idSE_WorkType`, `Community_idCommunity`),
+  PRIMARY KEY (`idSE_WorkType_has_Communitycol`, `SE_WorkType_idSE_WorkType`, `Community_idCommunity`),
   CONSTRAINT `fk_SE_WorkType_has_Community_SE_WorkType1`
     FOREIGN KEY (`SE_WorkType_idSE_WorkType`)
     REFERENCES `nautiatoolkit`.`SE_WorkType` (`idSE_WorkType`)
@@ -2286,10 +2288,11 @@ CREATE INDEX `fk_S_App_has_Community_S_App1_idx` ON `nautiatoolkit`.`S_App_has_C
 DROP TABLE IF EXISTS `nautiatoolkit`.`FS_FoodAccess_has_Community` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`FS_FoodAccess_has_Community` (
+  `idFS_FoodAccess_has_Communitycol` INT NOT NULL AUTO_INCREMENT,
   `FS_FoodAccess_idFS_FoodAccess` INT NOT NULL,
   `Community_idCommunity` INT NOT NULL,
   `NumberPeople` INT NULL,
-  PRIMARY KEY (`FS_FoodAccess_idFS_FoodAccess`, `Community_idCommunity`),
+  PRIMARY KEY (`idFS_FoodAccess_has_Communitycol`, `FS_FoodAccess_idFS_FoodAccess`, `Community_idCommunity`),
   CONSTRAINT `fk_FS_FoodAccess_has_Community_FS_FoodAccess1`
     FOREIGN KEY (`FS_FoodAccess_idFS_FoodAccess`)
     REFERENCES `nautiatoolkit`.`FS_FoodAccess` (`idFS_FoodAccess`)
@@ -2426,10 +2429,11 @@ CREATE INDEX `fk_Camp_Integration_has_Camp_Camp_Integration1_idx` ON `nautiatool
 DROP TABLE IF EXISTS `nautiatoolkit`.`Camp_EnergySource_has_Camp` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`Camp_EnergySource_has_Camp` (
+  `idCamp_EnergySource_has_Campcol` INT NOT NULL AUTO_INCREMENT,
   `Camp_EnergySource_idCamp_EnergySource` INT NOT NULL,
   `Camp_idCamp` INT NOT NULL,
   `Cost` FLOAT NULL,
-  PRIMARY KEY (`Camp_EnergySource_idCamp_EnergySource`, `Camp_idCamp`),
+  PRIMARY KEY (`idCamp_EnergySource_has_Campcol`, `Camp_EnergySource_idCamp_EnergySource`, `Camp_idCamp`),
   CONSTRAINT `fk_Camp_EnergySource_has_Camp_Camp_EnergySource1`
     FOREIGN KEY (`Camp_EnergySource_idCamp_EnergySource`)
     REFERENCES `nautiatoolkit`.`Camp_EnergySource` (`idCamp_EnergySource`)
@@ -2445,32 +2449,6 @@ ENGINE = InnoDB;
 CREATE INDEX `fk_Camp_EnergySource_has_Camp_Camp1_idx` ON `nautiatoolkit`.`Camp_EnergySource_has_Camp` (`Camp_idCamp` ASC);
 
 CREATE INDEX `fk_Camp_EnergySource_has_Camp_Camp_EnergySource1_idx` ON `nautiatoolkit`.`Camp_EnergySource_has_Camp` (`Camp_EnergySource_idCamp_EnergySource` ASC);
-
-
--- -----------------------------------------------------
--- Table `nautiatoolkit`.`INF_PotabilizationSystem_has_Community`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `nautiatoolkit`.`INF_PotabilizationSystem_has_Community` ;
-
-CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`INF_PotabilizationSystem_has_Community` (
-  `INF_PotabilizationSystem_idINF_PotabilizationSystem` INT NOT NULL,
-  `Community_idCommunity` INT NOT NULL,
-  PRIMARY KEY (`INF_PotabilizationSystem_idINF_PotabilizationSystem`, `Community_idCommunity`),
-  CONSTRAINT `fk_INF_PotabilizationSystem_has_Community_INF_PotabilizationS1`
-    FOREIGN KEY (`INF_PotabilizationSystem_idINF_PotabilizationSystem`)
-    REFERENCES `nautiatoolkit`.`INF_Purificationsystem` (`idINF_Purificationsystem`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_INF_PotabilizationSystem_has_Community_Community1`
-    FOREIGN KEY (`Community_idCommunity`)
-    REFERENCES `nautiatoolkit`.`Community` (`idCommunity`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-CREATE INDEX `fk_INF_PotabilizationSystem_has_Community_Community1_idx` ON `nautiatoolkit`.`INF_PotabilizationSystem_has_Community` (`Community_idCommunity` ASC);
-
-CREATE INDEX `fk_INF_PotabilizationSystem_has_Community_INF_Potabilizatio_idx` ON `nautiatoolkit`.`INF_PotabilizationSystem_has_Community` (`INF_PotabilizationSystem_idINF_PotabilizationSystem` ASC);
 
 
 -- -----------------------------------------------------
@@ -3050,10 +3028,11 @@ CREATE INDEX `fk_U_Area_has_Community_U_Area1_idx` ON `nautiatoolkit`.`U_Area_ha
 DROP TABLE IF EXISTS `nautiatoolkit`.`FS_TimesPerDay_has_Community` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`FS_TimesPerDay_has_Community` (
+  `idFS_TimesPerDay_has_Communitycol` INT NOT NULL AUTO_INCREMENT,
   `FS_TimesPerDay_idFS_TimesPerDay` INT NOT NULL,
   `Community_idCommunity` INT NOT NULL,
   `NumberPeople` INT NULL,
-  PRIMARY KEY (`FS_TimesPerDay_idFS_TimesPerDay`, `Community_idCommunity`),
+  PRIMARY KEY (`idFS_TimesPerDay_has_Communitycol`, `FS_TimesPerDay_idFS_TimesPerDay`, `Community_idCommunity`),
   CONSTRAINT `fk_FS_TimesPerDay_has_Community_FS_TimesPerDay1`
     FOREIGN KEY (`FS_TimesPerDay_idFS_TimesPerDay`)
     REFERENCES `nautiatoolkit`.`FS_TimesPerDay` (`idFS_TimesPerDay`)
@@ -3077,10 +3056,11 @@ CREATE INDEX `fk_FS_TimesPerDay_has_Community_FS_TimesPerDay1_idx` ON `nautiatoo
 DROP TABLE IF EXISTS `nautiatoolkit`.`FS_ImportantMeal_has_Community` ;
 
 CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`FS_ImportantMeal_has_Community` (
+  `idFS_ImportantMeal_has_Communitycol` INT NOT NULL AUTO_INCREMENT,
   `FS_ImportantMeal_idFS_ImportantMeal` INT NOT NULL,
   `Community_idCommunity` INT NOT NULL,
   `numberPeople` INT NULL,
-  PRIMARY KEY (`FS_ImportantMeal_idFS_ImportantMeal`, `Community_idCommunity`),
+  PRIMARY KEY (`idFS_ImportantMeal_has_Communitycol`, `FS_ImportantMeal_idFS_ImportantMeal`, `Community_idCommunity`),
   CONSTRAINT `fk_FS_ImportantMeal_has_Community_FS_ImportantMeal1`
     FOREIGN KEY (`FS_ImportantMeal_idFS_ImportantMeal`)
     REFERENCES `nautiatoolkit`.`FS_ImportantMeal` (`idFS_ImportantMeal`)
@@ -3201,6 +3181,32 @@ ENGINE = InnoDB;
 CREATE INDEX `fk_Country_has_Camp_Camp1_idx` ON `nautiatoolkit`.`Country_has_Camp` (`Camp_idCamp` ASC);
 
 CREATE INDEX `fk_Country_has_Camp_Country1_idx` ON `nautiatoolkit`.`Country_has_Camp` (`Country_idCountry` ASC);
+
+
+-- -----------------------------------------------------
+-- Table `nautiatoolkit`.`INF_Purificationsystem_has_Community`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `nautiatoolkit`.`INF_Purificationsystem_has_Community` ;
+
+CREATE TABLE IF NOT EXISTS `nautiatoolkit`.`INF_Purificationsystem_has_Community` (
+  `INF_Purificationsystem_idINF_Purificationsystem` INT NOT NULL,
+  `Community_idCommunity` INT NOT NULL,
+  PRIMARY KEY (`INF_Purificationsystem_idINF_Purificationsystem`, `Community_idCommunity`),
+  CONSTRAINT `fk_INF_Purificationsystem_has_Community_INF_Purificationsystem1`
+    FOREIGN KEY (`INF_Purificationsystem_idINF_Purificationsystem`)
+    REFERENCES `nautiatoolkit`.`INF_Purificationsystem` (`idINF_Purificationsystem`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_INF_Purificationsystem_has_Community_Community1`
+    FOREIGN KEY (`Community_idCommunity`)
+    REFERENCES `nautiatoolkit`.`Community` (`idCommunity`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+CREATE INDEX `fk_INF_Purificationsystem_has_Community_Community1_idx` ON `nautiatoolkit`.`INF_Purificationsystem_has_Community` (`Community_idCommunity` ASC);
+
+CREATE INDEX `fk_INF_Purificationsystem_has_Community_INF_Purificationsys_idx` ON `nautiatoolkit`.`INF_Purificationsystem_has_Community` (`INF_Purificationsystem_idINF_Purificationsystem` ASC);
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

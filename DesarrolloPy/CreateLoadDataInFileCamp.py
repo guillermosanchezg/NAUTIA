@@ -35,7 +35,7 @@ def validNMTable(elem):
 
 def validColumn(column):
     result = False
-    if(column[0] != "Community_idCommunity"):
+    if(column[0] != "    "):
         if(column[0] != "Camp_idCamp"):
             if(column[0] != "Country_idCountry"):
                 result = True

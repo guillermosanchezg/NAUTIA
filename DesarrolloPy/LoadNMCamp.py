@@ -23,11 +23,6 @@ finalpath = "C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/De
 def getPath(mainpath,filename):
     return os.path.join(mainpath, filename)
 
-def mkCSV(df,fileName):
-    df = df.dropna(how = 'all')
-    df *= 1   
-    fileName = fileName.lower()
-    df.to_csv('DataSetFinales/'+fileName,sep=',',header = False, index=False, encoding='utf-8')
     
 def concatDF(df1,df2):
     return  pd.concat([df1,df2],axis = 1, ignore_index = True, sort = True)
@@ -133,13 +128,14 @@ def get_specialTableFKs(table,tableHas,x,y):
 
     
 def get_specialTable(table,tableHas):
-    communityPK = get_communityPK(elem)
     result = pd.DataFrame()
     if(tableHas == 'se_expensetype_has_community'):
         result = get_specialTableFKs(table,tableHas,2,4)
     else:
         if(tableHas == 'se_worktype_has_community' or tableHas == 'u_area_has_community'):
             result = get_specialTableFKs(table,tableHas,3,5)
+        else:
+            result = get_specialTableFKs(table,tableHas,1,3)
     return result
 
 
@@ -186,12 +182,15 @@ def specialTable(cad):
                                                     else:
                                                         if(cad == "u_area_has_community"):
                                                             result = True
+                                                        else:
+                                                            if(cad == "camp_energysource_has_camp"):
+                                                                result = True
     return result
 
 def get_tablePK(table):
     cursor.execute("SELECT * FROM "+table)
     df1 = uniFormatTable(pd.DataFrame(cursor.fetchall()))
-    df2 = pd.read_csv(getPath(finalpath,table+".csv"),header = None, float_precision = "high")
+    df2 = pd.read_csv(getPath(finalpath,table+".csv"), float_precision = "high")
     df2 = uniFormatDF(df2)
     df1 = np.array(df1)
     pk = np.array([])
@@ -216,9 +215,7 @@ def get_tablePK(table):
                             pk = np.append(pk,row2[0])
     return pd.DataFrame(pk)
 
-#f = open('LoadDataCamp.sql','w+')
-
-tablesNM = pd.read_csv("NMtablesCamp.csv")
+tablesNM = pd.read_csv("NMtablesCamp.csv",header = None)
 tablesNM = np.array(tablesNM)
 tables = np.array([])
 originTables = np.array([])
@@ -239,6 +236,6 @@ for column in tablesNM:
                         df = pd.DataFrame(df)
                         nmTableFK = concatDF(nmTableFK,df)
             else:
-                nmTableFK = get_specialTable(x,elem)
+                nmTableFK = get_specialTable(x,elem)                
             mkCSV(nmTableFK,elem+".csv")
                      

@@ -330,10 +330,10 @@ mkCSV(community,"community.csv")
 
 df1 = dfFix(Bibliography,"Implementation date of the refugee camp (year)","Migration reasons")
 df2 = dfFix(Entities,"GENERAL_INFORMATION:Secondary_movement","GENERAL_INFORMATION:Relationship")
-camp = concatDF(df1,df2)
-camp = dropRow(camp,0)
+df2 = df2['GENERAL_INFORMATION:Secondary_movement'].mean()
+array = np.array([df2])
+camp = concatDF(df1,pd.DataFrame(array))
 mkCSV(camp,"camp.csv") 
-
 #%%Country
 
 Country = dfFix(Bibliography,"Country's name", "Number of inhabitants (#)")
@@ -888,7 +888,7 @@ df1 = df1.dropna()
 S_Subject = separateValues(df1)
 df2 = dfFix(ComunalServices,"education_details:Subject_needed","education_details:Start_001").dropna()
 S_Subject_has_S_EducationalCenter = concatDF(S_Subject,df2)
-mkCSV(S_Subject_has_S_EducationalCenter,"S_Subject_has_S_EducationalCentercsv")
+mkCSV(S_Subject_has_S_EducationalCenter,"S_Subject_has_S_EducationalCenter.csv")
 
 df1 = dfFix(ComunalServices,"Health_Center","Health_Center_details:Capacity")
 df1 = df1.isin(["primary_care"])

@@ -111,42 +111,47 @@ LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUT
 INTO TABLE fa_geographicidentification
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-    (@Latitude,@Longitude,@PhreaticLevel,@Area)
+    (@Latitude,@Longitude,@PhreaticLevel,@Area,@Community_idCommunity)
 SET Latitude = NULLIF(@Latitude,''),
     Longitude = NULLIF(@Longitude,''),
     PhreaticLevel = NULLIF(@PhreaticLevel,''),
-    Area = NULLIF(@Area,'');
+    Area = NULLIF(@Area,''),
+    Community_idCommunity = NULLIF(@Community_idCommunity,'');
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/fa_naturalresource.csv'
 INTO TABLE fa_naturalresource
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-    (@Type,@Bound)
+    (@Type,@Bound,@Community_idCommunity)
 SET Type = NULLIF(@Type,''),
-    Bound = NULLIF(@Bound,'');
+    Bound = NULLIF(@Bound,''),
+    Community_idCommunity = NULLIF(@Community_idCommunity,'');
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/fa_topography.csv'
 INTO TABLE fa_topography
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-    (@UpperBound,@LowerBound)
+    (@UpperBound,@LowerBound,@Community_idCommunity)
 SET UpperBound = NULLIF(@UpperBound,''),
-    LowerBound = NULLIF(@LowerBound,'');
+    LowerBound = NULLIF(@LowerBound,''),
+    Community_idCommunity = NULLIF(@Community_idCommunity,'');
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/fs_cause.csv'
 INTO TABLE fs_cause
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-    (@Cause)
-SET Cause = NULLIF(@Cause,'');
+    (@Cause,@Community_idCommunity)
+SET Cause = NULLIF(@Cause,''),
+    Community_idCommunity = NULLIF(@Community_idCommunity,'');
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/fs_corralcropdata.csv'
 INTO TABLE fs_corralcropdata
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-    (@PastoralismTechnique,@FertilizationSystem)
+    (@PastoralismTechnique,@FertilizationSystem,@Community_idCommunity)
 SET PastoralismTechnique = NULLIF(@PastoralismTechnique,''),
-    FertilizationSystem = NULLIF(@FertilizationSystem,'');
+    FertilizationSystem = NULLIF(@FertilizationSystem,''),
+    Community_idCommunity = NULLIF(@Community_idCommunity,'');
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/fs_corralubication.csv'
 INTO TABLE fs_corralubication
@@ -174,7 +179,7 @@ LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUT
 INTO TABLE fs_cultivationseason
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-    (@january,@february,@march,@april,@may,@june,@july,@august,@september,@octuber,@november,@december)
+    (@january,@february,@march,@april,@may,@june,@july,@august,@september,@octuber,@november,@december,@Community_idCommunity)
 SET january = NULLIF(@january,''),
     february = NULLIF(@february,''),
     march = NULLIF(@march,''),
@@ -186,7 +191,8 @@ SET january = NULLIF(@january,''),
     september = NULLIF(@september,''),
     octuber = NULLIF(@octuber,''),
     november = NULLIF(@november,''),
-    december = NULLIF(@december,'');
+    december = NULLIF(@december,''),
+    Community_idCommunity = NULLIF(@Community_idCommunity,'');
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/fs_foodaccess.csv'
 INTO TABLE fs_foodaccess
@@ -199,20 +205,22 @@ LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUT
 INTO TABLE fs_foodaccesscontinuity
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-    (@NoProcessedFoodDuration,@FoodConservationTec)
+    (@NoProcessedFoodDuration,@FoodConservationTec,@Community_idCommunity)
 SET NoProcessedFoodDuration = NULLIF(@NoProcessedFoodDuration,''),
-    FoodConservationTec = NULLIF(@FoodConservationTec,'');
+    FoodConservationTec = NULLIF(@FoodConservationTec,''),
+    Community_idCommunity = NULLIF(@Community_idCommunity,'');
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/fs_foodsafety.csv'
 INTO TABLE fs_foodsafety
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-    (@kids,@women,@men,@senior,@intake)
+    (@kids,@women,@men,@senior,@intake,@Community_idCommunity)
 SET kids = NULLIF(@kids,''),
     women = NULLIF(@women,''),
     men = NULLIF(@men,''),
     senior = NULLIF(@senior,''),
-    intake = NULLIF(@intake,'');
+    intake = NULLIF(@intake,''),
+    Community_idCommunity = NULLIF(@Community_idCommunity,'');
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/fs_foodsource.csv'
 INTO TABLE fs_foodsource
@@ -225,17 +233,19 @@ LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUT
 INTO TABLE fs_grainconservation
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-    (@ConservationTec)
-SET ConservationTec = NULLIF(@ConservationTec,'');
+    (@ConservationTec,@Community_idCommunity)
+SET ConservationTec = NULLIF(@ConservationTec,''),
+    Community_idCommunity = NULLIF(@Community_idCommunity,'');
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/fs_grainmill.csv'
 INTO TABLE fs_grainmill
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-    (@Operative,@EnginePower,@GoodUbication)
+    (@Operative,@EnginePower,@GoodUbication,@Community_idCommunity)
 SET Operative = NULLIF(@Operative,''),
     EnginePower = NULLIF(@EnginePower,''),
-    GoodUbication = NULLIF(@GoodUbication,'');
+    GoodUbication = NULLIF(@GoodUbication,''),
+    Community_idCommunity = NULLIF(@Community_idCommunity,'');
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/fs_importantmeal.csv'
 INTO TABLE fs_importantmeal
@@ -255,7 +265,7 @@ LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUT
 INTO TABLE fs_selfsufficiencyseason
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-    (@january,@february,@march,@april,@may,@june,@july,@august,@september,@octuber,@november,@december)
+    (@january,@february,@march,@april,@may,@june,@july,@august,@september,@octuber,@november,@december,@Community_idCommunity)
 SET january = NULLIF(@january,''),
     february = NULLIF(@february,''),
     march = NULLIF(@march,''),
@@ -267,7 +277,8 @@ SET january = NULLIF(@january,''),
     september = NULLIF(@september,''),
     octuber = NULLIF(@octuber,''),
     november = NULLIF(@november,''),
-    december = NULLIF(@december,'');
+    december = NULLIF(@december,''),
+    Community_idCommunity = NULLIF(@Community_idCommunity,'');
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/fs_timesperday.csv'
 INTO TABLE fs_timesperday
@@ -415,34 +426,37 @@ LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUT
 INTO TABLE inf_collectionpoints
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-    (@Latitude,@Longitude,@Altitude)
+    (@Latitude,@Longitude,@Altitude,@Community_idCommunity)
 SET Latitude = NULLIF(@Latitude,''),
     Longitude = NULLIF(@Longitude,''),
-    Altitude = NULLIF(@Altitude,'');
+    Altitude = NULLIF(@Altitude,''),
+    Community_idCommunity = NULLIF(@Community_idCommunity,'');
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/inf_cookwoman.csv'
 INTO TABLE inf_cookwoman
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-    (@CookingInside,@CookingOutside,@CookingHours,@HealthFirewood,@WeeklyFirewood,@FirewoodHours)
+    (@CookingInside,@CookingOutside,@CookingHours,@HealthFirewood,@WeeklyFirewood,@FirewoodHours,@Community_idCommunity)
 SET CookingInside = NULLIF(@CookingInside,''),
     CookingOutside = NULLIF(@CookingOutside,''),
     CookingHours = NULLIF(@CookingHours,''),
     HealthFirewood = NULLIF(@HealthFirewood,''),
     WeeklyFirewood = NULLIF(@WeeklyFirewood,''),
-    FirewoodHours = NULLIF(@FirewoodHours,'');
+    FirewoodHours = NULLIF(@FirewoodHours,''),
+    Community_idCommunity = NULLIF(@Community_idCommunity,'');
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/inf_energyinfrastructure.csv'
 INTO TABLE inf_energyinfrastructure
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-    (@ElectricServiceByElectricityGrid,@ExpandPlan,@BlackoutElectricityPerDay,@CurveOfDemand,@StreetLight,@DistanceToElectricityGrid)
+    (@ElectricServiceByElectricityGrid,@ExpandPlan,@BlackoutElectricityPerDay,@CurveOfDemand,@StreetLight,@DistanceToElectricityGrid,@Community_idCommunity)
 SET ElectricServiceByElectricityGrid = NULLIF(@ElectricServiceByElectricityGrid,''),
     ExpandPlan = NULLIF(@ExpandPlan,''),
     BlackoutElectricityPerDay = NULLIF(@BlackoutElectricityPerDay,''),
     CurveOfDemand = NULLIF(@CurveOfDemand,''),
     StreetLight = NULLIF(@StreetLight,''),
-    DistanceToElectricityGrid = NULLIF(@DistanceToElectricityGrid,'');
+    DistanceToElectricityGrid = NULLIF(@DistanceToElectricityGrid,''),
+    Community_idCommunity = NULLIF(@Community_idCommunity,'');
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/inf_expandplanbeneficiaries.csv'
 INTO TABLE inf_expandplanbeneficiaries
@@ -462,27 +476,30 @@ LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUT
 INTO TABLE inf_generationsystem
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-    (@SystemType,@Capacity)
+    (@SystemType,@Capacity,@Community_idCommunity)
 SET SystemType = NULLIF(@SystemType,''),
-    Capacity = NULLIF(@Capacity,'');
+    Capacity = NULLIF(@Capacity,''),
+    Community_idCommunity = NULLIF(@Community_idCommunity,'');
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/inf_kitchen.csv'
 INTO TABLE inf_kitchen
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-    (@MainKitchenType,@MainFuel,@FirewoodConsumption)
+    (@MainKitchenType,@MainFuel,@FirewoodConsumption,@Community_idCommunity)
 SET MainKitchenType = NULLIF(@MainKitchenType,''),
     MainFuel = NULLIF(@MainFuel,''),
-    FirewoodConsumption = NULLIF(@FirewoodConsumption,'');
+    FirewoodConsumption = NULLIF(@FirewoodConsumption,''),
+    Community_idCommunity = NULLIF(@Community_idCommunity,'');
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/inf_landfill.csv'
 INTO TABLE inf_landfill
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-    (@DistanceToHouses,@DistanceToWaterResource,@FertilEnviromentLocation)
+    (@DistanceToHouses,@DistanceToWaterResource,@FertilEnviromentLocation,@Community_idCommunity)
 SET DistanceToHouses = NULLIF(@DistanceToHouses,''),
     DistanceToWaterResource = NULLIF(@DistanceToWaterResource,''),
-    FertilEnviromentLocation = NULLIF(@FertilEnviromentLocation,'');
+    FertilEnviromentLocation = NULLIF(@FertilEnviromentLocation,''),
+    Community_idCommunity = NULLIF(@Community_idCommunity,'');
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/inf_lightingtech.csv'
 INTO TABLE inf_lightingtech
@@ -498,10 +515,11 @@ LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUT
 INTO TABLE inf_mobilitypoint
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-    (@Latitude,@Longitude,@Altitude)
+    (@Latitude,@Longitude,@Altitude,@Community_idCommunity)
 SET Latitude = NULLIF(@Latitude,''),
     Longitude = NULLIF(@Longitude,''),
-    Altitude = NULLIF(@Altitude,'');
+    Altitude = NULLIF(@Altitude,''),
+    Community_idCommunity = NULLIF(@Community_idCommunity,'');
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/inf_mobilityway.csv'
 INTO TABLE inf_mobilityway
@@ -514,10 +532,11 @@ LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUT
 INTO TABLE inf_publiclighting
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-    (@StreetLightWorking,@LightPointsDistance,@InfluenceInWomensSafety)
+    (@StreetLightWorking,@LightPointsDistance,@InfluenceInWomensSafety,@Community_idCommunity)
 SET StreetLightWorking = NULLIF(@StreetLightWorking,''),
     LightPointsDistance = NULLIF(@LightPointsDistance,''),
-    InfluenceInWomensSafety = NULLIF(@InfluenceInWomensSafety,'');
+    InfluenceInWomensSafety = NULLIF(@InfluenceInWomensSafety,''),
+    Community_idCommunity = NULLIF(@Community_idCommunity,'');
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/inf_purificationsystem.csv'
 INTO TABLE inf_purificationsystem
@@ -530,9 +549,10 @@ LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUT
 INTO TABLE inf_sanitationaccess
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-    (@OutdoorsLatrine,@latrineType)
+    (@OutdoorsLatrine,@latrineType,@Community_idCommunity)
 SET OutdoorsLatrine = NULLIF(@OutdoorsLatrine,''),
-    latrineType = NULLIF(@latrineType,'');
+    latrineType = NULLIF(@latrineType,''),
+    Community_idCommunity = NULLIF(@Community_idCommunity,'');
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/inf_sanitationsystemquality.csv'
 INTO TABLE inf_sanitationsystemquality
@@ -549,10 +569,11 @@ LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUT
 INTO TABLE inf_streetlamp
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-    (@Latitude,@Longitude,@Altitude)
+    (@Latitude,@Longitude,@Altitude,@Community_idCommunity)
 SET Latitude = NULLIF(@Latitude,''),
     Longitude = NULLIF(@Longitude,''),
-    Altitude = NULLIF(@Altitude,'');
+    Altitude = NULLIF(@Altitude,''),
+    Community_idCommunity = NULLIF(@Community_idCommunity,'');
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/inf_timespent.csv'
 INTO TABLE inf_timespent
@@ -567,27 +588,30 @@ LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUT
 INTO TABLE inf_wastemanagementginfrastructure
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-    (@CollectionServicePerMonth)
-SET CollectionServicePerMonth = NULLIF(@CollectionServicePerMonth,'');
+    (@CollectionServicePerMonth,@Community_idCommunity)
+SET CollectionServicePerMonth = NULLIF(@CollectionServicePerMonth,''),
+    Community_idCommunity = NULLIF(@Community_idCommunity,'');
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/inf_waterinfrastructure.csv'
 INTO TABLE inf_waterinfrastructure
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-    (@WaterQuality,@ConsumptionPerCapita,@SourceType)
+    (@WaterQuality,@ConsumptionPerCapita,@SourceType,@Community_idCommunity)
 SET WaterQuality = NULLIF(@WaterQuality,''),
     ConsumptionPerCapita = NULLIF(@ConsumptionPerCapita,''),
-    SourceType = NULLIF(@SourceType,'');
+    SourceType = NULLIF(@SourceType,''),
+    Community_idCommunity = NULLIF(@Community_idCommunity,'');
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/inf_waterpoint.csv'
 INTO TABLE inf_waterpoint
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-    (@Latitude,@Longitude,@Altitude,@Working)
+    (@Latitude,@Longitude,@Altitude,@Working,@Community_idCommunity)
 SET Latitude = NULLIF(@Latitude,''),
     Longitude = NULLIF(@Longitude,''),
     Altitude = NULLIF(@Altitude,''),
-    Working = NULLIF(@Working,'');
+    Working = NULLIF(@Working,''),
+    Community_idCommunity = NULLIF(@Community_idCommunity,'');
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/s_app.csv'
 INTO TABLE s_app
@@ -657,8 +681,9 @@ LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUT
 INTO TABLE s_medicineaccess
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-    (@Access)
-SET Access = NULLIF(@Access,'');
+    (@Access,@Community_idCommunity)
+SET Access = NULLIF(@Access,''),
+    Community_idCommunity = NULLIF(@Community_idCommunity,'');
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/s_noeducationcause.csv'
 INTO TABLE s_noeducationcause
@@ -694,8 +719,9 @@ LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUT
 INTO TABLE s_repeaterantena
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-    (@Number)
-SET Number = NULLIF(@Number,'');
+    (@Number,@Community_idCommunity)
+SET Number = NULLIF(@Number,''),
+    Community_idCommunity = NULLIF(@Community_idCommunity,'');
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/s_subject.csv'
 INTO TABLE s_subject
@@ -729,8 +755,9 @@ LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUT
 INTO TABLE se_economy
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-    (@BasicBasketCost)
-SET BasicBasketCost = NULLIF(@BasicBasketCost,'');
+    (@BasicBasketCost,@Community_idCommunity)
+SET BasicBasketCost = NULLIF(@BasicBasketCost,''),
+    Community_idCommunity = NULLIF(@Community_idCommunity,'');
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/se_expensetype.csv'
 INTO TABLE se_expensetype
@@ -743,11 +770,12 @@ LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUT
 INTO TABLE se_householdcomposition
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-    (@Women,@Men,@Teenagers,@Kids)
+    (@Women,@Men,@Teenagers,@Kids,@Community_idCommunity)
 SET Women = NULLIF(@Women,''),
     Men = NULLIF(@Men,''),
     Teenagers = NULLIF(@Teenagers,''),
-    Kids = NULLIF(@Kids,'');
+    Kids = NULLIF(@Kids,''),
+    Community_idCommunity = NULLIF(@Community_idCommunity,'');
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/se_incometype.csv'
 INTO TABLE se_incometype
@@ -760,19 +788,21 @@ LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUT
 INTO TABLE se_personalhygiene
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-    (@TimesPerWeek)
-SET TimesPerWeek = NULLIF(@TimesPerWeek,'');
+    (@TimesPerWeek,@Community_idCommunity)
+SET TimesPerWeek = NULLIF(@TimesPerWeek,''),
+    Community_idCommunity = NULLIF(@Community_idCommunity,'');
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/se_population.csv'
 INTO TABLE se_population
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-    (@LT_5,@BT_5_17,@BT_18_59,@GT_59,@DiferentAbilitiesPeople)
+    (@LT_5,@BT_5_17,@BT_18_59,@GT_59,@DiferentAbilitiesPeople,@Community_idCommunity)
 SET LT_5 = NULLIF(@LT_5,''),
     BT_5_17 = NULLIF(@BT_5_17,''),
     BT_18_59 = NULLIF(@BT_18_59,''),
     GT_59 = NULLIF(@GT_59,''),
-    DiferentAbilitiesPeople = NULLIF(@DiferentAbilitiesPeople,'');
+    DiferentAbilitiesPeople = NULLIF(@DiferentAbilitiesPeople,''),
+    Community_idCommunity = NULLIF(@Community_idCommunity,'');
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/se_priority.csv'
 INTO TABLE se_priority
@@ -785,17 +815,19 @@ LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUT
 INTO TABLE se_safetycommittee
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-    (@SafetyCommittee,@WomenPatrol)
+    (@SafetyCommittee,@WomenPatrol,@Community_idCommunity)
 SET SafetyCommittee = NULLIF(@SafetyCommittee,''),
-    WomenPatrol = NULLIF(@WomenPatrol,'');
+    WomenPatrol = NULLIF(@WomenPatrol,''),
+    Community_idCommunity = NULLIF(@Community_idCommunity,'');
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/se_safetylatrines.csv'
 INTO TABLE se_safetylatrines
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-    (@SeparatedBySex,@Light)
+    (@SeparatedBySex,@Light,@Community_idCommunity)
 SET SeparatedBySex = NULLIF(@SeparatedBySex,''),
-    Light = NULLIF(@Light,'');
+    Light = NULLIF(@Light,''),
+    Community_idCommunity = NULLIF(@Community_idCommunity,'');
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/se_safetyplace.csv'
 INTO TABLE se_safetyplace
@@ -815,7 +847,7 @@ LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUT
 INTO TABLE sh_building
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-    (@Latitude,@Longitude,@Altitude,@ApropiateRoof,@SecureStructured,@ClimateThreatProtect,@WindowsAllRooms,@NoHumidity,@NoAnimals,@LT30Dregrees)
+    (@Latitude,@Longitude,@Altitude,@ApropiateRoof,@SecureStructured,@ClimateThreatProtect,@WindowsAllRooms,@NoHumidity,@NoAnimals,@LT30Dregrees,@Community_idCommunity)
 SET Latitude = NULLIF(@Latitude,''),
     Longitude = NULLIF(@Longitude,''),
     Altitude = NULLIF(@Altitude,''),
@@ -825,24 +857,27 @@ SET Latitude = NULLIF(@Latitude,''),
     WindowsAllRooms = NULLIF(@WindowsAllRooms,''),
     NoHumidity = NULLIF(@NoHumidity,''),
     NoAnimals = NULLIF(@NoAnimals,''),
-    LT30Dregrees = NULLIF(@LT30Dregrees,'');
+    LT30Dregrees = NULLIF(@LT30Dregrees,''),
+    Community_idCommunity = NULLIF(@Community_idCommunity,'');
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/sh_house.csv'
 INTO TABLE sh_house
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-    (@Rooms,@PosibleUpgrading)
+    (@Rooms,@PosibleUpgrading,@Community_idCommunity)
 SET Rooms = NULLIF(@Rooms,''),
-    PosibleUpgrading = NULLIF(@PosibleUpgrading,'');
+    PosibleUpgrading = NULLIF(@PosibleUpgrading,''),
+    Community_idCommunity = NULLIF(@Community_idCommunity,'');
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/sh_shelter.csv'
 INTO TABLE sh_shelter
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-    (@TotalHouses,@ConstructionCost,@ConstructionType)
+    (@TotalHouses,@ConstructionCost,@ConstructionType,@Community_idCommunity)
 SET TotalHouses = NULLIF(@TotalHouses,''),
     ConstructionCost = NULLIF(@ConstructionCost,''),
-    ConstructionType = NULLIF(@ConstructionType,'');
+    ConstructionType = NULLIF(@ConstructionType,''),
+    Community_idCommunity = NULLIF(@Community_idCommunity,'');
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/u_area.csv'
 INTO TABLE u_area
@@ -855,7 +890,7 @@ LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUT
 INTO TABLE u_recreationalarea
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-    (@AreaName,@Latitude,@Longitude,@Altitude,@Woodland_ShadedArea,@UrbanFurniture,@Floor_DrainageSystem,@PSTrush)
+    (@AreaName,@Latitude,@Longitude,@Altitude,@Woodland_ShadedArea,@UrbanFurniture,@Floor_DrainageSystem,@PSTrush,@Community_idCommunity)
 SET AreaName = NULLIF(@AreaName,''),
     Latitude = NULLIF(@Latitude,''),
     Longitude = NULLIF(@Longitude,''),
@@ -863,22 +898,24 @@ SET AreaName = NULLIF(@AreaName,''),
     Woodland_ShadedArea = NULLIF(@Woodland_ShadedArea,''),
     UrbanFurniture = NULLIF(@UrbanFurniture,''),
     Floor_DrainageSystem = NULLIF(@Floor_DrainageSystem,''),
-    PSTrush = NULLIF(@PSTrush,'');
+    PSTrush = NULLIF(@PSTrush,''),
+    Community_idCommunity = NULLIF(@Community_idCommunity,'');
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/u_road.csv'
 INTO TABLE u_road
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-    (@RoadsLength,@DrainageSystem,@Conditioning)
+    (@RoadsLength,@DrainageSystem,@Conditioning,@Community_idCommunity)
 SET RoadsLength = NULLIF(@RoadsLength,''),
     DrainageSystem = NULLIF(@DrainageSystem,''),
-    Conditioning = NULLIF(@Conditioning,'');
+    Conditioning = NULLIF(@Conditioning,''),
+    Community_idCommunity = NULLIF(@Community_idCommunity,'');
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/u_urbanism.csv'
 INTO TABLE u_urbanism
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-    (@UrbanPlan,@UrbanPlanDuratrion,@CampLimits,@LandManagement,@PlannedGrowth,@GrowthForecast,@UrbanPlanRiskInstruments,@RiskType,@AVG_PlotArea,@PlotDelimitation)
+    (@UrbanPlan,@UrbanPlanDuratrion,@CampLimits,@LandManagement,@PlannedGrowth,@GrowthForecast,@UrbanPlanRiskInstruments,@RiskType,@AVG_PlotArea,@PlotDelimitation,@Community_idCommunity)
 SET UrbanPlan = NULLIF(@UrbanPlan,''),
     UrbanPlanDuratrion = NULLIF(@UrbanPlanDuratrion,''),
     CampLimits = NULLIF(@CampLimits,''),
@@ -888,7 +925,8 @@ SET UrbanPlan = NULLIF(@UrbanPlan,''),
     UrbanPlanRiskInstruments = NULLIF(@UrbanPlanRiskInstruments,''),
     RiskType = NULLIF(@RiskType,''),
     AVG_PlotArea = NULLIF(@AVG_PlotArea,''),
-    PlotDelimitation = NULLIF(@PlotDelimitation,'');
+    PlotDelimitation = NULLIF(@PlotDelimitation,''),
+    Community_idCommunity = NULLIF(@Community_idCommunity,'');
 
 UPDATE camp SET Community_idCommunity = (SELECT @CommunityID)
 WHERE camp.Community_idCommunity = 0;
@@ -1112,11 +1150,11 @@ WHERE inf_mobilityway_has_community.Community_idCommunity = 0;
 UPDATE inf_mobilityway_has_community SET Community_idCommunity = (SELECT @CommunityID)
 WHERE inf_mobilityway_has_community.Community_idCommunity = 0;
 
-UPDATE inf_potabilizationsystem_has_community SET Community_idCommunity = (SELECT @CommunityID)
-WHERE inf_potabilizationsystem_has_community.Community_idCommunity = 0;
-
 UPDATE inf_publiclighting SET Community_idCommunity = (SELECT @CommunityID)
 WHERE inf_publiclighting.Community_idCommunity = 0;
+
+UPDATE inf_purificationsystem_has_community SET Community_idCommunity = (SELECT @CommunityID)
+WHERE inf_purificationsystem_has_community.Community_idCommunity = 0;
 
 UPDATE inf_sanitationaccess SET Community_idCommunity = (SELECT @CommunityID)
 WHERE inf_sanitationaccess.Community_idCommunity = 0;
