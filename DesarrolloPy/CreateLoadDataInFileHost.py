@@ -50,6 +50,7 @@ mydb = mysql.connector.connect(
 )
 cursor = mydb.cursor()
 
+
 query1 = "LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/"
 query2 = "INTO TABLE" 
 query3 = "FIELDS TERMINATED BY ','"

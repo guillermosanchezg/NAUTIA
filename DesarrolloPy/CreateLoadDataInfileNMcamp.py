@@ -15,7 +15,13 @@ Created on Thu Apr  2 10:47:28 2020
 import mysql.connector
 import numpy as np
 import pandas as pd
+import os
+import sklearn
 
+from sklearn.feature_extraction.text import CountVectorizer
+count_vectorizer = CountVectorizer()
+
+mainpath = "C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetOriginales"
 
 def NMTable(elem):
     result = False
@@ -31,7 +37,7 @@ def specialTable(cad):
         if(cad == "inf_expandplanbeneficiaries_has_inf_energyinfrastructure"):
             result = True
         else:
-            if(cad == "inf_irrigationSystem_has_inf_energyinfrastructure"):
+            if(cad == "inf_irrigationsystem_has_community"):
                 result = True
             else:
                 if(cad == "s_subject_has_s_educationalcenter"):
@@ -86,8 +92,39 @@ def separateValues(df):
         array = count_vectorizer.get_feature_names()
         result = pd.DataFrame(array)
     return result
-   
-    
+
+
+def dropRow(df,i):
+    return df.drop(index = i)
+
+def get_communityRows(df,cad,communityType): #la función pd.loc[] tiene un bug indiscriminado (https://github.com/pandas-dev/pandas/issues/8555)
+    result = df
+    if(communityType == 0):
+        comm = "host_community"
+    else:
+        comm = "refugee_camp"
+    for index, row in df.iterrows():
+        if(row[cad] != comm):
+            result = dropRow(result,index)
+    return result
+
+
+def setDataByIndex(df,communityType):
+    array = df.columns
+    i = 0
+    df = df.replace("refugee","refugee_camp")
+    df = df.replace("host_comunity","host_community")
+    df = df.replace("RefugeeCountry","refugee_camp")
+    df = df.replace("CommunityCountry","host_community")
+    while(validColumn(array[i]) == False):
+        i += 1
+    df = get_communityRows(df,array[i],communityType)
+    return df
+
+def getPath(mainpath,filename):
+    return os.path.join(mainpath, filename)
+
+
 mydb = mysql.connector.connect(
   port = 3309,
   host="127.0.0.1",
@@ -96,6 +133,9 @@ mydb = mysql.connector.connect(
   database = 'nautiatoolkit'
 )
 cursor = mydb.cursor()
+
+Entities = setDataByIndex(pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Entities_Interview_results.csv"),float_precision = "high"),1)
+
 
 def writteExpanPlan(query1,query2,query3,query4,):
     inf_expandplanbeneficiaries = dfFix(Entities,"ENERGY:Covered_services","ENERGY:Power_failure") 
@@ -120,7 +160,8 @@ def writteExpanPlan(query1,query2,query3,query4,):
     mkCSV(result,"inf_expandplanbeneficiaries_has_inf_energyinfrastructure.csv")
     cursor.execute("SHOW columns FROM inf_expandplanbeneficiaries_has_inf_energyinfrastructure")
     columnList = cursor.fetchall()
-    f.write(query1+elem+".csv'\n"+query2+" "+elem+"\n"+query3+"\n"+query4+"\n")
+    table = "inf_expandplanbeneficiaries_has_inf_energyinfrastructure"
+    f.write(query1+table+".csv'\n"+query2+" "+table+"\n"+query3+"\n"+query4+"\n")
     pk = True
     string = np.array([],dtype = str)
     for column in columnList:
@@ -134,18 +175,18 @@ def writteExpanPlan(query1,query2,query3,query4,):
             f.write("@"+column+",")
         else:
             f.write("@"+column+")\n")
-        f.write("SET ")
-        for column in string:
-            if(column != string[-1]):
-                if(column == string[0]):
-                    f.write(column+" = NULLIF(@"+column+",''),\n")
-                else:
-                    f.write("    "+column+" = NULLIF(@"+column+",''),\n")
+    f.write("SET ")
+    for column in string:
+        if(column != string[-1]):
+            if(column == string[0]):
+                f.write(column+" = NULLIF(@"+column+",''),\n")
             else:
-                if(column == string[0]):
-                    f.write(column+" = NULLIF(@"+column+",'');\n\n")
-                else:
-                    f.write("    "+column+" = NULLIF(@"+column+",'');\n\n")
+                f.write("    "+column+" = NULLIF(@"+column+",''),\n")
+        else:
+            if(column == string[0]):
+                f.write(column+" = NULLIF(@"+column+",'');\n\n")
+            else:
+                f.write("    "+column+" = NULLIF(@"+column+",'');\n\n")
 
 query1 = "LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/"
 query2 = "INTO TABLE" 

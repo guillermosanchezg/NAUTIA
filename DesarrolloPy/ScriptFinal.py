@@ -750,13 +750,35 @@ df1 = dfFix(GeneralForm,"Energy:electrical_grid","Energy:power_point")
 df1 = df1.isin(["yes"]) 
 df2 = dfFix(Entities,"ENERGY:Electricity_network","ENERGY:Covered_services")
 df2 = df2.isin(["yes"])
+flag = False
+for row in np.array(df2):
+    for elem in row:
+        if(flag == False and elem == True):
+            flag = True
+df2 = pd.DataFrame(np.array([flag]))    
 df3 = dfFix(Entities,"ENERGY:Power_failure","ENERGY:Street_Light")
+x = np.array([])
+x = np.append(x,df3['ENERGY:Power_failure'].dropna().mean())
+flag = False
+for row in np.array(df2):
+    for elem in row:
+        if(flag == False and elem == 'available'):
+            flag = True
+if(flag):
+    y = pd.DataFrame(np.array(["available"]))
+else:
+    y = pd.DataFrame(np.array(["not_available"]))
+df3 = concatDF(pd.DataFrame(x),y)
 df4 = dfFix(Entities,"ENERGY:Street_Light","Urban_Planning_001:Urban_Planning")
 df4 = df4.isin(["yes"])
+flag = False
+for row in np.array(df4):
+    for elem in row:
+        if(flag == False and elem == True):
+            flag = True
+df4 = pd.DataFrame(np.array([flag]))   
 df5 = dfFix(GeneralForm,"Energy:Distance_ST","Transport:Kind_transport_inside")
 INF_EnergyInfrastructure = concatDF(df1,(concatDF(df2,concatDF(df3,concatDF(df4,df5)))))
-mkCSV(INF_EnergyInfrastructure,"INF_EnergyInfrastructure.csv")
-
 inf_expandplanbeneficiaries = dfFix(Entities,"ENERGY:Covered_services","ENERGY:Power_failure") 
 inf_expandplanbeneficiaries = separateValues(inf_expandplanbeneficiaries)
 mkCSV(inf_expandplanbeneficiaries,"inf_expandplanbeneficiaries.csv") 

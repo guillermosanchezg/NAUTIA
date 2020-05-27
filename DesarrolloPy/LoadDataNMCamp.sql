@@ -183,14 +183,6 @@ SET INF_GenerationSource_idINF_GenerationSource = NULLIF(@INF_GenerationSource_i
     TimeAccessNight = NULLIF(@TimeAccessNight,''),
     Cost = NULLIF(@Cost,'');
 
-LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/inf_irrigationsystem_has_community.csv'
-INTO TABLE inf_irrigationsystem_has_community
-FIELDS TERMINATED BY ','
-LINES TERMINATED BY '\n'
-    (@INF_IrrigationSystem_idIrrigatonSystem,@Community_idCommunity)
-SET INF_IrrigationSystem_idIrrigatonSystem = NULLIF(@INF_IrrigationSystem_idIrrigatonSystem,''),
-    Community_idCommunity = NULLIF(@Community_idCommunity,'');
-
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/inf_mobilityway_has_community.csv'
 INTO TABLE inf_mobilityway_has_community
 FIELDS TERMINATED BY ','
@@ -367,15 +359,11 @@ SET U_Area_idU_Area = NULLIF(@U_Area_idU_Area,''),
     longitude = NULLIF(@longitude,''),
     altitude = NULLIF(@altitude,'');
 
-    (@INF_ExpandPlanBeneficiaries_idINF_ExpandPlanBeneficiaries,SET INF_ExpandPlanBeneficiaries_idINF_ExpandPlanBeneficiaries = NULLIF(@INF_ExpandPlanBeneficiaries_idINF_ExpandPlanBeneficiaries,''),
-    INF_EnergyInfrastructure_idINF_EnergyInfrastructure = NULLIF(@INF_EnergyInfrastructure_idINF_EnergyInfrastructure,''),
-    INF_EnergyInfrastructure_Community_idCommunity = NULLIF(@INF_EnergyInfrastructure_Community_idCommunity,'');
-
-@INF_EnergyInfrastructure_idINF_EnergyInfrastructure,SET INF_ExpandPlanBeneficiaries_idINF_ExpandPlanBeneficiaries = NULLIF(@INF_ExpandPlanBeneficiaries_idINF_ExpandPlanBeneficiaries,''),
-    INF_EnergyInfrastructure_idINF_EnergyInfrastructure = NULLIF(@INF_EnergyInfrastructure_idINF_EnergyInfrastructure,''),
-    INF_EnergyInfrastructure_Community_idCommunity = NULLIF(@INF_EnergyInfrastructure_Community_idCommunity,'');
-
-@INF_EnergyInfrastructure_Community_idCommunity)
+LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/inf_expandplanbeneficiaries_has_inf_energyinfrastructure.csv'
+INTO TABLE inf_expandplanbeneficiaries_has_inf_energyinfrastructure
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n'
+    (@INF_ExpandPlanBeneficiaries_idINF_ExpandPlanBeneficiaries,@INF_EnergyInfrastructure_idINF_EnergyInfrastructure,@INF_EnergyInfrastructure_Community_idCommunity)
 SET INF_ExpandPlanBeneficiaries_idINF_ExpandPlanBeneficiaries = NULLIF(@INF_ExpandPlanBeneficiaries_idINF_ExpandPlanBeneficiaries,''),
     INF_EnergyInfrastructure_idINF_EnergyInfrastructure = NULLIF(@INF_EnergyInfrastructure_idINF_EnergyInfrastructure,''),
     INF_EnergyInfrastructure_Community_idCommunity = NULLIF(@INF_EnergyInfrastructure_Community_idCommunity,'');
