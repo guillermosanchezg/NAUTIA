@@ -94,7 +94,7 @@ for row in tablesList:
                    pk = False
                 else:
                     if(validColumn(column)):
-                        string = np.append(string,column[0])
+                             string = np.append(string,column[0])
             f.write("    (")
             for column in string:
                 if(column != string[-1]):
