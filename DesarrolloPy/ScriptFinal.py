@@ -249,6 +249,7 @@ def separateValues(df):
     return result
 
 def vectorizeValue(df):
+    df = df.dropna(how = 'all')
     season = pd.DataFrame()
     year = ['january','february','march','april','may','june','july','august','september','october','november','december']
     for row in np.array(df):
@@ -320,7 +321,7 @@ def get_applianceDF(df):
     
 
 #%% CSV to DataFrame
-Bibliography,Entities,LocalLeaders,HouseHold,WomenGroup,SanitationInfra,Priorities,GeneralForm,PublicSpace,WaterInf,EnergyINF,SanitationInf,WasteManagementInf,EnergyINF,Business,MobilityINF,ComunalServices,GeneralCitizen,Shelter,FarmyardCrop = set_AllCSVtoDF(1)
+Bibliography,Entities,LocalLeaders,HouseHold,WomenGroup,SanitationInfra,Priorities,GeneralForm,PublicSpace,WaterInf,EnergyINF,SanitationInf,WasteManagementInf,EnergyINF,Business,MobilityINF,ComunalServices,GeneralCitizen,Shelter,FarmyardCrop = set_AllCSVtoDF(0)
 #%%Community
 
 community = ["Shimelba"]
@@ -779,6 +780,8 @@ for row in np.array(df4):
 df4 = pd.DataFrame(np.array([flag]))   
 df5 = dfFix(GeneralForm,"Energy:Distance_ST","Transport:Kind_transport_inside")
 INF_EnergyInfrastructure = concatDF(df1,(concatDF(df2,concatDF(df3,concatDF(df4,df5)))))
+mkCSV(INF_EnergyInfrastructure,"INF_EnergyInfrastructure.csv")
+
 inf_expandplanbeneficiaries = dfFix(Entities,"ENERGY:Covered_services","ENERGY:Power_failure") 
 inf_expandplanbeneficiaries = separateValues(inf_expandplanbeneficiaries)
 mkCSV(inf_expandplanbeneficiaries,"inf_expandplanbeneficiaries.csv") 

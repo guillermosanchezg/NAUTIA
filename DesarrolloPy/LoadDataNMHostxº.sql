@@ -2,64 +2,6 @@ SET FOREIGN_KEY_CHECKS=0;
 SET SQL_SAFE_UPDATES = 0;
 SET @OLD_SQL_MODE=@@SQL_MODE, sql_mode='NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';
 
-LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/camp_energysource_has_camp.csv'
-INTO TABLE camp_energysource_has_camp
-FIELDS TERMINATED BY ','
-LINES TERMINATED BY '\n'
-    (@Camp_EnergySource_idCamp_EnergySource,@Camp_idCamp,@Cost)
-SET Camp_EnergySource_idCamp_EnergySource = NULLIF(@Camp_EnergySource_idCamp_EnergySource,''),
-    Camp_idCamp = NULLIF(@Camp_idCamp,''),
-    Cost = NULLIF(@Cost,'');
-
-LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/camp_integration_has_camp.csv'
-INTO TABLE camp_integration_has_camp
-FIELDS TERMINATED BY ','
-LINES TERMINATED BY '\n'
-    (@Camp_Integration_idCamp_Integration,@Camp_idCamp)
-SET Camp_Integration_idCamp_Integration = NULLIF(@Camp_Integration_idCamp_Integration,''),
-    Camp_idCamp = NULLIF(@Camp_idCamp,'');
-
-LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/camp_localcrop_has_camp.csv'
-INTO TABLE camp_localcrop_has_camp
-FIELDS TERMINATED BY ','
-LINES TERMINATED BY '\n'
-    (@Camp_LocalCrop_idCamp_LocalCrop,@Camp_idCamp)
-SET Camp_LocalCrop_idCamp_LocalCrop = NULLIF(@Camp_LocalCrop_idCamp_LocalCrop,''),
-    Camp_idCamp = NULLIF(@Camp_idCamp,'');
-
-LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/camp_localvegetation_has_camp.csv'
-INTO TABLE camp_localvegetation_has_camp
-FIELDS TERMINATED BY ','
-LINES TERMINATED BY '\n'
-    (@Camp_LocalVEgetation_idCamp_LocalVEgetation,@Camp_idCamp)
-SET Camp_LocalVEgetation_idCamp_LocalVEgetation = NULLIF(@Camp_LocalVEgetation_idCamp_LocalVEgetation,''),
-    Camp_idCamp = NULLIF(@Camp_idCamp,'');
-
-LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/camp_movementreason_has_camp.csv'
-INTO TABLE camp_movementreason_has_camp
-FIELDS TERMINATED BY ','
-LINES TERMINATED BY '\n'
-    (@Camp_MovementReason_idCamp_MovementReason,@Camp_idCamp)
-SET Camp_MovementReason_idCamp_MovementReason = NULLIF(@Camp_MovementReason_idCamp_MovementReason,''),
-    Camp_idCamp = NULLIF(@Camp_idCamp,'');
-
-LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/camp_naturalhazard_has_camp.csv'
-INTO TABLE camp_naturalhazard_has_camp
-FIELDS TERMINATED BY ','
-LINES TERMINATED BY '\n'
-    (@Camp_NaturalHazard_idCamp_NaturalHazard,@Camp_idCamp,@Times10Year)
-SET Camp_NaturalHazard_idCamp_NaturalHazard = NULLIF(@Camp_NaturalHazard_idCamp_NaturalHazard,''),
-    Camp_idCamp = NULLIF(@Camp_idCamp,''),
-    Times10Year = NULLIF(@Times10Year,'');
-
-LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/country_has_camp.csv'
-INTO TABLE country_has_camp
-FIELDS TERMINATED BY ','
-LINES TERMINATED BY '\n'
-    (@Country_idCountry,@Camp_idCamp)
-SET Country_idCountry = NULLIF(@Country_idCountry,''),
-    Camp_idCamp = NULLIF(@Camp_idCamp,'');
-
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/fs_corralubication_has_community.csv'
 INTO TABLE fs_corralubication_has_community
 FIELDS TERMINATED BY ','
@@ -192,14 +134,6 @@ SET INF_MobilityWay_idINF_MobilityWay = NULLIF(@INF_MobilityWay_idINF_MobilityWa
     Community_idCommunity = NULLIF(@Community_idCommunity,''),
     Internal_external = NULLIF(@Internal_external,'');
 
-LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/inf_purificationsystem_has_community.csv'
-INTO TABLE inf_purificationsystem_has_community
-FIELDS TERMINATED BY ','
-LINES TERMINATED BY '\n'
-    (@INF_Purificationsystem_idINF_Purificationsystem,@Community_idCommunity)
-SET INF_Purificationsystem_idINF_Purificationsystem = NULLIF(@INF_Purificationsystem_idINF_Purificationsystem,''),
-    Community_idCommunity = NULLIF(@Community_idCommunity,'');
-
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/inf_sanitationsystemquality_has_community.csv'
 INTO TABLE inf_sanitationsystemquality_has_community
 FIELDS TERMINATED BY ','
@@ -223,14 +157,6 @@ FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
     (@S_Cementery_idS_Cementery,@Community_idCommunity)
 SET S_Cementery_idS_Cementery = NULLIF(@S_Cementery_idS_Cementery,''),
-    Community_idCommunity = NULLIF(@Community_idCommunity,'');
-
-LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/s_dataaccess_has_community.csv'
-INTO TABLE s_dataaccess_has_community
-FIELDS TERMINATED BY ','
-LINES TERMINATED BY '\n'
-    (@S_DataAccess_idS_DataAccess,@Community_idCommunity)
-SET S_DataAccess_idS_DataAccess = NULLIF(@S_DataAccess_idS_DataAccess,''),
     Community_idCommunity = NULLIF(@Community_idCommunity,'');
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/s_educationalcenter_has_community.csv'
@@ -257,22 +183,6 @@ LINES TERMINATED BY '\n'
 SET S_NoEducationCause_idS_NoEducationCause = NULLIF(@S_NoEducationCause_idS_NoEducationCause,''),
     Community_idCommunity = NULLIF(@Community_idCommunity,'');
 
-LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/s_othercenter_has_community.csv'
-INTO TABLE s_othercenter_has_community
-FIELDS TERMINATED BY ','
-LINES TERMINATED BY '\n'
-    (@S_OtherCenter_idS_OtherCenter,@Community_idCommunity)
-SET S_OtherCenter_idS_OtherCenter = NULLIF(@S_OtherCenter_idS_OtherCenter,''),
-    Community_idCommunity = NULLIF(@Community_idCommunity,'');
-
-LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/s_primaryattention_has_community.csv'
-INTO TABLE s_primaryattention_has_community
-FIELDS TERMINATED BY ','
-LINES TERMINATED BY '\n'
-    (@S_PrimaryAttention_idS_PrimaryAttention,@Community_idCommunity)
-SET S_PrimaryAttention_idS_PrimaryAttention = NULLIF(@S_PrimaryAttention_idS_PrimaryAttention,''),
-    Community_idCommunity = NULLIF(@Community_idCommunity,'');
-
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/s_tecknowlege_has_community.csv'
 INTO TABLE s_tecknowlege_has_community
 FIELDS TERMINATED BY ','
@@ -281,22 +191,6 @@ LINES TERMINATED BY '\n'
 SET S_Tecknowlege_idS_Tecknowlege = NULLIF(@S_Tecknowlege_idS_Tecknowlege,''),
     Community_idCommunity = NULLIF(@Community_idCommunity,''),
     NumberPersons = NULLIF(@NumberPersons,'');
-
-LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/se_cleaningmaterial_has_community.csv'
-INTO TABLE se_cleaningmaterial_has_community
-FIELDS TERMINATED BY ','
-LINES TERMINATED BY '\n'
-    (@SE_CleaningMAterial_idSE_CleaningMAterial,@Community_idCommunity)
-SET SE_CleaningMAterial_idSE_CleaningMAterial = NULLIF(@SE_CleaningMAterial_idSE_CleaningMAterial,''),
-    Community_idCommunity = NULLIF(@Community_idCommunity,'');
-
-LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/se_conflictarea_has_community.csv'
-INTO TABLE se_conflictarea_has_community
-FIELDS TERMINATED BY ','
-LINES TERMINATED BY '\n'
-    (@SE_ConflictArea_idEonflictArea,@Community_idCommunity)
-SET SE_ConflictArea_idEonflictArea = NULLIF(@SE_ConflictArea_idEonflictArea,''),
-    Community_idCommunity = NULLIF(@Community_idCommunity,'');
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/se_expensetype_has_community.csv'
 INTO TABLE se_expensetype_has_community

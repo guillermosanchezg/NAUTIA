@@ -124,18 +124,6 @@ def setDataByIndex(df,communityType):
 def getPath(mainpath,filename):
     return os.path.join(mainpath, filename)
 
-def getTableName(elem):
-    x = ""
-    if(elem.find("_has_camp") != -1):
-        x = elem.replace("_has_camp","")
-    else:
-        if(elem.find("_has_country") != -1):
-            x = elem.replace("_has_country","")
-        else:
-            if(elem.find("_has_community") != -1):
-                x = elem.replace("_has_community","")
-    return x
-
 
 mydb = mysql.connector.connect(
   port = 3309,
@@ -148,7 +136,6 @@ cursor = mydb.cursor()
 
 Entities = setDataByIndex(pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Entities_Interview_results.csv"),float_precision = "high"),1)
 finalpath = "C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales"
-
 
 def writteExpanPlan(query1,query2,query3,query4,):
     inf_expandplanbeneficiaries = dfFix(Entities,"ENERGY:Covered_services","ENERGY:Power_failure") 
@@ -200,12 +187,24 @@ def writteExpanPlan(query1,query2,query3,query4,):
                 f.write(column+" = NULLIF(@"+column+",'');\n\n")
             else:
                 f.write("    "+column+" = NULLIF(@"+column+",'');\n\n")
+                
+def getTableName(elem):
+    x = ""
+    if(elem.find("_has_camp") != -1):
+        x = elem.replace("_has_camp","")
+    else:
+        if(elem.find("_has_country") != -1):
+            x = elem.replace("_has_country","")
+        else:
+            if(elem.find("_has_community") != -1):
+                x = elem.replace("_has_community","")
+    return x
 
 query1 = "LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/"
 query2 = "INTO TABLE" 
 query3 = "FIELDS TERMINATED BY ','"
 query4 = "LINES TERMINATED BY '\\n'"
-f = open('LoadDataNMCamp.sql','w+')
+f = open('LoadDataNMHost.sql','w+')
 
 f.write("SET FOREIGN_KEY_CHECKS=0;\n")
 f.write("SET SQL_SAFE_UPDATES = 0;\n")
@@ -219,37 +218,38 @@ otherTable = np.array([])
 
 for row in tablesList:
     for elem in row:
-        if(NMTable(elem)):
-            x = getTableName(elem)
-            if(is_non_zero_file(getPath(finalpath,x+".csv"))):
-                if(specialTable(elem) == False):
-                    f.write(query1+elem+".csv'\n"+query2+" "+elem+"\n"+query3+"\n"+query4+"\n")
-                    cursor.execute("SHOW columns FROM "+elem)
-                    columnList = cursor.fetchall()
-                    string = np.array([],dtype = str)
-                    for column in columnList:
-                        if(validColumn(column)):
-                            string = np.append(string,column[0])
-                    f.write("    (")
-                    for column in string:
-                        if(column != string[-1]):
-                           f.write("@"+column+",")
-                        else:
-                           f.write("@"+column+")\n")
-                    f.write("SET ")
-                    for column in string:
-                        if(column != string[-1]):
-                            if(column == string[0]):
-                                f.write(column+" = NULLIF(@"+column+",''),\n")
+        if(elem.find("_has_camp") == -1):
+            if(NMTable(elem)):
+                x = getTableName(elem)
+                if(is_non_zero_file(getPath(finalpath,x+".csv"))):
+                    if(specialTable(elem) == False):
+                        f.write(query1+elem+".csv'\n"+query2+" "+elem+"\n"+query3+"\n"+query4+"\n")
+                        cursor.execute("SHOW columns FROM "+elem)
+                        columnList = cursor.fetchall()
+                        string = np.array([],dtype = str)
+                        for column in columnList:
+                            if(validColumn(column)):
+                                string = np.append(string,column[0])
+                        f.write("    (")
+                        for column in string:
+                            if(column != string[-1]):
+                               f.write("@"+column+",")
                             else:
-                                f.write("    "+column+" = NULLIF(@"+column+",''),\n")
-                        else:
-                            if(column == string[0]):
-                                f.write(column+" = NULLIF(@"+column+",'');\n\n")
+                               f.write("@"+column+")\n")
+                        f.write("SET ")
+                        for column in string:
+                            if(column != string[-1]):
+                                if(column == string[0]):
+                                    f.write(column+" = NULLIF(@"+column+",''),\n")
+                                else:
+                                    f.write("    "+column+" = NULLIF(@"+column+",''),\n")
                             else:
-                                f.write("    "+column+" = NULLIF(@"+column+",'');\n\n")   
-                else:
-                    otherTable = np.append(otherTable,elem)
+                                if(column == string[0]):
+                                    f.write(column+" = NULLIF(@"+column+",'');\n\n")
+                                else:
+                                    f.write("    "+column+" = NULLIF(@"+column+",'');\n\n")   
+                    else:
+                        otherTable = np.append(otherTable,elem)
 
 for elem in otherTable:
     if(elem == "inf_expandplanbeneficiaries_has_inf_energyinfrastructure"):

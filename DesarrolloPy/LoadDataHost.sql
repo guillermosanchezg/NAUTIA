@@ -521,13 +521,12 @@ LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUT
 INTO TABLE s_cementery
 FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
-    (@Latitude,@Longitude,@Altitude,@Drainage,@UpperBound,@NoAccessArea)
+    (@Latitude,@Longitude,@Altitude,@Drainage,@UpperBound)
 SET Latitude = NULLIF(@Latitude,''),
     Longitude = NULLIF(@Longitude,''),
     Altitude = NULLIF(@Altitude,''),
     Drainage = NULLIF(@Drainage,''),
-    UpperBound = NULLIF(@UpperBound,''),
-    NoAccessArea = NULLIF(@NoAccessArea,'');
+    UpperBound = NULLIF(@UpperBound,'');
 
 LOAD DATA INFILE 'C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales/s_dataaccess.csv'
 INTO TABLE s_dataaccess
@@ -829,9 +828,6 @@ WHERE fs_cropubication_has_community.Community_idCommunity = 0;
 UPDATE fs_cultivationseason SET Community_idCommunity = (SELECT @CommunityID)
 WHERE fs_cultivationseason.Community_idCommunity = 0;
 
-UPDATE fs_cultivationseason_has_community SET Community_idCommunity = (SELECT @CommunityID)
-WHERE fs_cultivationseason_has_community.Community_idCommunity = 0;
-
 UPDATE fs_foodaccess_has_community SET Community_idCommunity = (SELECT @CommunityID)
 WHERE fs_foodaccess_has_community.Community_idCommunity = 0;
 
@@ -937,9 +933,6 @@ WHERE inf_appliance_has_community.Community_idCommunity = 0;
 UPDATE inf_appliance_has_community SET Community_idCommunity = (SELECT @CommunityID)
 WHERE inf_appliance_has_community.Community_idCommunity = 0;
 
-UPDATE inf_appliance_has_community SET Community_idCommunity = (SELECT @CommunityID)
-WHERE inf_appliance_has_community.Community_idCommunity = 0;
-
 UPDATE inf_collectionpoints SET Community_idCommunity = (SELECT @CommunityID)
 WHERE inf_collectionpoints.Community_idCommunity = 0;
 
@@ -988,11 +981,11 @@ WHERE inf_mobilityway_has_community.Community_idCommunity = 0;
 UPDATE inf_mobilityway_has_community SET Community_idCommunity = (SELECT @CommunityID)
 WHERE inf_mobilityway_has_community.Community_idCommunity = 0;
 
-UPDATE inf_potabilizationsystem_has_community SET Community_idCommunity = (SELECT @CommunityID)
-WHERE inf_potabilizationsystem_has_community.Community_idCommunity = 0;
-
 UPDATE inf_publiclighting SET Community_idCommunity = (SELECT @CommunityID)
 WHERE inf_publiclighting.Community_idCommunity = 0;
+
+UPDATE inf_purificationsystem_has_community SET Community_idCommunity = (SELECT @CommunityID)
+WHERE inf_purificationsystem_has_community.Community_idCommunity = 0;
 
 UPDATE inf_sanitationaccess SET Community_idCommunity = (SELECT @CommunityID)
 WHERE inf_sanitationaccess.Community_idCommunity = 0;
