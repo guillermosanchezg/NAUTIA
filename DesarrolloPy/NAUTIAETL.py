@@ -39,6 +39,14 @@ def setDataByIndex(df,communityType):
     df = get_communityRows(df,array[i],communityType)
     return df
 
+def fixBibliography(df):
+    df = dfFix(df,"GENERAL INFORMATION - COUNTRY LEVEL")
+    df.columns = ['GeneralInfo', 'CommunityCountry', 'RefugeeCountry']
+    df.set_index('GeneralInfo', inplace = True)
+    df = df.transpose()
+    df = df.reset_index()
+    return df
+
 def set_AllCSVtoDF(communityType):
     Bibliography = pd.read_excel(getPath(mainpath,"Bibliography_120220.xlsx"))
     Bibliography = fixBibliography(Bibliography)
@@ -63,14 +71,6 @@ def set_AllCSVtoDF(communityType):
     FarmyardCrop = setDataByIndex(pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Farmyard_and_Crops_results.csv"),float_precision = "high"),communityType)
     return Bibliography,Entities,LocalLeaders,HouseHold,WomenGroup,SanitationInfra,Priorities,GeneralForm,PublicSpace,WaterInf,EnergyINF,SanitationInf,WasteManagementInf,EnergyINF,Business,MobilityINF,ComunalServices,GeneralCitizen,Shelter,FarmyardCrop
 
-
-def fixBibliography(df):
-    df = dfFix(df,"GENERAL INFORMATION - COUNTRY LEVEL")
-    df.columns = ['GeneralInfo', 'CommunityCountry', 'RefugeeCountry']
-    df.set_index('GeneralInfo', inplace = True)
-    df = df.transpose()
-    df = df.reset_index()
-    return df
 
 def dfFix(df,col1 = False,col2 = False):
     result = df.copy()
