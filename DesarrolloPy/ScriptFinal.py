@@ -22,7 +22,7 @@ Bibliography,Entities,LocalLeaders,HouseHold,WomenGroup,SanitationInfra,Prioriti
 
 community = ["Shimelba"]
 community = pd.DataFrame(community)
-nt.nt.mkCSV(community,"community.csv")
+nt.mkCSV(community,"community.csv")
 #%% CAMP
 
 df1 = nt.dfFix(Bibliography,"Implementation date of the refugee camp (year)","Migration reasons")
