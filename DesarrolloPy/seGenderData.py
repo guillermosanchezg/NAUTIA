@@ -7,17 +7,18 @@ Created on Sun May 31 12:38:40 2020
 
 import pandas as pd
 import NAUTIAETL as nt
+import NAUTIAFIXCSV as nfv
 
 def seGenderData(GeneralCitizen):
-    #SE_GenderData = nt.dfFix(Entities,"","")
+    #SE_GenderData = nfv.dfFix(Entities,"","")
     #nt.mkCSV(SE_GenderData,"SE_GenderData.csv") No existe dicho dato en los formularios
     
     SE_WorkType = ["Firewood Collection", "Cooking"]
     SE_WorkType = pd.DataFrame(SE_WorkType)
     nt.mkCSV(SE_WorkType,"SE_WorkType.csv")
     
-    df1 = nt.dfFix(GeneralCitizen,"Firewood_collection:Childs","Cooking:Childs_001")
-    df2 = nt.dfFix(GeneralCitizen,"Cooking:Childs_001","TICs_Knowledge:Phone_Call")
+    df1 = nfv.dfFix(GeneralCitizen,"Firewood_collection:Childs","Cooking:Childs_001")
+    df2 = nfv.dfFix(GeneralCitizen,"Cooking:Childs_001","TICs_Knowledge:Phone_Call")
     df1 = df1.transpose()
     df2 = df2.transpose()
     df1 = df1.reset_index(drop = True)

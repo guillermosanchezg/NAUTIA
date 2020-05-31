@@ -6,7 +6,8 @@ Created on Sun May 31 12:38:34 2020
 """
 
 import NAUTIAETL as nt
+import NAUTIAFIXCSV as nfv
 
 def country(Bibliography):
-    Country = nt.dfFix(Bibliography,"Country's name", "Number of inhabitants (#)")
+    Country = nfv.dfFix(Bibliography,"Country's name", "Number of inhabitants (#)")
     nt.mkCSV(Country,"Country.csv")

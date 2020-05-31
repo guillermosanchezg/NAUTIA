@@ -9,6 +9,7 @@ import numpy as np
 import pandas as pd
 import os
 import sklearn
+import NAUTIAFIXCSV as nfv
 #pd.options.mode.chained_assignment = None  # default='warn'
 
 
@@ -24,67 +25,6 @@ english_stopwords = stopwords.words('english')
 
 mainpath = "C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetOriginales"
 
-def getPath(mainpath,filename):
-    return os.path.join(mainpath, filename)
-
-def setDataByIndex(df,communityType):
-    array = df.columns
-    i = 0
-    df = df.replace("refugee","refugee_camp")
-    df = df.replace("host_comunity","host_community")
-    df = df.replace("RefugeeCountry","refugee_camp")
-    df = df.replace("CommunityCountry","host_community")
-    while(validColumn(array[i]) == False):
-        i += 1
-    df = get_communityRows(df,array[i],communityType)
-    return df
-
-def fixBibliography(df):
-    df = dfFix(df,"GENERAL INFORMATION - COUNTRY LEVEL")
-    df.columns = ['GeneralInfo', 'CommunityCountry', 'RefugeeCountry']
-    df.set_index('GeneralInfo', inplace = True)
-    df = df.transpose()
-    df = df.reset_index()
-    return df
-
-def set_AllCSVtoDF(communityType):
-    Bibliography = pd.read_excel(getPath(mainpath,"Bibliography_120220.xlsx"))
-    Bibliography = fixBibliography(Bibliography)
-    Bibliography = setDataByIndex(Bibliography,communityType)
-    Entities = setDataByIndex(pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Entities_Interview_results.csv"),float_precision = "high"),communityType)
-    LocalLeaders = setDataByIndex(pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Local_leaders_v3_results.csv"),float_precision = "high"),communityType)
-    HouseHold = setDataByIndex(pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Survey_household_v6_results.csv"),float_precision = "high"),communityType)
-    WomenGroup = setDataByIndex(pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Women_Focus_Group2_results.csv"),float_precision = "high"),communityType)
-    SanitationInfra = setDataByIndex(pd.read_csv(getPath(mainpath,"NAUTIA_V1_0_Sanitation_Infrastructre_results.csv"),float_precision = "high"),communityType)
-    Priorities = setDataByIndex(pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Priorities_v3_results.csv"),float_precision = "high"),communityType)
-    GeneralForm = setDataByIndex(pd.read_csv(getPath(mainpath,"NAUTIA_1_0_General_form_v3_results.csv"),float_precision = "high"),communityType)
-    PublicSpace = setDataByIndex(pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Public_Space_results.csv"),float_precision = "high"),communityType)
-    WaterInf = setDataByIndex(pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Water_Infrastructure_results.csv"),float_precision = "high"),communityType)
-    SanitationInf = setDataByIndex(pd.read_csv(getPath(mainpath,"NAUTIA_V1_0_Sanitation_Infrastructre_results.csv"),float_precision = "high"),communityType)
-    WasteManagementInf = setDataByIndex(pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Waste_Management_Infrastructure_results.csv"),float_precision = "high"),communityType)
-    EnergyINF = setDataByIndex(pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Energy_Infrastructure_results.csv"),float_precision = "high"),communityType)
-    Business = setDataByIndex(pd.read_csv(getPath(mainpath,"NAUTIA1_0_Business_surveys_v3_results.csv"),float_precision = "high"),communityType)
-    MobilityINF = setDataByIndex(pd.read_csv(getPath(mainpath,"NAUTIA_1_0__Transport_servicesaccess_points_results.csv"),float_precision = "high"),communityType) 
-    ComunalServices = setDataByIndex(pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Communal_Services_results.csv"),float_precision = "high"),communityType) 
-    GeneralCitizen = setDataByIndex(pd.read_csv(getPath(mainpath,"NAUTIA_1_0_General_Citizen_Focus_Group_results.csv"),float_precision = "high"),communityType)
-    Shelter = setDataByIndex(pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Shelter_results.csv"),float_precision = "high"),communityType)
-    FarmyardCrop = setDataByIndex(pd.read_csv(getPath(mainpath,"NAUTIA_1_0_Farmyard_and_Crops_results.csv"),float_precision = "high"),communityType)
-    return Bibliography,Entities,LocalLeaders,HouseHold,WomenGroup,SanitationInfra,Priorities,GeneralForm,PublicSpace,WaterInf,EnergyINF,SanitationInf,WasteManagementInf,EnergyINF,Business,MobilityINF,ComunalServices,GeneralCitizen,Shelter,FarmyardCrop
-
-
-def dfFix(df,col1 = False,col2 = False):
-    result = df.copy()
-    if(col1):
-        x = result.columns.get_loc(col1)
-        result.drop(result.columns[0:x],axis = 1, inplace = True)
-    if(col2):
-        y = result.columns.get_loc(col2)
-        result.drop(result.columns[y:],axis = 1, inplace = True)
-    return result
-
-def dropRow(df,i):
-    return df.drop(index = i)
-
 def concatDF(df1,df2):
     return  pd.concat([df1,df2],axis = 1, ignore_index = True, sort = True)
 
@@ -94,47 +34,11 @@ def mkCSV(df,fileName):
     fileName = fileName.lower()
     df.to_csv('DataSetFinales/'+fileName,sep=',',header = False, index=False, encoding='utf-8')
 
-def validColumn(cad):
-    result = False
-    if(cad == "index"):#Population
-        result = True
-    else:
-        if(cad == "Type_of_settlement"):
-            result = True
-        else:
-            if(cad == "General:settlement"):
-                result = True
-            else:
-                if(cad == "general_info:_1_1_Choose_the_settlement"):
-                    result = True
-                else:
-                    if(cad == "General_Information:Type_of_setlement"):
-                        result = True
-                    else:
-                        if(cad == "General:Settlement"):
-                            result = True
-                        else:
-                            if(cad == "Type_of_setlement"):
-                                result = True
-    return result
-
-
 def replacestr(df,cad1,cad2):
     cols=list(df.columns)
     for col in cols:
         df[col] = df[col].astype(str).str.replace(cad1,cad2)
     return df
-
-def get_communityRows(df,cad,communityType): #la función pd.loc[] tiene un bug indiscriminado (https://github.com/pandas-dev/pandas/issues/8555)
-    result = df
-    if(communityType == 0):
-        comm = "host_community"
-    else:
-        comm = "refugee_camp"
-    for index, row in df.iterrows():
-        if(row[cad] != comm):
-            result = dropRow(result,index)
-    return result
     
 def getSubColumnNames(df,x):
     columns = df.columns
@@ -217,7 +121,7 @@ def get_valueBySector(df1,df2):
     for row in array1:
         for elem in row:
             if(elem == False):
-                df2 = dropRow(df2,i)
+                df2 = nfv.dropRow(df2,i)
         i += 1
     df2 = df2.set_index('index')
     return df2
@@ -292,8 +196,8 @@ def dropNaAndResetIndex(df):
     return pd.DataFrame(df)
     
 def get_applianceDF(df):
-    df1 = dfFix(df,0,1)
-    df2 = dfFix(df,1)
+    df1 = nfv.dfFix(df,0,1)
+    df2 = nfv.dfFix(df,1)
     array = np.array([])
     appliance = np.array([])
     for row in np.array(df1):

@@ -5,8 +5,6 @@ Created on Sat May 30 10:53:22 2020
 @author: guill
 """
 
-import numpy as np
-import pandas as pd
 import os
 
 mainpath = "C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetOriginales"

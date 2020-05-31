@@ -6,7 +6,7 @@ Created on Sun May 31 12:04:18 2020
 """
 
 import pandas as pd
-import NAUTIAFIXCSV  as nfv
+import NAUTIAFIXCSV as nfv
 
 class DataNAUTIA:
     

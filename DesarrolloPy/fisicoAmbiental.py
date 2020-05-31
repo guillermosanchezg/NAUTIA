@@ -8,17 +8,18 @@ Created on Sun May 31 12:38:40 2020
 import numpy as np
 import pandas as pd
 import NAUTIAETL as nt
+import NAUTIAFIXCSV as nfv
 
 def fisicoAmbiental(Bibliography,Entities):
-    df1 = nt.dfFix(Bibliography,"Latitude","Topography")
-    df2 = nt.dfFix(Entities,"Water_table","Sanitation:Personal_hygiene")
+    df1 = nfv.dfFix(Bibliography,"Latitude","Topography")
+    df2 = nfv.dfFix(Entities,"Water_table","Sanitation:Personal_hygiene")
     FA_geographicIdentification = nt.concatDF(df1,df2)
     nt.mkCSV(FA_geographicIdentification,"FA_geographicIdentification.csv")
     
-    FA_Topography = nt.dfFix(Bibliography,"Upper bound (m)","FOOD SECURITY")
+    FA_Topography = nfv.dfFix(Bibliography,"Upper bound (m)","FOOD SECURITY")
     nt.mkCSV(FA_Topography,"FA_Topography.csv")
     
-    FA_NaturalResource = nt.dfFix(Bibliography,"r.1","ACTORS (PARTNERS) IDENTIFICATION")
+    FA_NaturalResource = nfv.dfFix(Bibliography,"r.1","ACTORS (PARTNERS) IDENTIFICATION")
     FA_NaturalResource = FA_NaturalResource.dropna(axis = 1)
     FA_NaturalResource = np.array(FA_NaturalResource)
     bound = []

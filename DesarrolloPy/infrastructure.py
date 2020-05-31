@@ -5,15 +5,13 @@ Created on Sun May 31 12:38:40 2020
 @author: guill
 """
 
-import DataNAUTIA
 import infWater as w
 import sanitation as s
 import wasteManagement as wm
 import energy as e
 import mobility as mb
 
-def infrastructure(communityType):
-    data = DataNAUTIA(communityType)
+def infrastructure(data):
     w.infWater(data.getEntities(),data.getHouseHold(),data.getWaterInf())
     s.sanitation(data.getEntities(),data.getSanitationInf())
     wm.wasteManagement(data.getEntities(),data.getWasteManagementInf())

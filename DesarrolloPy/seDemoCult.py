@@ -8,10 +8,11 @@ Created on Sun May 31 12:38:37 2020
 import numpy as np
 import pandas as pd
 import NAUTIAETL as nt
+import NAUTIAFIXCSV as nfv
 
 def seDemoCult(Entities,HouseHold):
-    df1 = nt.dfFix(Entities,"Population:Women:Infants","Population:Men:Infants_001")
-    df2 = nt.dfFix(Entities,"Population:Men:Infants_001","Fuel_Cost:Main_Fuel")
+    df1 = nfv.dfFix(Entities,"Population:Women:Infants","Population:Men:Infants_001")
+    df2 = nfv.dfFix(Entities,"Population:Men:Infants_001","Fuel_Cost:Main_Fuel")
     df1 = np.array(df1)
     df2 = np.array(df2)
     array = np.array([],dtype = int)
@@ -19,7 +20,7 @@ def seDemoCult(Entities,HouseHold):
     SE_population = pd.DataFrame(array)
     nt.mkCSV(SE_population,"SE_population.csv")
     
-    SE_HouseHoldComposition = nt.dfFix(HouseHold,"General:Old_women","Shelter:No_Rooms")
+    SE_HouseHoldComposition = nfv.dfFix(HouseHold,"General:Old_women","Shelter:No_Rooms")
     array  = np.array(SE_HouseHoldComposition)
     array[np.isnan(array)] = 0
     array = array.astype(int)
@@ -31,8 +32,8 @@ def seDemoCult(Entities,HouseHold):
     SE_HouseHoldComposition = pd.DataFrame(array)
     nt.mkCSV(SE_HouseHoldComposition,"SE_HouseHoldComposition.csv")
     
-    SE_PersonalHygiene = nt.dfFix(Entities,"Sanitation:Personal_hygiene","Sanitation:Excreta")
+    SE_PersonalHygiene = nfv.dfFix(Entities,"Sanitation:Personal_hygiene","Sanitation:Excreta")
     nt.mkCSV(SE_PersonalHygiene,"SE_PersonalHygiene.csv")
     
-    SE_CleaningMaterial = nt.dfFix(Entities,"Sanitation:Excreta","Sanitation:Open_defecation")
+    SE_CleaningMaterial = nfv.dfFix(Entities,"Sanitation:Excreta","Sanitation:Open_defecation")
     nt.mkCSV(SE_CleaningMaterial,"SE_CleaningMaterial.csv")
