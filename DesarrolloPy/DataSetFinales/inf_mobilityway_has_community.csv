@@ -1,7 +1,7 @@
-internal,bike
-internal,motorcycle
-internal,walking
-external,animals
-external,motorcycle
-external,truck_lorry_va
-external,walking
+,,3,internal
+,,2,internal
+,,1,internal
+,,5,external
+,,2,external
+,,4,external
+,,1,external

@@ -29,7 +29,6 @@ finalpath = "C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/De
 
 def getPath(mainpath,filename):
     return os.path.join(mainpath, filename)
-
     
 def concatDF(df1,df2):
     return  pd.concat([df1,df2],axis = 1, ignore_index = True, sort = True)

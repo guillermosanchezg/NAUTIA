@@ -1048,47 +1048,11 @@ WHERE g_politicalactor_has_community.Community_idCommunity = 0;
 UPDATE g_publicpolitic SET Community_idCommunity = (SELECT @CommunityID)
 WHERE g_publicpolitic.Community_idCommunity = 0;
 
-UPDATE gd_demography SET Country_idCountry = (SELECT @CountryID)
-WHERE gd_demography.Country_idCountry = 0;
-
-UPDATE gd_economy SET Country_idCountry = (SELECT @CountryID)
-WHERE gd_economy.Country_idCountry = 0;
-
-UPDATE gd_electricgenerationmix SET Country_idCountry = (SELECT @CountryID)
-WHERE gd_electricgenerationmix.Country_idCountry = 0;
-
-UPDATE gd_ethnicgroup_has_country SET Country_idCountry = (SELECT @CountryID)
-WHERE gd_ethnicgroup_has_country.Country_idCountry = 0;
-
-UPDATE gd_government SET Country_idCountry = (SELECT @CountryID)
-WHERE gd_government.Country_idCountry = 0;
-
-UPDATE gd_infrastructure SET Country_idCountry = (SELECT @CountryID)
-WHERE gd_infrastructure.Country_idCountry = 0;
-
-UPDATE gd_language_has_country SET Country_idCountry = (SELECT @CountryID)
-WHERE gd_language_has_country.Country_idCountry = 0;
-
-UPDATE gd_religion_has_country SET Country_idCountry = (SELECT @CountryID)
-WHERE gd_religion_has_country.Country_idCountry = 0;
-
-UPDATE gd_serviceaccess SET Country_idCountry = (SELECT @CountryID)
-WHERE gd_serviceaccess.Country_idCountry = 0;
-
-UPDATE gd_shelter SET Country_idCountry = (SELECT @CountryID)
-WHERE gd_shelter.Country_idCountry = 0;
-
-UPDATE gd_urbanism SET Country_idCountry = (SELECT @CountryID)
-WHERE gd_urbanism.Country_idCountry = 0;
-
 UPDATE hostcommunity SET Community_idCommunity = (SELECT @CommunityID)
 WHERE hostcommunity.Community_idCommunity = 0;
 
 UPDATE hostcommunity SET Community_idCommunity = (SELECT @CommunityID)
 WHERE hostcommunity.Community_idCommunity = 0;
-
-UPDATE hostcommunity SET Country_idCountry = (SELECT @CountryID)
-WHERE hostcommunity.Country_idCountry = 0;
 
 UPDATE hostcommunity_has_camp SET Camp_idCamp = (SELECT @campID)
 WHERE hostcommunity_has_camp.Camp_idCamp = 0;

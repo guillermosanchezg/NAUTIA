@@ -16,4 +16,4 @@ def government(Bibliography):
     dfInternational = nfv.dfFix(Bibliography,"International cooperation agencies","Local representatives/local committees/ local liders")
     dfLocal = nfv.dfFix(Bibliography,"Local representatives/local committees/ local liders")
     politicalActor = nt.politicalActor(dfPublic,dfPrivate,dfNonProfit,dfInternational,dfLocal)
-    nt.mkCSV(politicalActor,"politicalActor.csv")
+    nt.mkCSV(politicalActor,"g_politicalActor.csv")

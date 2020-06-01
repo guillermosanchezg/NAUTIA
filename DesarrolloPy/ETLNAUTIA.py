@@ -10,6 +10,7 @@ import community as com
 import camp as camp
 import country as ctr
 import campData as cd
+import generalData as gd
 import socioEconomic as se
 import government as g
 import fisicoAmbiental as fa
@@ -25,6 +26,7 @@ def ETLNAUTIA(communityType):
     camp.camp(data.getBibliography(),data.getEntities())
     ctr.country(data.getBibliography())
     cd.campData(data.getBibliography(),data.getEntities(),data.getLocalLeaders())
+    gd.generalData(data.getBibliography())
     se.socioEconomic(data)
     g.government(data.getBibliography())
     fa.fisicoAmbiental(data.getBibliography(),data.getEntities())

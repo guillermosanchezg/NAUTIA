@@ -50,8 +50,8 @@ def generalData(Bibliography):
     GD_Shelter = nfv.dfFix(Bibliography,"Slum population rate (%)","SPECIFIC INFORMATION - SETTLEMENTS LEVEL") 
     nt.mkCSV(GD_Shelter,"GD_Shelter.csv")
     
-    Comun = pd.read_excel(nt.getPath(nt.mainpath,"Bibliography_120220.xlsx"))
-    Comun = nt.fixBibliography(Comun)
+    Comun = pd.read_excel(nfv.getPath(nt.mainpath,"Bibliography_120220.xlsx"))
+    Comun = nfv.fixBibliography(Comun)
     
     GD_Religion = nfv.dfFix(Comun,"Religion 1","Language")
     df1 = nfv.dropRow(GD_Religion,1)
