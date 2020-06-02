@@ -109,6 +109,7 @@ def get_specialTableFKs(table,tableHas,x,y):
     cursor.execute("SELECT * FROM "+table)
     df1 = uniFormatTable(pd.DataFrame(cursor.fetchall()))
     df2 = pd.read_csv(getPath(finalpath,tableHas+".csv"),header = None, float_precision = "high")
+    print(tableHas)
     df2 = uniFormatDF(df2)
     df1 = np.array(df1)
     pk = np.array([])

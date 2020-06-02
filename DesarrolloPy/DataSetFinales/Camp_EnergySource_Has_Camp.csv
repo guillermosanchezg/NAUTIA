@@ -1,36 +1,36 @@
-,,1.0,nan
-,,2.0,nan
-,,3.0,nan
-,,4.0,nan
-,,5.0,100.0
-,,6.0,yes
-,,7.0,10.0
-,,8.0,yes
-,,1.0,50.0
-,,2.0,nan
-,,3.0,nan
-,,4.0,25.0
-,,5.0,nan
-,,6.0,nan
-,,7.0,nan
-,,8.0,nan
-,,1.0,nan
-,,2.0,nan
-,,3.0,5.0
-,,4.0,nan
-,,5.0,nan
-,,6.0,nan
-,,7.0,750.0
-,,8.0,yes
-,,1.0,200.0
-,,2.0,no
-,,3.0,nan
-,,4.0,nan
-,,5.0,nan
-,,6.0,nan
-,,7.0,nan
-,,8.0,nan
-,,nan,yes
-,,nan,nan
-,,nan,nan
-,,nan,nan
+nan,diesel
+nan,Kerosene
+nan,Ethanol
+nan,gas
+100.0,firewood
+yes,diesel genset
+10.0,electricity
+yes,solar panel
+50.0,diesel
+nan,Kerosene
+nan,Ethanol
+25.0,gas
+nan,firewood
+nan,diesel genset
+nan,electricity
+nan,solar panel
+nan,diesel
+nan,Kerosene
+5.0,Ethanol
+nan,gas
+nan,firewood
+nan,diesel genset
+750.0,electricity
+yes,solar panel
+200.0,diesel
+no,Kerosene
+nan,Ethanol
+nan,gas
+nan,firewood
+nan,diesel genset
+nan,electricity
+nan,solar panel
+yes,
+nan,
+nan,
+nan,

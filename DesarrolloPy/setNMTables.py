@@ -14,12 +14,12 @@ import NMETL as nm
 
 finalpath = "C:/Users/guill/Documents/Universidad/PlataformaRefugiados/NAUTIA/DesarrolloPy/DataSetFinales"
 
-def makeNMtable(elem):
+def makeNMtable(elem,cursor):
     x = nm.getTableName(elem)
     if(nm.is_non_zero_file(nfv.getPath(finalpath,x+".csv"))):
         if(nm.specialTable(elem) == False):
-            tablePK = nm.get_tablePK(x)
-            communityPK = nm.get_communityPK(elem)
+            tablePK = nm.get_tablePK(x,cursor)
+            communityPK = nm.get_communityPK(elem,cursor)
             arrayCommunity = np.array([])
             for index, row in tablePK.iterrows():
                 arrayCommunity = np.append(arrayCommunity,communityPK[0][0])
@@ -29,18 +29,18 @@ def makeNMtable(elem):
                     df = np.array(pd.read_csv(finalpath+"/"+elem+".csv"))
                     df = pd.DataFrame(df)
                     nmTableFK = nt.concatDF(nmTableFK,df)
-            else:
-                nmTableFK = nm.get_specialTable(x,elem)                
-            nt.mkCSV(nmTableFK,elem+".csv")
+        else:
+            nmTableFK = nm.get_specialTable(x,elem,cursor)                
+        nt.mkCSV(nmTableFK,elem+".csv")
 
-def setNMTables(communityType):
+def setNMTables(communityType,cursor):
     tablesNM = pd.read_csv("NMtablesCamp.csv",header = None)
     tablesNM = np.array(tablesNM)
     for column in tablesNM:
         for elem in column:
             if(communityType == 0):
                 if(elem.find("_has_camp") == -1):
-                    makeNMtable(elem)
+                    makeNMtable(elem,cursor)
             else:
-                makeNMtable(elem)
+                makeNMtable(elem,cursor)
                 

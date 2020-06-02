@@ -93,7 +93,7 @@ def get_specialTableFKs(table,tableHas,x,y,cursor):
     df1 = np.array(df1)
     pk = np.array([])
     arrayCommunity = np.array([])
-    communityPK = get_communityPK(tableHas)
+    communityPK = get_communityPK(tableHas,cursor)
     for index, row in df2.iterrows():
         for row2 in df1:
             if(row[x] == row2[1]):
@@ -107,15 +107,15 @@ def get_specialTableFKs(table,tableHas,x,y,cursor):
     return result
 
     
-def get_specialTable(table,tableHas):
+def get_specialTable(table,tableHas,cursor):
     result = pd.DataFrame()
     if(tableHas == 'se_expensetype_has_community'):
-        result = get_specialTableFKs(table,tableHas,2,4)
+        result = get_specialTableFKs(table,tableHas,2,4,cursor)
     else:
         if(tableHas == 'se_worktype_has_community' or tableHas == 'u_area_has_community'):
-            result = get_specialTableFKs(table,tableHas,3,5)
+            result = get_specialTableFKs(table,tableHas,3,5,cursor)
         else:
-            result = get_specialTableFKs(table,tableHas,1,3)
+            result = get_specialTableFKs(table,tableHas,1,3,cursor)
     return result
 
 
