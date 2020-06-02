@@ -253,6 +253,12 @@ SET U_Area_idU_Area = NULLIF(@U_Area_idU_Area,''),
     longitude = NULLIF(@longitude,''),
     altitude = NULLIF(@altitude,'');
 
+SET @idCommunity = (SELECT idCommunity FROM Community ORDER BY idCommunity DESC LIMIT 1);
+SET @idCountry = (SELECT idCountry FROM Country ORDER BY idCountry DESC LIMIT 1);
+INSERT INTO HostCommunity (Community_idCommunity,Country_idCountry)VALUES ((SELECT @CommunityID), (SELECT @idCountry));
+SET @idCamp = (SELECT idCamp FROM Camp ORDER BY idCamp DESC LIMIT 1);
+SET @idHostCommunity = (SELECT idHostCommunity FROM HostCommunity ORDER BY idHostCommunity DESC LIMIT 1);
+INSERT INTO HostCommunity_has_Camp (HostCommunity_idHostCommunity,Camp_idCamp)VALUES ((SELECT @idHostCommunity), (SELECT @idCamp));
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS = 1;
 SET SQL_SAFE_UPDATES = 1;

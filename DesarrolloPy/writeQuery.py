@@ -12,7 +12,6 @@ import sqlUpdate as up
 import showTables as st
 from ClassLoadQuery import LoadQuery
 
-
 def writeQuery(communityType,cursor):
     query = LoadQuery()
     if(communityType == 1):

@@ -5,10 +5,13 @@ Created on Mon Jun  1 16:15:18 2020
 @author: guill
 """
 
-def fwriteInit(f,query,communityType):
+def writeSetting(f):
     f.write("SET FOREIGN_KEY_CHECKS=0;\n")
     f.write("SET SQL_SAFE_UPDATES = 0;\n")
     f.write("SET @OLD_SQL_MODE=@@SQL_MODE, sql_mode='NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';\n\n")
+
+def fwriteInit(f,query,communityType):
+    writeSetting(f)
     
     f.write(query.getQuery1()+"community.csv'\n"+query.getQuery2()+" community\n"+query.getQuery3()+"\n"+query.getQuery4()+"\n")
     f.write("    (@Name)\n")

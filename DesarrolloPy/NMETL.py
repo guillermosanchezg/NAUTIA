@@ -17,6 +17,7 @@ def is_non_zero_file(fpath):
     return os.path.isfile(fpath) and os.path.getsize(fpath)
 
 def getTableName(elem):
+    x=""
     if(elem.find("_has_camp") != -1):
         x = elem.replace("_has_camp","")
     else:
@@ -26,6 +27,7 @@ def getTableName(elem):
             if(elem.find("_has_community") != -1):
                 x = elem.replace("_has_community","")
     return x
+
 def serviceTable(cad):
     result = False
     if(cad == "s_educationalcenter"):

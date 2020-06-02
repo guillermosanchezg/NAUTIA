@@ -5,7 +5,8 @@ Created on Tue Jun  2 11:18:25 2020
 @author: guill
 """
 
-import setNMTables as setnm
+import exec_sql_file as sql
+import os
 import mysql.connector
 
 
@@ -16,6 +17,6 @@ mydb = mysql.connector.connect(
   passwd="",
   database = 'nautiatoolkit'
 )
-cursor = mydb.cursor()
 
-setnm.setNMTables(0,cursor)
+cursor = mydb.cursor()
+sql.exec_sql_file(mydb,cursor,'LoadDataCamp.sql')

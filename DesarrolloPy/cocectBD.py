@@ -16,4 +16,4 @@ mydb = mysql.connector.connect(
 )
 
 def cocectBD():
-    return mydb.cursor()
+    return mydb,mydb.cursor()

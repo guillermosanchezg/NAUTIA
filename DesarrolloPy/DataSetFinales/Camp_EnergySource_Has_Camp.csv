@@ -3,34 +3,43 @@ nan,Kerosene
 nan,Ethanol
 nan,gas
 100.0,firewood
-yes,diesel genset
-10.0,electricity
-yes,solar panel
-50.0,diesel
+nan,diesel genset
+nan,electricity
+no,solar panel
+nan,diesel
 nan,Kerosene
 nan,Ethanol
-25.0,gas
+nan,gas
 nan,firewood
 nan,diesel genset
 nan,electricity
 nan,solar panel
 nan,diesel
 nan,Kerosene
-5.0,Ethanol
+nan,Ethanol
 nan,gas
 nan,firewood
 nan,diesel genset
-750.0,electricity
+40.0,electricity
 yes,solar panel
-200.0,diesel
-no,Kerosene
+50.0,diesel
+yes,Kerosene
+50.0,Ethanol
+nan,gas
+nan,firewood
+nan,diesel genset
+nan,electricity
+nan,solar panel
+nan,diesel
+nan,Kerosene
 nan,Ethanol
 nan,gas
 nan,firewood
 nan,diesel genset
 nan,electricity
 nan,solar panel
-yes,
+nan,
+nan,
 nan,
 nan,
 nan,
