@@ -195,7 +195,7 @@ ORDER BY idSE_IncomeType_has_Community,idCommunity,idSe_incometype,sex;
 -- --Pais del campamento
 SELECT idCommunity,name,idCountry, CountryName
 FROM community c INNER JOIN camp  ON c.idCommunity = camp.Community_idCommunity
-				INNER JOIN camp_has_country CaCo ON camp.idCamp = CaCo.Camp_idCamp
+				INNER JOIN Country_has_Camp CaCo ON camp.idCamp = CaCo.Camp_idCamp
                 INNER JOIN Country ON Country.idCountry = CaCo.Country_idCountry;
                 
 -- --Pais de la comunidad de acogodia
@@ -288,20 +288,20 @@ GROUP BY Community_idCommunity;
 -- Prioridades de la población
 
 -- ----Prioridades Mujeres
-SELECT Type AS Prioridad, COUNT(idSE_priority) AS "Total Mujeres", Name AS Comunidad, idCommunity
-FROM se_priority p INNER JOIN se_priority_has_community pc ON p.idSE_Priority = pc.SE_Priority_idSE_Priority
-					INNER JOIN community c ON pc.Community_idCommunity = c.idCommunity
-WHERE Sex = 'Mujer'
-GROUP BY idCommunity,type,sex;
+-- SELECT Type AS Prioridad, COUNT(idSE_priority) AS "Total Mujeres", Name AS Comunidad, idCommunity
+-- FROM se_priority p INNER JOIN se_priority_has_community pc ON p.idSE_Priority = pc.SE_Priority_idSE_Priority
+					-- INNER JOIN community c ON pc.Community_idCommunity = c.idCommunity
+-- WHERE Sex = 'Mujer'
+-- GROUP BY idCommunity,type,sex;
 
 -- --Prioridades Hoambres
-SELECT Type AS Prioridad, COUNT(idSE_priority) AS "Total Hombres", Name AS Comunidad, idCommunity
+/*SELECT Type AS Prioridad, COUNT(idSE_priority) AS "Total Hombres", Name AS Comunidad, idCommunity
 FROM se_priority p INNER JOIN se_priority_has_community pc ON p.idSE_Priority = pc.SE_Priority_idSE_Priority
 					INNER JOIN community c ON pc.Community_idCommunity = c.idCommunity
 WHERE Sex = 'Hombre'
-GROUP BY idCommunity,type,sex;
+GROUP BY idCommunity,type,sex;*/
 
--- --Prioridades por sexo
+/*-- --Prioridades por sexo
 SELECT Type AS Prioridad,sex, COUNT(idSE_priority) AS "Total",sex, Name AS Comunidad, idCommunity
 FROM se_priority p INNER JOIN se_priority_has_community pc ON p.idSE_Priority = pc.SE_Priority_idSE_Priority
 					INNER JOIN community c ON pc.Community_idCommunity = c.idCommunity
@@ -311,4 +311,4 @@ GROUP BY idCommunity,type,sex;
 SELECT Type AS Prioridad, COUNT(idSE_priority) AS "Total", Name AS Comunidad, idCommunity
 FROM se_priority p INNER JOIN se_priority_has_community pc ON p.idSE_Priority = pc.SE_Priority_idSE_Priority
 					INNER JOIN community c ON pc.Community_idCommunity = c.idCommunity
-GROUP BY idCommunity,type;
+GROUP BY idCommunity,type;*/

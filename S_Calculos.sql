@@ -101,7 +101,7 @@ FROM s_tecknowlege tk INNER JOIN s_tecknowlege_has_community thas ON tk.idS_Teck
 						INNER JOIN community c ON thas.Community_idCommunity = c.idCommunity
 GROUP BY idCommunity,knowlegeType;
 
---  Numero de personas por tipo de hardware
+/*--  Numero de personas por tipo de hardware
 SELECT HardWareType AS Dispositivo, COUNT(idS_HardwareAccesibility) AS Personas, name AS comunidad, idCommunity
 FROM s_hardwareaccesibility ha INNER JOIN s_hardwareaccesibility_has_community hahas ON ha.idS_HardwareAccesibility = hahas.S_HardwareAccesibility_idS_HardwareAccesibility
 						INNER JOIN community c ON hahas.Community_idCommunity = c.idCommunity
@@ -117,18 +117,18 @@ GROUP BY idCommunity,OperativeSystem;
 SELECT HardWareType AS Dispositivo,OperativeSystem, COUNT(idS_HardwareAccesibility) AS Personas, name AS comunidad, idCommunity
 FROM s_hardwareaccesibility ha INNER JOIN s_hardwareaccesibility_has_community hahas ON ha.idS_HardwareAccesibility = hahas.S_HardwareAccesibility_idS_HardwareAccesibility
 						INNER JOIN community c ON hahas.Community_idCommunity = c.idCommunity
-GROUP BY idCommunity,HardWareType,OperativeSystem;
+GROUP BY idCommunity,HardWareType,OperativeSystem;*/
 
 -- Numero de personas por app
 SELECT App, COUNT(idS_App_has_Community) AS Personas, name AS Comunidad, idCommunity
 FROM s_app app INNER JOIN s_app_has_community apphas ON app.idS_App = apphas.S_App_idS_App
 						INNER JOIN community c ON apphas.Community_idCommunity = c.idCommunity
-WHERE Use_Necesity = 'USE'
+WHERE Use_Necessity = 'USE'
 GROUP BY idCommunity, App;
 
 -- Numero de personas por necesidad de app
 SELECT App, COUNT(idS_App_has_Community) AS Personas, name AS Comunidad, idCommunity
 FROM s_app app INNER JOIN s_app_has_community apphas ON app.idS_App = apphas.S_App_idS_App
 						INNER JOIN community c ON apphas.Community_idCommunity = c.idCommunity
-WHERE Use_Necesity = 'Necesity'
+WHERE Use_Necessity = 'Necesity'
 GROUP BY idCommunity, App;

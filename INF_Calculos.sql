@@ -34,7 +34,7 @@ GROUP BY idCommunity;
 
 -- Numero de sistemas de riego operativos
 SELECT COUNT(idIrrigatonSystem) AS "Total Operativos", name AS Comunidad, idCommunity
-FROM inf_irrigatonsystem irs INNER JOIN inf_irrigatonsystem_has_community irshas ON irs.idIrrigatonSystem = irshas.INF_IrrigatonSystem_idIrrigatonSystem
+FROM inf_irrigationsystem irs INNER JOIN inf_irrigationsystem_has_community irshas ON irs.idIrrigatonSystem = irshas.inf_irrigationsystem_idIrrigatonSystem
 							INNER JOIN community c ON irshas.Community_idCommunity = c.idCommunity
 GROUP BY idCommunity;
 
@@ -44,44 +44,44 @@ GROUP BY idCommunity;
 SELECT COUNT(*) AS "Letrinas con Losa", name AS Comunidad, idCommunity
 FROM inf_sanitationsystemquality sq INNER JOIN inf_sanitationsystemquality_has_community sqhas ON sq.idINF_SanitationSystemQuality = sqhas.INF_SanitationSystemQuality_idINF_SanitationSystemQuality
 									INNER JOIN community c ON sqhas.Community_idCommunity = c.idCommunity
-WHERE LatrineQuality = 'con losa'
+WHERE slab = 1
 GROUP BY idCommunity;
 
 SELECT COUNT(*) AS "Letrinas sin Losa", name AS Comunidad, idCommunity
 FROM inf_sanitationsystemquality sq INNER JOIN inf_sanitationsystemquality_has_community sqhas ON sq.idINF_SanitationSystemQuality = sqhas.INF_SanitationSystemQuality_idINF_SanitationSystemQuality
 									INNER JOIN community c ON sqhas.Community_idCommunity = c.idCommunity
-WHERE LatrineQuality = 'sin losa'
+WHERE slab = 0
 GROUP BY idCommunity;
 
 SELECT COUNT(*) AS "Letrinas con Losa y ventiladas", name AS Comunidad, idCommunity
 FROM inf_sanitationsystemquality sq INNER JOIN inf_sanitationsystemquality_has_community sqhas ON sq.idINF_SanitationSystemQuality = sqhas.INF_SanitationSystemQuality_idINF_SanitationSystemQuality
 									INNER JOIN community c ON sqhas.Community_idCommunity = c.idCommunity
-WHERE LatrineQuality = 'con losa y ventilada'
+WHERE slab = 1 and ventilated = 0	
 GROUP BY idCommunity;
 
 SELECT COUNT(*) AS "Sin Estructura estable", name AS Comunidad, idCommunity
 FROM inf_sanitationsystemquality sq INNER JOIN inf_sanitationsystemquality_has_community sqhas ON sq.idINF_SanitationSystemQuality = sqhas.INF_SanitationSystemQuality_idINF_SanitationSystemQuality
 									INNER JOIN community c ON sqhas.Community_idCommunity = c.idCommunity
-WHERE BuildingQuality = 'Sin seguridad estructural'
+WHERE durableStructure = 0 
 GROUP BY idCommunity;
 
 SELECT COUNT(*) AS "Con techo y paredes estables", name AS Comunidad, idCommunity
 FROM inf_sanitationsystemquality sq INNER JOIN inf_sanitationsystemquality_has_community sqhas ON sq.idINF_SanitationSystemQuality = sqhas.INF_SanitationSystemQuality_idINF_SanitationSystemQuality
 									INNER JOIN community c ON sqhas.Community_idCommunity = c.idCommunity
-WHERE BuildingQuality = 'techo y paredes estables'
+WHERE wall_Roof = 1
 GROUP BY idCommunity;
 
 SELECT COUNT(*) AS "Techo Paredes y Puerta", name AS Comunidad, idCommunity
 FROM inf_sanitationsystemquality sq INNER JOIN inf_sanitationsystemquality_has_community sqhas ON sq.idINF_SanitationSystemQuality = sqhas.INF_SanitationSystemQuality_idINF_SanitationSystemQuality
 									INNER JOIN community c ON sqhas.Community_idCommunity = c.idCommunity
-WHERE BuildingQuality = 'Con techo paredes y puerta'
+WHERE wall_Roof = 1 and door = 1
 GROUP BY idCommunity;
 
-SELECT COUNT(*) AS "Techo paredes cierre e iluminacion", name AS Comunidad, idCommunity
+/*SELECT COUNT(*) AS "Techo paredes cierre e iluminacion", name AS Comunidad, idCommunity
 FROM inf_sanitationsystemquality sq INNER JOIN inf_sanitationsystemquality_has_community sqhas ON sq.idINF_SanitationSystemQuality = sqhas.INF_SanitationSystemQuality_idINF_SanitationSystemQuality
 									INNER JOIN community c ON sqhas.Community_idCommunity = c.idCommunity
-WHERE BuildingQuality = 'con techo paredes cierre e iluminacion'
-GROUP BY idCommunity;
+WHERE wall_Roof = 1 and slab = 1 and 
+GROUP BY idCommunity;*/
 
 SELECT * 
 FROM inf_sanitationsystemquality sq INNER JOIN inf_sanitationsystemquality_has_community sqhas ON sq.idINF_SanitationSystemQuality = sqhas.INF_SanitationSystemQuality_idINF_SanitationSystemQuality
@@ -89,8 +89,8 @@ FROM inf_sanitationsystemquality sq INNER JOIN inf_sanitationsystemquality_has_c
 
 -- GESTION DE RESIDUOS --
 
-SELECT COUNT(idINF_ColletionPoints) AS  "Puntos de Recogida", name AS comunidad, idCommunity
-FROM inf_colletionpoints cp INNER JOIN community c ON cp.Community_idCommunity = c.idCommunity
+SELECT COUNT(idinf_collectionpoints) AS  "Puntos de Recogida", name AS comunidad, idCommunity
+FROM inf_collectionpoints cp INNER JOIN community c ON cp.Community_idCommunity = c.idCommunity
 GROUP BY idCommunity;
 
 SELECT CollectionServicePerMonth AS "Recogida al mes", name AS Comunidad, idCommunity
@@ -189,7 +189,7 @@ FROM inf_kitchen k INNER JOIN community c ON k.Community_idCommunity = c.idCommu
 GROUP BY idCommunity,MainFuel;
 
 
--- Numer de mujeres que cocinan en interior
+/*-- Numer de mujeres que cocinan en interior
 SELECT COUNT(idinf_cookwoman) AS "Numero de mujeres",name AS Comunidad, idCommunity
 FROM inf_cookwoman cw INNER JOIN community c ON cw.Community_idCommunity = c.idCommunity
 WHERE CookingPlace = 'indoor'
@@ -215,11 +215,17 @@ SELECT COUNT(idinf_cookwoman) AS "Numero de mujeres",name AS Comunidad, idCommun
 FROM inf_cookwoman cw INNER JOIN community c ON cw.Community_idCommunity = c.idCommunity
 WHERE HealthFirewood = 1
 GROUP BY idCommunity;
+*/
+
+SELECT *
+FROM inf_cookwoman cw INNER JOIN community c ON cw.Community_idCommunity = c.idCommunity
+GROUP BY idCommunity;
+
 
 
 -- Alumbrado publico
 
--- Influencia en la seguridad de las mujeres (El porcentaje se saca por app)
+/*-- Influencia en la seguridad de las mujeres (El porcentaje se saca por app)
 SELECT COUNT(*) "Respuestas afirmativas", name AS comunidad, idCommunity
 FROM inf_womensafety ws INNER JOIN  inf_publiclighting pl ON ws.INF_PublicLighting_idINF_PublicLighting = pl.idINF_PublicLighting
 						INNER JOIN Community c ON pl.Community_idCommunity = c.idCommunity
@@ -230,7 +236,7 @@ SELECT COUNT(*) "Respuestas afirmativas", name AS comunidad, idCommunity
 FROM inf_womensafety ws INNER JOIN  inf_publiclighting pl ON ws.INF_PublicLighting_idINF_PublicLighting = pl.idINF_PublicLighting
 						INNER JOIN Community c ON pl.Community_idCommunity = c.idCommunity
 GROUP BY idCommunity;
-
+*/
 -- MOVILIDAD Y TRANPORTE --
 
 SELECT Way AS "Medio de transporte", COUNT(idINF_MobilityWay) AS "Numero de personas", Name AS Comunidad, idCommunity
